@@ -35,9 +35,7 @@ export function RevisionWizard() {
   const [rawRequest, setRawRequest] = useState('')
   const [images, setImages] = useState<ReferenceImage[]>([])
   const [contactName, setContactName] = useState('')
-  const [contactEmail, setContactEmail] = useState('')
   const [urgency, setUrgency] = useState('medium')
-  const [dueDate, setDueDate] = useState('')
   const [clientNotes, setClientNotes] = useState('')
   const [annotatingId, setAnnotatingId] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
@@ -58,9 +56,7 @@ export function RevisionWizard() {
       setProjectId(draft.projectId)
       setRawRequest(draft.rawRequest)
       setContactName(draft.contactName)
-      setContactEmail(draft.contactEmail)
       setUrgency(draft.urgency)
-      setDueDate(draft.dueDate)
       setClientNotes(draft.clientNotes)
       setImages(draft.images)
     }
@@ -98,7 +94,7 @@ export function RevisionWizard() {
   }, [rawRequest])
 
   function handleSaveDraft() {
-    saveDraft({ projectId, rawRequest, contactName, contactEmail, urgency, dueDate, clientNotes, images })
+    saveDraft({ projectId, rawRequest, contactName, urgency, clientNotes, images })
     showToast('Draft saved locally.', 'success')
   }
 
@@ -115,9 +111,8 @@ export function RevisionWizard() {
         rawRequest,
         images,
         contactName: contactName || user?.full_name,
-        contactEmail: contactEmail || user?.email,
+        contactEmail: user?.email,
         urgency: urgency as 'low' | 'medium' | 'high' | 'critical',
-        dueDate: dueDate || undefined,
         clientNotes,
         userId: user?.id ?? null,
         asDraft,
@@ -177,8 +172,7 @@ export function RevisionWizard() {
               description={selectedProject?.description}
             />
             <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              <Input label="Contact name" value={contactName} onChange={(e) => setContactName(e.target.value)} />
-              <Input label="Contact email" type="email" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} />
+              <Input label="Your name" value={contactName} onChange={(e) => setContactName(e.target.value)} />
               <Select
                 label="Urgency"
                 value={urgency}
@@ -190,7 +184,6 @@ export function RevisionWizard() {
                   { value: 'critical', label: 'Critical' },
                 ]}
               />
-              <Input label="Due date" type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
             </div>
           </Card>
         ) : null}

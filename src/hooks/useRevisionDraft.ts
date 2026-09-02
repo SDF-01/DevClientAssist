@@ -7,9 +7,7 @@ export interface RevisionDraft {
   projectId: string
   rawRequest: string
   contactName: string
-  contactEmail: string
   urgency: string
-  dueDate: string
   clientNotes: string
   images: ReferenceImage[]
   savedAt: string

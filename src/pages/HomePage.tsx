@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 
 const steps = [
-  { mark: '一', title: 'Name the work', text: 'Confirm Airmen Voice and leave your contact details.' },
+  { mark: '一', title: 'Name the work', text: 'Confirm Airmen Voice, add your name, and set urgency.' },
   { mark: '二', title: 'Describe the change', text: 'Write in plain language, or start from a template.' },
   { mark: '三', title: 'Pin the references', text: 'Attach screenshots and mark what should move.' },
   { mark: '四', title: 'Send a clean brief', text: 'Preview the structured output, then submit.' },
