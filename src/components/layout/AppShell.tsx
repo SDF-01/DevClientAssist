@@ -1,4 +1,4 @@
-import { Link, NavLink, Outlet } from 'react-router-dom'
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { LayoutDashboard, FilePlus2, List, Settings, LogOut, UserRound, Menu, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useAuth } from '@/hooks/useAuth'
@@ -15,6 +15,8 @@ interface AppShellProps {
 
 export function AppShell({ theme = 'client' }: AppShellProps) {
   const { user, signOut, isInternal } = useAuth()
+  const { pathname } = useLocation()
+  const isLanding = pathname === '/'
   const [signInOpen, setSignInOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -77,7 +79,7 @@ export function AppShell({ theme = 'client' }: AppShellProps) {
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
-      <StudioAtmosphere />
+      {isLanding ? null : <StudioAtmosphere />}
 
       <header className="wood-lintel">
         <div className="relative z-10 mx-auto flex max-w-[1080px] items-center justify-between gap-4 px-4 py-3.5 sm:px-8">
@@ -133,16 +135,20 @@ export function AppShell({ theme = 'client' }: AppShellProps) {
         ) : null}
       </header>
 
-      <main id="main-content" className="studio-stage" tabIndex={-1}>
-        <div className="paper-stage rounded-[2px] px-4 py-7 sm:px-8 sm:py-9">
+      <main id="main-content" className={isLanding ? 'landing-stage' : 'studio-stage'} tabIndex={-1}>
+        {isLanding ? (
           <Outlet />
-        </div>
+        ) : (
+          <div className="linen-tray rounded-[2px] px-4 py-7 pl-7 sm:px-8 sm:py-9 sm:pl-11">
+            <Outlet />
+          </div>
+        )}
       </main>
 
       <footer className="studio-footer">
         <div className="studio-footer-inner">
           <p className="font-display text-lg text-[#3f3b36]">Dev Generator</p>
-          <img src="/art/lantern.svg" alt="" aria-hidden className="h-9 w-6" />
+          <img src="/art/table-still-life.png" alt="" aria-hidden />
           <p className="text-xs tracking-wide text-[#8f837a]">Revision intake for Airmen Voice</p>
         </div>
       </footer>

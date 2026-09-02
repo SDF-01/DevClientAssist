@@ -9,19 +9,26 @@
   min-height: 100vh;
   background-color: #f3f0e8;
   background-image:
-    url('/art/seigaiha.svg'),
-    linear-gradient(180deg, #f8f5ef 0%, #f3f0e8 55%, #ebe4d8 100%);
-  background-size: 240px 120px, auto;
-  background-position: center bottom, center;
+    linear-gradient(180deg, #f7f3ec 0%, #f3f0e8 42%, #e8dfd0 100%);
 }
 
 .studio-root::before {
   content: '';
   pointer-events: none;
   position: fixed;
-  inset: 0;
+  inset: auto 0 0 0;
+  height: 28vh;
   z-index: 0;
-  background: radial-gradient(ellipse 60% 40% at 85% 0%, rgba(220, 180, 130, 0.16), transparent 60%);
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #d5caba 0 28px,
+      #dcb482 28px 30px,
+      #c09e85 30px 32px,
+      #e6d7bf 32px 60px
+    );
+  opacity: 0.35;
+  mask-image: linear-gradient(to top, black, transparent);
 }
 
 .skip-link {
@@ -40,37 +47,39 @@
   transform: translateY(0);
 }
 
-.bamboo-column {
+.room-prop {
   pointer-events: none;
   position: fixed;
-  top: 0;
   z-index: 1;
-  height: 100vh;
-  width: 96px;
-  background: url('/art/bamboo-grove.svg') center top / contain no-repeat;
-  opacity: 0.42;
+  object-fit: cover;
+  opacity: 0.88;
 }
 
-.bamboo-column.left {
+.room-prop.plant {
   left: 0;
-  mask-image: linear-gradient(to right, black 30%, transparent 95%);
+  bottom: 0;
+  width: 180px;
+  height: 280px;
+  object-position: 20% 80%;
+  mask-image: linear-gradient(to right, black 40%, transparent 95%);
 }
 
-.bamboo-column.right {
+.room-prop.lamp {
   right: 0;
-  transform: scaleX(-1);
-  mask-image: linear-gradient(to left, black 30%, transparent 95%);
+  bottom: 0;
+  width: 160px;
+  height: 320px;
+  object-position: 70% 30%;
+  mask-image: linear-gradient(to left, black 35%, transparent 95%);
 }
 
 .wood-lintel {
   position: sticky;
   top: 0;
   z-index: 30;
-  border-bottom: 1px solid rgba(96, 108, 90, 0.16);
-  background:
-    linear-gradient(180deg, rgba(255, 252, 246, 0.72), rgba(243, 240, 232, 0.55)),
-    repeating-linear-gradient(90deg, #dcb482 0 7px, #e8d3a8 7px 14px, #c09e85 14px 21px, #d5caba 21px 28px);
-  box-shadow: 0 8px 24px rgba(94, 94, 94, 0.06);
+  background: rgba(255, 252, 246, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(143, 131, 122, 0.12);
 }
 
 .wood-lintel::after {
@@ -79,8 +88,14 @@
   left: 0;
   right: 0;
   bottom: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #606c5a, #dcb482 50%, #606c5a);
+  height: 7px;
+  background: repeating-linear-gradient(
+    90deg,
+    #c09e85 0 10px,
+    #dcb482 10px 22px,
+    #e8d3a8 22px 28px,
+    #d5caba 28px 40px
+  );
 }
 
 .studio-stage {
@@ -91,19 +106,41 @@
   padding: 1.5rem 1.1rem 3.5rem;
 }
 
+.landing-stage {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: none;
+  padding: 0 0 3.5rem;
+}
+
 @media (min-width: 768px) {
   .studio-stage {
     padding: 2.25rem 2rem 4.5rem;
   }
 }
 
-.paper-stage {
+.paper-stage,
+.linen-tray {
   position: relative;
-  background:
-    linear-gradient(180deg, rgba(255, 252, 246, 0.2), transparent 48px),
-    rgba(255, 252, 246, 0.9);
+  background: rgba(255, 252, 246, 0.94);
   border: 1px solid rgba(143, 131, 122, 0.16);
-  box-shadow: 0 20px 48px rgba(94, 94, 94, 0.06);
+  box-shadow: 0 22px 50px rgba(94, 94, 94, 0.08);
+}
+
+.linen-tray::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 10px;
+  background: repeating-linear-gradient(
+    180deg,
+    #c09e85 0 8px,
+    #dcb482 8px 16px,
+    #e8d3a8 16px 20px
+  );
 }
 
 .ornament-card {
@@ -113,19 +150,24 @@
   box-shadow: 0 12px 28px rgba(94, 94, 94, 0.05);
 }
 
-.ornament-card .corner {
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  background: url('/art/corner.svg') center / contain no-repeat;
-  pointer-events: none;
-  opacity: 0.7;
+.ornament-card.oak-rail {
+  padding-left: 1.7rem;
 }
 
-.ornament-card .corner.tl { top: 8px; left: 8px; }
-.ornament-card .corner.tr { top: 8px; right: 8px; transform: scaleX(-1); }
-.ornament-card .corner.bl { bottom: 8px; left: 8px; transform: scaleY(-1); }
-.ornament-card .corner.br { bottom: 8px; right: 8px; transform: scale(-1); }
+.ornament-card.oak-rail::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 9px;
+  background: repeating-linear-gradient(
+    180deg,
+    #c09e85 0 10px,
+    #dcb482 10px 22px,
+    #e8d3a8 22px 28px
+  );
+}
 
 .wood-panel {
   background:
@@ -162,11 +204,17 @@
   background: #606c5a;
 }
 
-.wave-rule {
-  height: 28px;
+.oak-rule {
+  height: 10px;
   border: 0;
-  background: url('/art/seigaiha.svg') center / 200px auto repeat-x;
-  opacity: 0.45;
+  background: repeating-linear-gradient(
+    90deg,
+    #c09e85 0 12px,
+    #dcb482 12px 26px,
+    #e8d3a8 26px 34px,
+    #d5caba 34px 48px
+  );
+  opacity: 0.85;
 }
 
 .divider-soft,
@@ -232,7 +280,7 @@
   position: relative;
   z-index: 2;
   border-top: 1px solid rgba(143, 131, 122, 0.16);
-  background: repeating-linear-gradient(90deg, #d5caba 0 12px, #dcb482 12px 18px, #c09e85 18px 26px);
+  background: repeating-linear-gradient(90deg, #d5caba 0 18px, #dcb482 18px 22px, #c09e85 22px 26px);
 }
 
 .studio-footer-inner {
@@ -242,40 +290,78 @@
   gap: 1rem;
   max-width: 1080px;
   margin: 0 auto;
-  padding: 0.85rem 1.5rem;
-  background: rgba(243, 240, 232, 0.78);
+  padding: 0.7rem 1.5rem;
+  background: rgba(243, 240, 232, 0.82);
 }
 
-.hero-art {
-  position: relative;
-  min-height: 380px;
-  overflow: hidden;
-  background: #f3f0e8;
-}
-
-.hero-art img.landscape {
-  width: 100%;
-  height: 100%;
-  min-height: 380px;
+.studio-footer-inner img {
+  height: 44px;
+  width: 56px;
   object-fit: cover;
+  border-radius: 2px;
+}
+
+.room-hero {
+  position: relative;
+  min-height: min(82vh, 860px);
+  overflow: hidden;
+  background: #e6e4e0;
+}
+
+.room-hero-photo {
   display: block;
+  width: 100%;
+  height: min(82vh, 860px);
+  object-fit: cover;
+  object-position: 58% 50%;
 }
 
-.hero-art .lantern {
+.room-hero-copy {
   position: absolute;
-  right: 10%;
-  top: 14%;
-  width: 42px;
-  animation: lantern-sway 6s ease-in-out infinite;
+  left: clamp(1rem, 6vw, 4.5rem);
+  bottom: clamp(1rem, 6vh, 3.5rem);
+  width: min(440px, calc(100% - 2rem));
+  background: rgba(255, 252, 246, 0.93);
+  border: 1px solid rgba(143, 131, 122, 0.16);
+  box-shadow: 0 24px 50px rgba(62, 55, 48, 0.16);
+  padding: 1.75rem 1.6rem 1.6rem 1.85rem;
 }
 
-@keyframes lantern-sway {
-  0%, 100% { transform: rotate(-3deg); }
-  50% { transform: rotate(4deg); }
+.room-hero-copy::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 10px;
+  background: repeating-linear-gradient(
+    180deg,
+    #c09e85 0 10px,
+    #dcb482 10px 22px,
+    #e8d3a8 22px 28px
+  );
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .hero-art .lantern { animation: none; }
+.furnishing-band {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 0;
+}
+
+.furnish-card {
+  overflow: hidden;
+  padding: 0;
+}
+
+.furnish-card img {
+  display: block;
+  width: 100%;
+  height: 168px;
+  object-fit: cover;
+}
+
+.furnish-card .furnish-copy {
+  padding: 1.25rem 1.35rem 1.5rem;
 }
 
 #main-content:focus {

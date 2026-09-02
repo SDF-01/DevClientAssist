@@ -1,45 +1,45 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
-import { Card } from '@/components/ui/Card'
 
 const steps = [
   {
-    mark: '1',
+    mark: '01',
     title: 'Write what should change',
     text: 'Use your own words. You do not need to make it perfect.',
+    image: '/art/table-still-life.png',
+    imagePosition: '50% 62%',
   },
   {
-    mark: '2',
+    mark: '02',
     title: 'Format it in ChatGPT',
     text: 'Copy the prompt we give you into ChatGPT, then paste the formatted reply back here.',
+    image: '/art/lamp-corner.png',
+    imagePosition: '50% 30%',
   },
   {
-    mark: '3',
+    mark: '03',
     title: 'Send it to the developer',
     text: 'Add pictures if they help, then send the ChatGPT brief.',
+    image: '/art/living-room.png',
+    imagePosition: '60% 70%',
   },
 ]
 
 export function HomePage() {
   return (
-    <div className="space-y-10">
-      <section className="grid items-stretch overflow-hidden border border-[rgba(143,131,122,0.16)] bg-[#fffcf6] lg:grid-cols-[1.15fr_0.85fr]">
-        <div className="hero-art relative">
-          <img src="/art/ink-landscape.svg" alt="" className="landscape" />
-          <img src="/art/lantern.svg" alt="" className="lantern" />
-          <p className="vertical-seal absolute bottom-8 left-5 hidden text-sm lg:block">Dev Generator</p>
-        </div>
-
-        <div className="flex flex-col justify-center px-6 py-10 lg:px-10">
+    <div>
+      <section className="room-hero">
+        <img src="/art/living-room.png" alt="" className="room-hero-photo" />
+        <div className="room-hero-copy">
           <p className="app-chip">Airmen Voice</p>
-          <h1 className="font-display mt-5 text-4xl font-normal leading-[1.15] text-[#3f3b36] sm:text-[2.75rem]">
+          <h1 className="font-display mt-4 text-[2rem] font-normal leading-[1.15] text-[#3f3b36] sm:text-[2.45rem]">
             Tell us what to change. ChatGPT formats it. We pass that brief to the developer.
           </h1>
-          <p className="mt-5 max-w-md text-base leading-relaxed text-[#8f837a]">
+          <p className="mt-4 max-w-md text-[0.95rem] leading-relaxed text-[#8f837a]">
             Copy a ready-made prompt into ChatGPT with your notes, paste the answer back, and send a clear request.
           </p>
-          <div className="mt-8 flex flex-wrap items-center gap-3">
+          <div className="mt-7 flex flex-wrap items-center gap-3">
             <Link to="/submit">
               <Button size="lg" className="group">
                 Start a request
@@ -53,17 +53,22 @@ export function HomePage() {
         </div>
       </section>
 
-      <hr className="wave-rule" />
+      <hr className="oak-rule" />
 
-      <section aria-label="How it works">
-        <ol className="grid gap-4 md:grid-cols-3">
+      <section className="furnishing-band" aria-label="How it works">
+        <p className="section-label">The table is set</p>
+        <h2 className="font-display mt-2 text-3xl font-normal text-[#3f3b36]">Three quiet steps</h2>
+        <ol className="mt-7 grid gap-4 md:grid-cols-3">
           {steps.map((item) => (
             <li key={item.mark}>
-              <Card className="h-full">
-                <p className="font-display text-3xl text-[#dcb482]">{item.mark}</p>
-                <h2 className="font-display mt-3 text-xl font-normal text-[#3f3b36]">{item.title}</h2>
-                <p className="mt-3 text-sm leading-relaxed text-[#8f837a]">{item.text}</p>
-              </Card>
+              <article className="furnish-card ornament-card h-full">
+                <img src={item.image} alt="" style={{ objectPosition: item.imagePosition }} />
+                <div className="furnish-copy">
+                  <p className="font-display text-2xl text-[#dcb482]">{item.mark}</p>
+                  <h3 className="font-display mt-2 text-xl font-normal text-[#3f3b36]">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-[#8f837a]">{item.text}</p>
+                </div>
+              </article>
             </li>
           ))}
         </ol>

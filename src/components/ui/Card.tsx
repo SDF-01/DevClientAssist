@@ -11,18 +11,10 @@ export function Card({ className, children, framed = false }: CardProps) {
     <div
       className={cn(
         'panel-card ornament-card rounded-[2px] p-6 sm:p-7',
-        framed && 'pt-9',
+        framed && 'oak-rail',
         className,
       )}
     >
-      {framed ? (
-        <>
-          <span className="corner tl" aria-hidden />
-          <span className="corner tr" aria-hidden />
-          <span className="corner bl" aria-hidden />
-          <span className="corner br" aria-hidden />
-        </>
-      ) : null}
       {children}
     </div>
   )
