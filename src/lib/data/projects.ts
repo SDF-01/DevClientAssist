@@ -4,11 +4,16 @@ import { localGetProject, localListProjects } from './localStore'
 
 export async function listProjects(): Promise<Project[]> {
   if (isSupabaseConfigured && supabase) {
-    const { data, error } = await supabase.from('projects').select('*').eq('is_active', true).order('name')
+    const { data, error } = await supabase
+      .from('projects')
+      .select('*')
+      .eq('is_active', true)
+      .eq('slug', 'airmen-voice')
+      .order('name')
     if (error) throw error
     return data as Project[]
   }
-  return localListProjects()
+  return localListProjects().filter((p) => p.slug === 'airmen-voice')
 }
 
 export async function getProject(idOrSlug: string): Promise<Project | null> {

@@ -1,45 +1,49 @@
 @theme {
-  /* Surfaces — warm paper & stone */
-  --color-surface-base: #f7f4ef;
-  --color-surface-elevated: #fcfaf6;
-  --color-surface-muted: #ede8df;
-  --color-surface-accent: #e4ebe0;
-  --color-surface-internal: #f3f0ea;
+  /* Surfaces — clean white with warm bamboo wash */
+  --color-surface-base: #ffffff;
+  --color-surface-elevated: #ffffff;
+  --color-surface-muted: #f9f7f4;
+  --color-surface-accent: #f3ede4;
+  --color-surface-internal: #fafafa;
 
-  /* Japandi accent palette */
-  --color-japa-stone: #e8e4dc;
-  --color-japa-sand: #f0ebe3;
-  --color-japa-sage: #8b9a7d;
-  --color-japa-sage-light: #c5d1bc;
-  --color-japa-clay: #b8846a;
-  --color-japa-clay-light: #dcc4b0;
-  --color-japa-ink: #2a2826;
-  --color-japa-warm-white: #faf8f4;
-  --color-japa-charcoal: #3d3a36;
+  /* Bamboo Japandi palette */
+  --color-japa-stone: #f5f0e8;
+  --color-japa-sand: #faf8f5;
+  --color-japa-sage: #a8895c;
+  --color-japa-sage-light: #e5d5bc;
+  --color-japa-clay: #8b7355;
+  --color-japa-clay-light: #f0e6d8;
+  --color-japa-bamboo: #a8895c;
+  --color-japa-bamboo-light: #e8dcc8;
+  --color-japa-bamboo-pale: #f5ede3;
+  --color-japa-bamboo-dark: #7a6348;
+  --color-japa-ink: #2e2a26;
+  --color-japa-warm-white: #ffffff;
+  --color-japa-charcoal: #4a433c;
 
-  /* Legacy token aliases mapped to Japandi */
-  --color-pastel-lilac: #e4ebe0;
-  --color-pastel-peach: #dcc4b0;
-  --color-pastel-sky: #d4ddd0;
-  --color-pastel-mint: #c5d1bc;
-  --color-pastel-rose: #e8ddd4;
+  /* Legacy token aliases mapped to bamboo */
+  --color-pastel-lilac: #f3ede4;
+  --color-pastel-peach: #f0e6d8;
+  --color-pastel-sky: #f5ede3;
+  --color-pastel-mint: #e8dcc8;
+  --color-pastel-rose: #f5f0e8;
 
   /* Actions */
-  --color-accent-primary: #2a2826;
-  --color-accent-secondary: #8b9a7d;
-  --color-foreground: #2a2826;
-  --color-muted-foreground: #6b6560;
-  --color-border: rgba(42, 40, 38, 0.1);
+  --color-accent-primary: #7a6348;
+  --color-accent-secondary: #a8895c;
+  --color-foreground: #2e2a26;
+  --color-muted-foreground: #7a7268;
+  --color-border: rgba(122, 99, 72, 0.14);
 
-  /* Status — muted earth tones */
-  --color-status-draft: #9a948c;
-  --color-status-submitted: #6b7b6e;
-  --color-status-in-review: #b8846a;
-  --color-status-approved: #5c7a5e;
-  --color-status-changes-requested: #c4845c;
-  --color-status-done: #4a6b4c;
+  /* Status — warm bamboo wood tones */
+  --color-status-draft: #a39a90;
+  --color-status-submitted: #9a8260;
+  --color-status-in-review: #b8956a;
+  --color-status-approved: #8b7355;
+  --color-status-changes-requested: #c4a574;
+  --color-status-done: #6b5344;
   --color-status-rejected: #a65d57;
-  --color-status-needs-clarification: #8b7d6b;
+  --color-status-needs-clarification: #9a8870;
 
   /* Typography */
   --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
@@ -52,7 +56,7 @@
   --radius-lg: 14px;
   --radius-pill: 999px;
 
-  /* Elevation — soft natural light */
-  --shadow-bubble: 0 1px 2px rgba(42, 40, 38, 0.04), 0 4px 16px rgba(42, 40, 38, 0.06);
-  --shadow-lift: 0 8px 24px rgba(42, 40, 38, 0.08);
+  /* Elevation — soft natural light on white */
+  --shadow-bubble: 0 1px 2px rgba(46, 42, 38, 0.04), 0 4px 16px rgba(122, 99, 72, 0.06);
+  --shadow-lift: 0 8px 24px rgba(122, 99, 72, 0.08);
 }

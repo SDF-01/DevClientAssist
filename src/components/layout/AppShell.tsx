@@ -29,13 +29,13 @@ export function AppShell({ theme = 'client' }: AppShellProps) {
       <header className="border-b border-border bg-surface-elevated/90 backdrop-blur-sm">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-5 sm:px-8">
           <Link to="/" className="group flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-[var(--radius-sm)] border border-border bg-surface-muted transition-colors group-hover:border-japa-sage/30">
-              <Circle className="h-4 w-4 text-japa-sage" strokeWidth={1.5} />
+            <span className="flex h-9 w-9 items-center justify-center rounded-[var(--radius-sm)] border border-border bg-surface-muted transition-colors group-hover:border-japa-bamboo/35">
+              <Circle className="h-4 w-4 text-japa-bamboo" strokeWidth={1.5} />
             </span>
             <div>
               <span className="font-display text-xl font-medium tracking-tight text-foreground">Revision Portal</span>
-              <span className="mt-0.5 block text-[10px] font-medium uppercase tracking-[0.2em] text-japa-sage">
-                Japandi Studio
+              <span className="mt-0.5 block text-[10px] font-medium uppercase tracking-[0.2em] text-japa-bamboo">
+                Airmen Voice
               </span>
             </div>
           </Link>

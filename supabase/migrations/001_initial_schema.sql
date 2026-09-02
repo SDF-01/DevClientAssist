@@ -200,11 +200,7 @@ on conflict (slug) do nothing;
 
 insert into public.projects (organization_id, name, slug, description, github_repo, default_branch)
 values
-  ('00000000-0000-0000-0000-000000000001', 'Training Simulator', 'training-simulator', 'Interactive training and scenario-based learning platform', null, 'main'),
-  ('00000000-0000-0000-0000-000000000001', 'Client Dashboard', 'client-dashboard', 'Analytics and reporting dashboard for client operations', null, 'main'),
-  ('00000000-0000-0000-0000-000000000001', 'Mobile PWA', 'mobile-pwa', 'Progressive web app for field and mobile workflows', null, 'main'),
-  ('00000000-0000-0000-0000-000000000001', 'Admin Portal', 'admin-portal', 'Internal admin tools for user and content management', null, 'main'),
-  ('00000000-0000-0000-0000-000000000001', 'Marketing Site', 'marketing-site', 'Public marketing and landing pages', null, 'main')
+  ('00000000-0000-0000-0000-000000000001', 'Airmen Voice', 'airmen-voice', 'Voice and communication platform for airmen', null, 'main')
 on conflict do nothing;
 
 insert into public.revision_templates (name, description, template_text, category)

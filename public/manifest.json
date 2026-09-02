@@ -1,11 +1,11 @@
 {
-  "name": "Revision Portal",
-  "short_name": "Revisions",
-  "description": "Japandi revision intake and TOON export portal",
+  "name": "Airmen Voice Revisions",
+  "short_name": "Airmen Voice",
+  "description": "Bamboo Japandi revision intake portal for Airmen Voice",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F7F4EF",
-  "theme_color": "#2A2826",
+  "background_color": "#FFFFFF",
+  "theme_color": "#7A6348",
   "icons": [
     {
       "src": "/vite.svg",

@@ -6,9 +6,9 @@ import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/Ca
 export function HomePage() {
   return (
     <div className="grid gap-8 lg:grid-cols-5">
-      <Card className="relative overflow-hidden border-japa-sage/15 bg-surface-elevated lg:col-span-3">
-        <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-japa-sage/8" aria-hidden />
-        <div className="pointer-events-none absolute -bottom-6 -left-6 h-32 w-32 rounded-full bg-japa-clay/6" aria-hidden />
+      <Card className="relative overflow-hidden border-japa-bamboo/15 bg-surface-elevated lg:col-span-3">
+        <div className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 rounded-full bg-japa-bamboo/8" aria-hidden />
+        <div className="pointer-events-none absolute -bottom-6 -left-6 h-32 w-32 rounded-full bg-japa-bamboo-pale/80" aria-hidden />
         <CardHeader className="relative">
           <p className="japandi-kicker">Revision intake</p>
           <CardTitle className="text-4xl font-normal leading-tight sm:text-5xl">

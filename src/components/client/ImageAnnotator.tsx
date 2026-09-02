@@ -55,7 +55,7 @@ export function ImageAnnotator({ imageUrl, imageName, initialAnnotation, onSave,
     const x = (e.clientX - rect.left) * scaleX
     const y = (e.clientY - rect.top) * scaleY
 
-    ctx.strokeStyle = '#8B9A7D'
+    ctx.strokeStyle = '#A8895C'
     ctx.lineWidth = 3
     ctx.lineCap = 'round'
     ctx.lineTo(x, y)
