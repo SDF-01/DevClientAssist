@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { listRevisions } from '@/lib/data/revisions'
 import { StatusBadge } from '@/components/ui/Badge'
-import { Card, CardHeader, CardTitle } from '@/components/ui/Card'
+import { Button } from '@/components/ui/Button'
+import { Card } from '@/components/ui/Card'
 import type { RevisionRequestWithRelations } from '@/types/database'
 import { formatDate } from '@/lib/utils'
 
@@ -17,34 +18,42 @@ export function MyRequestsPage() {
     })
   }, [])
 
-  if (loading) return <p className="text-muted-foreground">Loading requests...</p>
+  if (loading) return <p className="text-muted-foreground">Loading your requests...</p>
 
   return (
     <div className="space-y-6">
-      <CardHeader className="px-0">
-        <p className="section-label">Archive</p>
-        <CardTitle className="text-3xl font-normal">My revision requests</CardTitle>
-      </CardHeader>
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p className="section-label">Your work</p>
+          <h1 className="font-display text-3xl font-normal">Requests</h1>
+          <p className="mt-2 max-w-xl text-sm text-muted-foreground">
+            Follow anything you have sent. Open a request to see status and replies.
+          </p>
+        </div>
+        <Link to="/submit">
+          <Button>New request</Button>
+        </Link>
+      </div>
 
       {requests.length === 0 ? (
-        <Card>
-          <p className="text-muted-foreground">
-            No requests yet.{' '}
-            <Link to="/submit" className="text-moss underline-offset-2 hover:underline">
-              Submit your first revision
-            </Link>
-            .
+        <Card framed className="py-12 text-center">
+          <p className="font-display text-2xl">Nothing here yet</p>
+          <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
+            When you send a request, it will show up here so you can track it.
           </p>
+          <Link to="/submit" className="mt-6 inline-block">
+            <Button>Start a request</Button>
+          </Link>
         </Card>
       ) : (
         <ul className="grid gap-3">
           {requests.map((req) => (
             <li key={req.id}>
-              <Link to={`/requests/${req.id}`}>
-                <Card className="transition-all duration-200 hover:border-japa-sage/25 hover:shadow-lift">
+              <Link to={`/requests/${req.id}`} className="block">
+                <Card className="transition-all duration-200 hover:border-bamboo/30">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
-                      <h3 className="font-display text-lg font-medium">{req.title}</h3>
+                      <h2 className="font-display text-lg font-medium">{req.title}</h2>
                       <p className="text-sm text-muted-foreground">{req.project?.name}</p>
                       <p className="mt-1 text-xs text-muted-foreground">{formatDate(req.created_at)}</p>
                     </div>

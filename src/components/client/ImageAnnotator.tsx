@@ -15,6 +15,14 @@ export function ImageAnnotator({ imageUrl, imageName, initialAnnotation, onSave,
   const [drawing, setDrawing] = useState(false)
 
   useEffect(() => {
+    function onKey(event: KeyboardEvent) {
+      if (event.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [onClose])
+
+  useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')
@@ -71,11 +79,18 @@ export function ImageAnnotator({ imageUrl, imageName, initialAnnotation, onSave,
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-japa-ink/40 p-4 backdrop-blur-sm">
-      <Card className="max-h-[90vh] w-full max-w-4xl overflow-auto bg-surface-elevated shadow-lift">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-japa-ink/40 p-4 backdrop-blur-sm"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="annotate-title"
+    >
+      <Card framed className="max-h-[90vh] w-full max-w-4xl overflow-auto bg-surface-elevated">
         <CardHeader>
-          <p className="section-label">Annotate</p>
-          <CardTitle className="font-normal">{imageName}</CardTitle>
+          <p className="section-label">Mark the screenshot</p>
+          <CardTitle id="annotate-title" className="font-normal">
+            {imageName}
+          </CardTitle>
         </CardHeader>
       <div className="overflow-auto rounded-[var(--radius-md)] border border-border">
         <canvas
@@ -88,7 +103,7 @@ export function ImageAnnotator({ imageUrl, imageName, initialAnnotation, onSave,
         />
       </div>
       <div className="mt-4 flex gap-2">
-        <Button onClick={handleSave}>Save Annotation</Button>
+        <Button onClick={handleSave}>Save marks</Button>
         <Button variant="secondary" onClick={onClose}>
           Cancel
         </Button>

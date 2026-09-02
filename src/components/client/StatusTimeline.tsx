@@ -4,11 +4,11 @@ import { cn } from '@/lib/utils'
 import { Check } from 'lucide-react'
 
 const timelineSteps: Array<{ status: RevisionStatus; label: string }> = [
-  { status: 'submitted', label: 'Submitted' },
-  { status: 'in_review', label: 'In Review' },
+  { status: 'submitted', label: 'Received' },
+  { status: 'in_review', label: 'In review' },
   { status: 'approved', label: 'Approved' },
-  { status: 'exported', label: 'Exported' },
-  { status: 'in_progress', label: 'In Progress' },
+  { status: 'exported', label: 'Ready for build' },
+  { status: 'in_progress', label: 'In progress' },
   { status: 'done', label: 'Done' },
 ]
 

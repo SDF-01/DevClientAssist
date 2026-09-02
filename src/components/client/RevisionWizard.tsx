@@ -18,9 +18,8 @@ import { listTemplates } from '@/lib/templates'
 import { exportRevisionToToon, validateToonStrict } from '@/lib/toonExporter'
 import type { Project, RevisionTemplate } from '@/types/database'
 import type { ReferenceImage } from '@/types/revision'
-import { LabelBadge } from '@/components/ui/Badge'
 
-const STEPS = ['Project', 'Describe', 'References', 'Preview']
+const STEPS = ['Write', 'Pictures', 'Review']
 
 export function RevisionWizard() {
   const navigate = useNavigate()
@@ -40,13 +39,12 @@ export function RevisionWizard() {
   const [annotatingId, setAnnotatingId] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [similarWarning, setSimilarWarning] = useState<string | null>(null)
+  const [showToon, setShowToon] = useState(false)
 
   useEffect(() => {
     void listProjects().then((loaded) => {
       setProjects(loaded)
-      if (loaded.length === 1 && !projectId) {
-        setProjectId(loaded[0].id)
-      }
+      if (loaded.length === 1) setProjectId(loaded[0].id)
     })
     void listTemplates().then(setTemplates)
   }, [])
@@ -66,17 +64,50 @@ export function RevisionWizard() {
   const wordCount = useMemo(() => rawRequest.trim().split(/\s+/).filter(Boolean).length, [rawRequest])
 
   const preview = useMemo(() => {
-    if (!selectedProject || !rawRequest.trim()) return null
+    if (!rawRequest.trim()) return null
+    if (!selectedProject) {
+      return {
+        formatted: rawRequest.trim(),
+        toon: '',
+        completeness: {
+          score: 20,
+          warnings: ['The app should appear here. Refresh if it is missing.'],
+          suggestions: [] as string[],
+        },
+      }
+    }
     try {
       const structured = structureRevisionRequest(selectedProject.slug, rawRequest, images)
       const completeness = calculateCompletenessScore(rawRequest, images, structured)
-      const toon = exportRevisionToToon(structured, images)
-      validateToonStrict(toon.toon)
-      return { structured, completeness, toon: toon.toon, formatted: formatStructuredPreview(structured) }
+      let toon = ''
+      try {
+        const exported = exportRevisionToToon(structured, images)
+        validateToonStrict(exported.toon)
+        toon = exported.toon
+      } catch {
+        toon = ''
+      }
+      return { completeness, toon, formatted: formatStructuredPreview(structured) }
     } catch {
-      return null
+      return {
+        formatted: rawRequest.trim(),
+        toon: '',
+        completeness: {
+          score: 30,
+          warnings: ['We will tidy this into a brief after you send it.'],
+          suggestions: [] as string[],
+        },
+      }
     }
   }, [selectedProject, rawRequest, images])
+
+  function reviewHint() {
+    if (!preview) return ''
+    if (preview.completeness.score >= 80) return 'This looks ready to send.'
+    if (preview.completeness.warnings[0]) return preview.completeness.warnings[0]
+    if (preview.completeness.suggestions[0]) return preview.completeness.suggestions[0]
+    return 'You can send this now, or go back to add more.'
+  }
 
   useEffect(() => {
     if (!rawRequest.trim()) {
@@ -86,7 +117,7 @@ export function RevisionWizard() {
     void listRevisions().then((existing) => {
       const similar = detectSimilarRequests(rawRequest, existing)
       if (similar.length > 0) {
-        setSimilarWarning(`Similar request found: "${similar[0].title}" submitted recently.`)
+        setSimilarWarning(`This looks close to a recent request: "${similar[0].title}".`)
       } else {
         setSimilarWarning(null)
       }
@@ -95,12 +126,12 @@ export function RevisionWizard() {
 
   function handleSaveDraft() {
     saveDraft({ projectId, rawRequest, contactName, urgency, clientNotes, images })
-    showToast('Draft saved locally.', 'success')
+    showToast('Draft saved on this device.', 'success')
   }
 
   async function handleSubmit(asDraft = false) {
     if (!projectId || !rawRequest.trim()) {
-      showToast('Complete required fields before submitting.', 'error')
+      showToast('Write what should change before sending.', 'error')
       return
     }
 
@@ -118,10 +149,10 @@ export function RevisionWizard() {
         asDraft,
       })
       clearDraft()
-      showToast(asDraft ? 'Draft saved.' : 'Revision submitted successfully!', 'success')
+      showToast(asDraft ? 'Draft saved.' : 'Request sent.', 'success')
       navigate(`/requests/${revision.id}`)
     } catch (error) {
-      showToast(error instanceof Error ? error.message : 'Submission failed.', 'error')
+      showToast(error instanceof Error ? error.message : 'Could not send the request.', 'error')
     } finally {
       setSubmitting(false)
     }
@@ -129,7 +160,7 @@ export function RevisionWizard() {
 
   function applyTemplate(template: RevisionTemplate) {
     setRawRequest(template.template_text)
-    showToast(`Applied template: ${template.name}`, 'info')
+    showToast(`Started from ${template.name}.`, 'info')
   }
 
   function handleAnnotateSave(dataUrl: string) {
@@ -142,156 +173,153 @@ export function RevisionWizard() {
     setAnnotatingId(null)
   }
 
+  const canContinueWrite = Boolean(projectId && rawRequest.trim())
+
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
-      <div className="space-y-6">
-        <Card className="relative overflow-hidden">
-          <div className="absolute inset-x-0 top-0 h-2 wood-panel" aria-hidden />
-          <CardHeader className="relative mt-2">
-            <p className="section-label">The desk</p>
-            <CardTitle className="text-3xl font-normal">Submit your changes</CardTitle>
+    <div className="space-y-6">
+      <header className="space-y-4">
+        <p className="section-label">New request</p>
+        <h1 className="font-display text-3xl font-normal sm:text-4xl">What should we change?</h1>
+        {selectedProject ? <p className="app-chip">{selectedProject.name}</p> : null}
+        <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
+          Add your name if you like, then describe the change in your own words.
+        </p>
+        <Stepper steps={STEPS} currentStep={step} />
+      </header>
+
+      {step === 0 ? (
+        <Card framed className="space-y-5">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Input
+              label="Your name"
+              value={contactName}
+              onChange={(e) => setContactName(e.target.value)}
+              placeholder="Optional"
+            />
+            <Select
+              label="How urgent is this?"
+              value={urgency}
+              onChange={(e) => setUrgency(e.target.value)}
+              options={[
+                { value: 'low', label: 'Low' },
+                { value: 'medium', label: 'Medium' },
+                { value: 'high', label: 'High' },
+                { value: 'critical', label: 'Critical' },
+              ]}
+            />
+          </div>
+          {templates.length > 0 ? (
+            <div>
+              <p className="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">Start from</p>
+              <div className="flex flex-wrap gap-2">
+                {templates.map((tpl) => (
+                  <button
+                    key={tpl.id}
+                    type="button"
+                    onClick={() => applyTemplate(tpl)}
+                    className="rounded-[var(--radius-sm)] border border-border bg-surface-muted px-3 py-1.5 text-xs font-medium tracking-wide text-foreground transition-colors hover:border-bamboo/40 hover:bg-blush/30"
+                  >
+                    {tpl.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ) : null}
+          <Textarea
+            label="The change"
+            hint={`${wordCount} words`}
+            value={rawRequest}
+            onChange={(e) => setRawRequest(e.target.value)}
+            placeholder={'Example:\n- Move the primary button higher on the page\n- Match the color in the screenshot\n- Leave login as it is'}
+            rows={12}
+          />
+          {similarWarning ? (
+            <p className="text-sm text-terracotta" role="status">
+              {similarWarning}
+            </p>
+          ) : null}
+          <Textarea
+            label="Anything else? (optional)"
+            value={clientNotes}
+            onChange={(e) => setClientNotes(e.target.value)}
+            rows={3}
+          />
+        </Card>
+      ) : null}
+
+      {step === 1 ? (
+        <Card framed>
+          <CardHeader>
+            <CardTitle className="text-2xl font-normal">Pictures help, but they are optional</CardTitle>
+            <CardDescription>Drop screenshots if they show the issue. Otherwise continue to review.</CardDescription>
+          </CardHeader>
+          <ImageUpload images={images} onChange={setImages} onAnnotate={setAnnotatingId} />
+        </Card>
+      ) : null}
+
+      {step === 2 && preview ? (
+        <Card framed className="space-y-4">
+          <CardHeader>
+            <CardTitle className="text-2xl font-normal">Does this look right?</CardTitle>
             <CardDescription>
-              Describe what should change, attach references, and preview the structured output before sending.
+              This is the brief the team will see. You can go back and edit, or send it now.
             </CardDescription>
           </CardHeader>
-          <div className="relative pb-2">
-            <Stepper steps={STEPS} currentStep={step} />
-          </div>
-        </Card>
-
-        {step === 0 ? (
-          <Card>
-            <Select
-              label="Target application"
-              value={projectId}
-              onChange={(e) => setProjectId(e.target.value)}
-              options={[
-                { value: '', label: 'Select an application' },
-                ...projects.map((p) => ({ value: p.id, label: p.name })),
-              ]}
-              description={selectedProject?.description}
-            />
-            <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              <Input label="Your name" value={contactName} onChange={(e) => setContactName(e.target.value)} />
-              <Select
-                label="Urgency"
-                value={urgency}
-                onChange={(e) => setUrgency(e.target.value)}
-                options={[
-                  { value: 'low', label: 'Low' },
-                  { value: 'medium', label: 'Medium' },
-                  { value: 'high', label: 'High' },
-                  { value: 'critical', label: 'Critical' },
-                ]}
-              />
-            </div>
-          </Card>
-        ) : null}
-
-        {step === 1 ? (
-          <Card className="space-y-4">
-            <div className="flex flex-wrap gap-2">
-              {templates.map((tpl) => (
-                <button
-                  key={tpl.id}
-                  type="button"
-                  onClick={() => applyTemplate(tpl)}
-                  className="rounded-[var(--radius-sm)] border border-border bg-surface-muted px-3 py-1.5 text-xs font-medium tracking-wide text-foreground transition-colors hover:border-bamboo/40 hover:bg-blush/30"
-                >
-                  {tpl.name}
-                </button>
-              ))}
-            </div>
-            <Textarea
-              label="Revision request"
-              hint={`${wordCount} words`}
-              value={rawRequest}
-              onChange={(e) => setRawRequest(e.target.value)}
-              placeholder={'Example:\n- Move the primary CTA above the fold\n- Match button color to attached screenshot\n- Keep existing auth flow unchanged'}
-              rows={14}
-            />
-            {similarWarning ? <p className="text-sm text-terracotta" role="alert">{similarWarning}</p> : null}
-            <Textarea
-              label="Additional notes (optional)"
-              value={clientNotes}
-              onChange={(e) => setClientNotes(e.target.value)}
-              rows={3}
-            />
-          </Card>
-        ) : null}
-
-        {step === 2 ? (
-          <Card>
-            <ImageUpload
-              images={images}
-              onChange={setImages}
-              onAnnotate={setAnnotatingId}
-            />
-          </Card>
-        ) : null}
-
-        {step === 3 && preview ? (
-          <Card className="space-y-4">
-            <div className="flex flex-wrap items-center gap-2">
-              <LabelBadge>Completeness: {preview.completeness.score}%</LabelBadge>
-              {preview.completeness.warnings.map((w) => (
-                <span key={w} className="text-xs text-terracotta">{w}</span>
-              ))}
-            </div>
-            <pre className="japandi-code-block max-h-72 overflow-auto rounded-[var(--radius-sm)] p-4 text-xs whitespace-pre-wrap font-mono">
-              {preview.formatted}
-            </pre>
-            <pre className="japandi-code-dark max-h-48 overflow-auto rounded-[var(--radius-sm)] p-4 text-xs whitespace-pre-wrap font-mono">
-              {preview.toon}
-            </pre>
-          </Card>
-        ) : null}
-
-        <div className="flex flex-wrap gap-3">
-          {step > 0 ? (
-            <Button variant="secondary" onClick={() => setStep((s) => s - 1)}>
-              Back
-            </Button>
-          ) : null}
-          {step < STEPS.length - 1 ? (
-            <Button
-              onClick={() => setStep((s) => s + 1)}
-              disabled={(step === 0 && !projectId) || (step === 1 && !rawRequest.trim())}
-            >
-              Continue
-            </Button>
-          ) : (
+          <p className="text-sm text-moss">{reviewHint()}</p>
+          <pre className="code-block-light max-h-72 overflow-auto rounded-[var(--radius-sm)] p-4 text-xs whitespace-pre-wrap font-mono">
+            {preview.formatted}
+          </pre>
+          {preview.toon ? (
             <>
-              <Button onClick={() => void handleSubmit(false)} disabled={submitting || !preview}>
-                Submit Revision
-              </Button>
-              <Button variant="secondary" onClick={() => void handleSubmit(true)} disabled={submitting}>
-                Save as Draft
-              </Button>
+              <button
+                type="button"
+                className="text-sm text-[#606c5a] underline-offset-4 hover:underline"
+                onClick={() => setShowToon((open) => !open)}
+              >
+                {showToon ? 'Hide technical export' : 'Show technical export'}
+              </button>
+              {showToon ? (
+                <pre className="code-block-dark max-h-48 overflow-auto rounded-[var(--radius-sm)] p-4 text-xs whitespace-pre-wrap font-mono">
+                  {preview.toon}
+                </pre>
+              ) : null}
             </>
-          )}
-          <Button variant="ghost" onClick={handleSaveDraft}>
-            Save Draft Locally
-          </Button>
-        </div>
-      </div>
-
-      <aside className="hidden lg:block">
-        <Card className="sticky top-28 space-y-3">
-          <img src="/art/lantern.svg" alt="" aria-hidden className="h-12 w-8" />
-          <p className="section-label">Summary</p>
-          <h3 className="font-display text-lg font-medium">Your request</h3>
-          <div className="divider-soft" />
-          <p className="text-sm text-muted-foreground">Project: {selectedProject?.name ?? 'Not selected'}</p>
-          <p className="text-sm text-muted-foreground">Words: {wordCount}</p>
-          <p className="text-sm text-muted-foreground">Images: {images.length}</p>
-          {preview ? (
-            <p className="text-sm font-medium text-moss">Ready to submit ({preview.completeness.score}% complete)</p>
-          ) : (
-            <p className="text-sm text-muted-foreground">Complete steps to preview.</p>
-          )}
+          ) : null}
         </Card>
-      </aside>
+      ) : null}
+
+      <div className="flex flex-wrap items-center gap-3">
+        {step > 0 ? (
+          <Button variant="secondary" onClick={() => setStep((s) => s - 1)}>
+            Back
+          </Button>
+        ) : null}
+        {step === 0 ? (
+          <Button onClick={() => setStep(1)} disabled={!canContinueWrite}>
+            Continue
+          </Button>
+        ) : null}
+        {step === 1 ? (
+          <>
+            <Button onClick={() => setStep(2)} disabled={!preview}>
+              Continue to review
+            </Button>
+            {images.length === 0 ? (
+              <Button variant="ghost" onClick={() => setStep(2)} disabled={!preview}>
+                Continue without pictures
+              </Button>
+            ) : null}
+          </>
+        ) : null}
+        {step === 2 ? (
+          <Button onClick={() => void handleSubmit(false)} disabled={submitting || !preview}>
+            Send request
+          </Button>
+        ) : null}
+        <Button variant="ghost" onClick={handleSaveDraft}>
+          Save draft
+        </Button>
+      </div>
 
       {annotatingId ? (
         <ImageAnnotator

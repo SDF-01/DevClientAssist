@@ -6,15 +6,15 @@ export function generatePdfReceipt(revision: RevisionRequestWithRelations): Blob
   const doc = new jsPDF()
   const lines = doc.splitTextToSize(
     [
-      'Revision Request Receipt',
+      'Request receipt',
       '',
       `ID: ${revision.id}`,
       `Project: ${revision.project?.name ?? revision.project_id}`,
-      `Status: ${revision.status}`,
-      `Submitted: ${revision.submitted_at ? formatDate(revision.submitted_at) : 'Draft'}`,
-      `Completeness: ${revision.completeness_score ?? 'N/A'}%`,
+      `Status: ${revision.status.replace(/_/g, ' ')}`,
+      `Sent: ${revision.submitted_at ? formatDate(revision.submitted_at) : 'Draft'}`,
+      `Brief strength: ${revision.completeness_score ?? 'N/A'}%`,
       '',
-      'Request Summary:',
+      'What you asked for:',
       revision.title,
       '',
       revision.raw_request.slice(0, 2000),
@@ -23,7 +23,7 @@ export function generatePdfReceipt(revision: RevisionRequestWithRelations): Blob
   )
 
   doc.setFontSize(16)
-  doc.text('Revision Portal Receipt', 14, 20)
+  doc.text('Dev Generator receipt', 14, 20)
   doc.setFontSize(10)
   doc.text(lines, 14, 30)
 

@@ -15,14 +15,14 @@ const statusStyles: Record<RevisionStatus, string> = {
 
 const statusLabels: Record<RevisionStatus, string> = {
   draft: 'Draft',
-  submitted: 'Submitted',
-  in_review: 'In Review',
-  needs_clarification: 'Needs Clarification',
+  submitted: 'Received',
+  in_review: 'In review',
+  needs_clarification: 'Needs a reply',
   approved: 'Approved',
-  exported: 'Exported',
-  in_progress: 'In Progress',
+  exported: 'Ready for build',
+  in_progress: 'In progress',
   done: 'Done',
-  rejected: 'Rejected',
+  rejected: 'Declined',
 }
 
 interface BadgeProps {
@@ -34,7 +34,7 @@ export function StatusBadge({ status, className }: BadgeProps) {
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-[var(--radius-sm)] px-2.5 py-1 text-[11px] font-medium uppercase tracking-wider',
+        'inline-flex items-center rounded-[var(--radius-sm)] px-2.5 py-1 text-xs font-medium tracking-wide',
         statusStyles[status],
         className,
       )}

@@ -87,8 +87,8 @@ export function ImageUpload({ images, onChange, onAnnotate }: ImageUploadProps) 
           }
         }}
       >
-        <p className="font-display text-lg font-medium text-foreground">Drop images here</p>
-        <p className="mt-1 text-sm text-muted-foreground">or click to browse your files</p>
+        <p className="font-display text-lg font-medium text-foreground">Add screenshots</p>
+        <p className="mt-1 text-sm text-muted-foreground">Drag files here, or click to browse. You can skip this step.</p>
       </div>
 
       <input

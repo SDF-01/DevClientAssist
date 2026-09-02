@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Card, CardHeader, CardTitle } from '@/components/ui/Card'
+import { Card, CardHeader } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { listProjects } from '@/lib/data/projects'
@@ -19,14 +19,14 @@ export function OrgAdminPage() {
   function handleRetentionSave() {
     setRetentionPolicy({ retentionDays, purgeDoneOnly: true })
     const purged = runRetentionPolicy({ retentionDays, purgeDoneOnly: true })
-    alert(`Retention policy saved. Purged ${purged} old revision(s).`)
+    alert(`Saved. Removed ${purged} finished request(s) that were older than the limit.`)
   }
 
   return (
     <div className="space-y-6">
       <CardHeader className="px-0">
-        <p className="section-label">Settings</p>
-        <CardTitle className="text-3xl font-normal">Organization admin</CardTitle>
+        <p className="section-label">Workspace</p>
+        <h1 className="font-display text-3xl font-normal">Organization</h1>
       </CardHeader>
 
       <Card>
@@ -60,13 +60,13 @@ export function OrgAdminPage() {
         <p className="section-label mb-2">Data</p>
         <h3 className="mb-3 font-display text-lg font-medium">Retention policy</h3>
         <Input
-          label="Retention days (done revisions)"
+          label="Keep finished requests for (days)"
           type="number"
           value={retentionDays}
           onChange={(e) => setRetentionDays(Number(e.target.value))}
         />
         <Button className="mt-3" onClick={handleRetentionSave}>
-          Save & Run Retention
+          Save and clean old requests
         </Button>
       </Card>
 

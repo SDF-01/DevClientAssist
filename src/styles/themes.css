@@ -10,10 +10,9 @@
   background-color: #f3f0e8;
   background-image:
     url('/art/seigaiha.svg'),
-    url('/art/asanoha.svg'),
-    linear-gradient(180deg, #f7f4ee 0%, #f3f0e8 42%, #ece6db 100%);
-  background-size: 160px 80px, 120px 104px, auto;
-  background-blend-mode: multiply, multiply, normal;
+    linear-gradient(180deg, #f8f5ef 0%, #f3f0e8 55%, #ebe4d8 100%);
+  background-size: 240px 120px, auto;
+  background-position: center bottom, center;
 }
 
 .studio-root::before {
@@ -22,7 +21,23 @@
   position: fixed;
   inset: 0;
   z-index: 0;
-  background: radial-gradient(ellipse 70% 50% at 80% 0%, rgba(220, 180, 130, 0.18), transparent 55%);
+  background: radial-gradient(ellipse 60% 40% at 85% 0%, rgba(220, 180, 130, 0.16), transparent 60%);
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: 0.75rem;
+  z-index: 80;
+  padding: 0.6rem 1rem;
+  background: #606c5a;
+  color: #f3f0e8;
+  border-radius: 2px;
+  transform: translateY(-180%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
 }
 
 .bamboo-column {
@@ -31,37 +46,31 @@
   top: 0;
   z-index: 1;
   height: 100vh;
-  width: 120px;
-  background: url('/art/bamboo-grove.svg') center top / cover no-repeat;
-  opacity: 0.55;
+  width: 96px;
+  background: url('/art/bamboo-grove.svg') center top / contain no-repeat;
+  opacity: 0.42;
 }
 
 .bamboo-column.left {
   left: 0;
-  mask-image: linear-gradient(to right, black 40%, transparent 100%);
+  mask-image: linear-gradient(to right, black 30%, transparent 95%);
 }
 
 .bamboo-column.right {
   right: 0;
   transform: scaleX(-1);
-  mask-image: linear-gradient(to left, black 40%, transparent 100%);
+  mask-image: linear-gradient(to left, black 30%, transparent 95%);
 }
 
 .wood-lintel {
-  position: relative;
-  z-index: 20;
-  border-bottom: 1px solid rgba(96, 108, 90, 0.18);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid rgba(96, 108, 90, 0.16);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(243, 240, 232, 0.2)),
-    repeating-linear-gradient(
-      90deg,
-      #dcb482 0px,
-      #e6c48a 8px,
-      #c09e85 16px,
-      #d5caba 24px,
-      #dcb482 32px
-    );
-  box-shadow: 0 10px 28px rgba(94, 94, 94, 0.08);
+    linear-gradient(180deg, rgba(255, 252, 246, 0.72), rgba(243, 240, 232, 0.55)),
+    repeating-linear-gradient(90deg, #dcb482 0 7px, #e8d3a8 7px 14px, #c09e85 14px 21px, #d5caba 21px 28px);
+  box-shadow: 0 8px 24px rgba(94, 94, 94, 0.06);
 }
 
 .wood-lintel::after {
@@ -70,50 +79,47 @@
   left: 0;
   right: 0;
   bottom: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #606c5a, #dcb482 40%, #c09e85 70%, #606c5a);
+  height: 3px;
+  background: linear-gradient(90deg, #606c5a, #dcb482 50%, #606c5a);
 }
 
 .studio-stage {
   position: relative;
   z-index: 2;
   margin: 0 auto;
-  max-width: 1180px;
-  padding: 1.75rem 1.25rem 4rem;
+  max-width: 1080px;
+  padding: 1.5rem 1.1rem 3.5rem;
 }
 
 @media (min-width: 768px) {
   .studio-stage {
-    padding: 2.5rem 2rem 5rem;
+    padding: 2.25rem 2rem 4.5rem;
   }
 }
 
-.shoji-stage {
+.paper-stage {
   position: relative;
-  overflow: hidden;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 253, 248, 0.9)),
-    url('/art/shoji.svg') center / 280px;
-  border: 1px solid rgba(143, 131, 122, 0.22);
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.8) inset,
-    0 24px 50px rgba(94, 94, 94, 0.08);
+    linear-gradient(180deg, rgba(255, 252, 246, 0.2), transparent 48px),
+    rgba(255, 252, 246, 0.9);
+  border: 1px solid rgba(143, 131, 122, 0.16);
+  box-shadow: 0 20px 48px rgba(94, 94, 94, 0.06);
 }
 
 .ornament-card {
   position: relative;
-  background: rgba(255, 253, 248, 0.92);
-  border: 1px solid rgba(143, 131, 122, 0.2);
-  box-shadow: 0 18px 40px rgba(94, 94, 94, 0.07);
+  background: rgba(255, 252, 246, 0.96);
+  border: 1px solid rgba(143, 131, 122, 0.16);
+  box-shadow: 0 12px 28px rgba(94, 94, 94, 0.05);
 }
 
 .ornament-card .corner {
   position: absolute;
-  width: 28px;
-  height: 28px;
+  width: 22px;
+  height: 22px;
   background: url('/art/corner.svg') center / contain no-repeat;
   pointer-events: none;
-  opacity: 0.85;
+  opacity: 0.7;
 }
 
 .ornament-card .corner.tl { top: 8px; left: 8px; }
@@ -129,11 +135,38 @@
 }
 
 .panel-card {
-  transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  transition: border-color 0.3s ease;
 }
 
 .panel-card:hover {
-  box-shadow: var(--shadow-lift);
+  border-color: rgba(220, 180, 130, 0.32);
+}
+
+.app-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid rgba(220, 180, 130, 0.45);
+  background: #fbf6ee;
+  padding: 0.35rem 0.8rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: #5e5e5e;
+}
+
+.app-chip::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #606c5a;
+}
+
+.wave-rule {
+  height: 28px;
+  border: 0;
+  background: url('/art/seigaiha.svg') center / 200px auto repeat-x;
+  opacity: 0.45;
 }
 
 .divider-soft,
@@ -147,7 +180,7 @@
   font-family: var(--font-body);
   font-size: 0.68rem;
   font-weight: 500;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--color-taupe);
 }
@@ -179,13 +212,13 @@
   font-family: var(--font-accent);
   letter-spacing: 0.35em;
   color: #606c5a;
-  opacity: 0.55;
+  opacity: 0.45;
 }
 
 .wood-tab {
-  border: 1px solid rgba(143, 131, 122, 0.22);
-  background: linear-gradient(180deg, #f7f1e6, #e8dcc8);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(143, 131, 122, 0.2);
+  background: linear-gradient(180deg, #fbf6ee, #eadcc8);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
   color: #3f3b36;
 }
 
@@ -198,10 +231,8 @@
 .studio-footer {
   position: relative;
   z-index: 2;
-  margin-top: 1rem;
-  border-top: 1px solid rgba(143, 131, 122, 0.18);
-  background:
-    repeating-linear-gradient(90deg, #d5caba 0 14px, #dcb482 14px 22px, #c09e85 22px 30px);
+  border-top: 1px solid rgba(143, 131, 122, 0.16);
+  background: repeating-linear-gradient(90deg, #d5caba 0 12px, #dcb482 12px 18px, #c09e85 18px 26px);
 }
 
 .studio-footer-inner {
@@ -209,15 +240,15 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  max-width: 1180px;
+  max-width: 1080px;
   margin: 0 auto;
-  padding: 0.9rem 1.5rem;
-  background: rgba(243, 240, 232, 0.72);
+  padding: 0.85rem 1.5rem;
+  background: rgba(243, 240, 232, 0.78);
 }
 
 .hero-art {
   position: relative;
-  min-height: 420px;
+  min-height: 380px;
   overflow: hidden;
   background: #f3f0e8;
 }
@@ -225,23 +256,34 @@
 .hero-art img.landscape {
   width: 100%;
   height: 100%;
+  min-height: 380px;
   object-fit: cover;
   display: block;
 }
 
 .hero-art .lantern {
   position: absolute;
-  right: 8%;
-  top: 12%;
-  width: 48px;
-  animation: lantern-sway 5.5s ease-in-out infinite;
+  right: 10%;
+  top: 14%;
+  width: 42px;
+  animation: lantern-sway 6s ease-in-out infinite;
 }
 
 @keyframes lantern-sway {
-  0%, 100% { transform: rotate(-4deg); }
-  50% { transform: rotate(5deg); }
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(4deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-art .lantern { animation: none; }
+}
+
+#main-content:focus {
+  outline: none;
+}
+
+.mobile-drawer {
+  border-top: 1px solid rgba(143, 131, 122, 0.16);
+  background: rgba(255, 252, 246, 0.96);
+  padding: 0.75rem 1rem 1rem;
 }

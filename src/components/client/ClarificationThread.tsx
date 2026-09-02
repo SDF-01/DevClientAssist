@@ -41,11 +41,11 @@ export function ClarificationThread({
 
   return (
     <section className="space-y-4">
-      <p className="section-label">Discussion</p>
-      <h3 className="font-display text-lg font-medium">Clarification thread</h3>
+      <p className="section-label">Conversation</p>
+      <h3 className="font-display text-lg font-medium">Questions and replies</h3>
       <ul className="max-h-64 space-y-3 overflow-auto">
         {visibleMessages.length === 0 ? (
-          <li className="text-sm text-muted-foreground">No messages yet.</li>
+          <li className="text-sm text-muted-foreground">No messages yet. Write one if something is unclear.</li>
         ) : (
           visibleMessages.map((msg) => (
             <li
@@ -71,10 +71,10 @@ export function ClarificationThread({
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         rows={3}
-        placeholder={isInternal ? 'Ask the client for clarification...' : 'Reply to the team...'}
+        placeholder={isInternal ? 'Ask for a bit more detail...' : 'Reply to the team...'}
       />
       <Button onClick={() => void handleSubmit()} disabled={submitting || !message.trim()}>
-        Send Message
+        Send
       </Button>
     </section>
   )

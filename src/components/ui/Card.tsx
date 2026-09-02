@@ -6,12 +6,12 @@ interface CardProps {
   framed?: boolean
 }
 
-export function Card({ className, children, framed = true }: CardProps) {
+export function Card({ className, children, framed = false }: CardProps) {
   return (
     <div
       className={cn(
-        'panel-card ornament-card rounded-[2px] p-6 sm:p-8',
-        framed && 'pt-10',
+        'panel-card ornament-card rounded-[2px] p-6 sm:p-7',
+        framed && 'pt-9',
         className,
       )}
     >
@@ -32,9 +32,13 @@ export function CardHeader({ className, children }: CardProps) {
   return <div className={cn('mb-5 space-y-2', className)}>{children}</div>
 }
 
-export function CardTitle({ className, children }: CardProps) {
+interface CardTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
+  children: React.ReactNode
+}
+
+export function CardTitle({ className, children, ...props }: CardTitleProps) {
   return (
-    <h3 className={cn('font-display text-2xl font-medium tracking-tight text-foreground', className)}>
+    <h3 className={cn('font-display text-2xl font-medium tracking-tight text-foreground', className)} {...props}>
       {children}
     </h3>
   )

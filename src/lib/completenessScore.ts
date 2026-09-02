@@ -17,18 +17,18 @@ export function calculateCompletenessScore(
   const suggestions: string[] = []
 
   if (rawRequest.trim().length >= 20) score += 20
-  else warnings.push('Revision description is very short.')
+  else warnings.push('A little more detail will help the team picture the change.')
 
   if (structured.revisions.length >= 1) score += 20
-  else warnings.push('No revision items could be parsed.')
+  else warnings.push('We will tidy this into a brief after you send it.')
 
   if (structured.revisions.some((r) => r.acceptanceCriteria.length > 0)) score += 15
-  else suggestions.push('Add bullet points for clearer acceptance criteria.')
+  else suggestions.push('Bullet points make each change easier to follow.')
 
   const hasUiChange = structured.revisions.some((r) => r.category === 'ui' || r.category === 'ux')
   if (hasUiChange && images.length === 0) {
-    warnings.push('UI/UX changes detected but no reference screenshots attached.')
-    suggestions.push('Attach mockups or screenshots for visual revisions.')
+    warnings.push('A screenshot would help for this visual change.')
+    suggestions.push('Add a picture of the screen if you have one.')
   } else if (images.length > 0) {
     score += 20
   }
@@ -39,7 +39,7 @@ export function calculateCompletenessScore(
 
   const uncaptioned = images.filter((img) => !img.caption.trim())
   if (uncaptioned.length > 0) {
-    suggestions.push(`${uncaptioned.length} image(s) missing captions.`)
+    suggestions.push('A short caption on each picture helps the team know what to look at.')
   } else if (images.length > 0) {
     score += 10
   }

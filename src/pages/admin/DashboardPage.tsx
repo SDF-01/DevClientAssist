@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { listRevisions } from '@/lib/data/revisions'
 import { StatusBadge } from '@/components/ui/Badge'
-import { Card, CardHeader, CardTitle } from '@/components/ui/Card'
+import { Card, CardHeader } from '@/components/ui/Card'
 import { Select } from '@/components/ui/Input'
 import type { RevisionRequestWithRelations, RevisionStatus } from '@/types/database'
 import { formatDate } from '@/lib/utils'
@@ -40,8 +40,8 @@ export function DashboardPage() {
     <div className="space-y-6">
       <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-4 px-0">
         <div>
-          <p className="section-label">Internal</p>
-          <CardTitle className="text-3xl font-normal">Triage dashboard</CardTitle>
+          <p className="section-label">Inbox</p>
+          <h1 className="font-display text-3xl font-normal">Requests in progress</h1>
         </div>
         <div className="flex flex-wrap gap-3">
           <Select
@@ -99,7 +99,7 @@ export function DashboardPage() {
                 <th className="p-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">Project</th>
                 <th className="p-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">Status</th>
                 <th className="p-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">Urgency</th>
-                <th className="p-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">Score</th>
+                <th className="p-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">Ready?</th>
                 <th className="p-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">Created</th>
               </tr>
             </thead>

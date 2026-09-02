@@ -74,7 +74,7 @@ export function ToonExportPanel({ revision, actorId, onExported }: ToonExportPan
     <Card>
       <CardHeader>
         <p className="section-label">Output</p>
-        <CardTitle className="font-normal">Export & integrations</CardTitle>
+        <CardTitle className="font-normal">Export and integrations</CardTitle>
       </CardHeader>
       <div className="flex flex-wrap gap-2">
         <Button onClick={() => void handleExportToon()} disabled={loading || !canExport}>

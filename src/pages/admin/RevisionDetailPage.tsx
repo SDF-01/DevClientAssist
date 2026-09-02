@@ -8,7 +8,7 @@ import {
 } from '@/lib/data/revisions'
 import { StatusBadge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
-import { Card, CardHeader, CardTitle } from '@/components/ui/Card'
+import { Card, CardHeader } from '@/components/ui/Card'
 import { Input, Textarea } from '@/components/ui/Input'
 import { ClarificationThread } from '@/components/client/ClarificationThread'
 import { ToonExportPanel } from '@/components/internal/ToonExportPanel'
@@ -67,8 +67,8 @@ export function RevisionDetailPage() {
     <div className="space-y-6">
       <CardHeader className="flex flex-row flex-wrap items-start justify-between gap-4 px-0">
         <div>
-          <p className="section-label">Triage</p>
-          <CardTitle className="text-3xl font-normal">{revision.title}</CardTitle>
+          <p className="section-label">Inbox</p>
+          <h1 className="font-display text-3xl font-normal">{revision.title}</h1>
           <p className="text-sm text-muted-foreground">
             {revision.project?.name} · {formatDate(revision.created_at)}
           </p>
@@ -78,28 +78,28 @@ export function RevisionDetailPage() {
 
       <Card className="flex flex-wrap gap-2">
         <Button size="sm" variant="secondary" onClick={() => void changeStatus('in_review')}>
-          Start Review
+          Start review
         </Button>
         <Button size="sm" variant="secondary" onClick={() => void changeStatus('needs_clarification')}>
-          Needs Clarification
+          Ask a question
         </Button>
         <Button size="sm" onClick={() => void changeStatus('approved')}>
           Approve
         </Button>
         <Button size="sm" variant="secondary" onClick={() => void changeStatus('in_progress')}>
-          In Progress
+          Mark in progress
         </Button>
         <Button size="sm" variant="secondary" onClick={() => void changeStatus('done')}>
-          Mark Done
+          Mark done
         </Button>
         <Button size="sm" variant="ghost" onClick={() => void changeStatus('rejected')}>
-          Reject
+          Decline
         </Button>
       </Card>
 
       <Card>
-        <p className="section-label mb-2">Items</p>
-        <h3 className="mb-4 font-display text-lg font-medium">Editable revision items</h3>
+        <p className="section-label mb-2">Changes</p>
+        <h2 className="mb-4 font-display text-lg font-medium">Edit the request items</h2>
         <ul className="space-y-4">
           {items.map((item, index) => (
             <li key={item.id} className="space-y-2 rounded-[var(--radius-sm)] border border-border bg-surface-muted/20 p-4">
@@ -113,8 +113,8 @@ export function RevisionDetailPage() {
           ))}
         </ul>
         <div className="mt-4 space-y-3">
-          <Textarea label="Internal Notes" value={internalNotes} onChange={(e) => setInternalNotes(e.target.value)} rows={4} />
-          <Button onClick={() => void saveItems()}>Save Changes</Button>
+          <Textarea label="Team notes" value={internalNotes} onChange={(e) => setInternalNotes(e.target.value)} rows={4} />
+          <Button onClick={() => void saveItems()}>Save changes</Button>
         </div>
       </Card>
 
@@ -123,7 +123,7 @@ export function RevisionDetailPage() {
       {revision.events && revision.events.length > 0 ? (
         <Card>
           <p className="section-label mb-2">History</p>
-          <h3 className="mb-3 font-display text-lg font-medium">Audit log</h3>
+          <h2 className="mb-3 font-display text-lg font-medium">What happened</h2>
           <ul className="space-y-2 text-sm">
             {revision.events.map((event) => (
               <li key={event.id} className="flex justify-between gap-4 border-b border-border/50 py-2">
