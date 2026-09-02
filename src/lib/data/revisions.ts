@@ -13,7 +13,7 @@ import type {
 import type { ReferenceImage, StructuredRevisionRequest } from '@/types/revision'
 import { logAnalyticsEvent } from '@/lib/analytics'
 import { calculateCompletenessScore } from '@/lib/completenessScore'
-import { structureRevisionRequest } from '@/lib/revisionParser'
+import { structureRevisionWithIntelligence } from '@/lib/structureRevision'
 import { exportRevisionToToon, validateToonStrict } from '@/lib/toonExporter'
 import { isSupabaseConfigured, STORAGE_BUCKET, supabase } from '@/lib/supabase/client'
 import {
@@ -113,7 +113,14 @@ export async function submitRevision(payload: SubmitRevisionPayload): Promise<Re
   const project = await getProject(payload.projectId)
   if (!project) throw new Error('Project not found')
 
-  const structured = structureRevisionRequest(project.slug, payload.rawRequest, payload.images)
+  const structured = await structureRevisionWithIntelligence(
+    project.slug,
+    project.name,
+    project.description,
+    payload.rawRequest,
+    payload.images,
+    { urgency: payload.urgency, clientNotes: payload.clientNotes },
+  )
   const completeness = calculateCompletenessScore(payload.rawRequest, payload.images, structured)
   const revisionId = crypto.randomUUID()
   const now = new Date().toISOString()

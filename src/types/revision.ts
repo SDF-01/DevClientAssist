@@ -42,7 +42,8 @@ export interface StructuredRevisionRequest {
     id: string
     createdAt: string
     source: 'client-revision-portal'
-    version: '1.0'
+    version: string
+    engine?: 'local-rewrite' | 'llm-rewrite'
   }
   target: {
     appId: string

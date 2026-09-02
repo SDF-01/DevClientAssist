@@ -7,7 +7,7 @@ const steps = [
   {
     mark: '1',
     title: 'Write what should change',
-    text: 'Use your own words. Templates are there if you want a head start.',
+    text: 'Use your own words. The engine rewrites them into agent-ready instructions.',
   },
   {
     mark: '2',
@@ -16,8 +16,8 @@ const steps = [
   },
   {
     mark: '3',
-    title: 'Check and send',
-    text: 'Glance at the brief, then send it to the team.',
+    title: 'Check the .toon brief',
+    text: 'Watch the rewritten file update, then send it.',
   },
 ]
 
@@ -34,10 +34,10 @@ export function HomePage() {
         <div className="flex flex-col justify-center px-6 py-10 lg:px-10">
           <p className="app-chip">Airmen Voice</p>
           <h1 className="font-display mt-5 text-4xl font-normal leading-[1.15] text-[#3f3b36] sm:text-[2.75rem]">
-            Tell us what to change. We turn it into a clear build brief.
+            Tell us what to change. The engine rewrites it into a live .toon brief.
           </h1>
           <p className="mt-5 max-w-md text-base leading-relaxed text-[#8f837a]">
-            Three short steps. No extra fields. Your request stays in one place so you can follow it after you send it.
+            Write like a person. Dev Generator compiles that into structured instructions the build team can follow.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link to="/submit">

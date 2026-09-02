@@ -6,16 +6,15 @@ import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/Ca
 import { Input, Select, Textarea } from '@/components/ui/Input'
 import { ImageUpload } from '@/components/client/ImageUpload'
 import { ImageAnnotator } from '@/components/client/ImageAnnotator'
+import { LiveToonPanel } from '@/components/client/LiveToonPanel'
 import { useToast } from '@/components/ui/Toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useRevisionDraft } from '@/hooks/useRevisionDraft'
+import { useLiveToonEngine } from '@/hooks/useLiveToonEngine'
 import { listProjects } from '@/lib/data/projects'
 import { listRevisions, submitRevision } from '@/lib/data/revisions'
-import { formatStructuredPreview, structureRevisionRequest } from '@/lib/revisionParser'
-import { calculateCompletenessScore } from '@/lib/completenessScore'
 import { detectSimilarRequests } from '@/lib/versioning'
 import { listTemplates } from '@/lib/templates'
-import { exportRevisionToToon, validateToonStrict } from '@/lib/toonExporter'
 import type { Project, RevisionTemplate } from '@/types/database'
 import type { ReferenceImage } from '@/types/revision'
 
@@ -39,7 +38,6 @@ export function RevisionWizard() {
   const [annotatingId, setAnnotatingId] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [similarWarning, setSimilarWarning] = useState<string | null>(null)
-  const [showToon, setShowToon] = useState(false)
 
   useEffect(() => {
     void listProjects().then((loaded) => {
@@ -62,52 +60,13 @@ export function RevisionWizard() {
 
   const selectedProject = projects.find((p) => p.id === projectId)
   const wordCount = useMemo(() => rawRequest.trim().split(/\s+/).filter(Boolean).length, [rawRequest])
-
-  const preview = useMemo(() => {
-    if (!rawRequest.trim()) return null
-    if (!selectedProject) {
-      return {
-        formatted: rawRequest.trim(),
-        toon: '',
-        completeness: {
-          score: 20,
-          warnings: ['The app should appear here. Refresh if it is missing.'],
-          suggestions: [] as string[],
-        },
-      }
-    }
-    try {
-      const structured = structureRevisionRequest(selectedProject.slug, rawRequest, images)
-      const completeness = calculateCompletenessScore(rawRequest, images, structured)
-      let toon = ''
-      try {
-        const exported = exportRevisionToToon(structured, images)
-        validateToonStrict(exported.toon)
-        toon = exported.toon
-      } catch {
-        toon = ''
-      }
-      return { completeness, toon, formatted: formatStructuredPreview(structured) }
-    } catch {
-      return {
-        formatted: rawRequest.trim(),
-        toon: '',
-        completeness: {
-          score: 30,
-          warnings: ['We will tidy this into a brief after you send it.'],
-          suggestions: [] as string[],
-        },
-      }
-    }
-  }, [selectedProject, rawRequest, images])
-
-  function reviewHint() {
-    if (!preview) return ''
-    if (preview.completeness.score >= 80) return 'This looks ready to send.'
-    if (preview.completeness.warnings[0]) return preview.completeness.warnings[0]
-    if (preview.completeness.suggestions[0]) return preview.completeness.suggestions[0]
-    return 'You can send this now, or go back to add more.'
-  }
+  const { preview, isRewriting } = useLiveToonEngine({
+    project: selectedProject,
+    rawRequest,
+    images,
+    urgency,
+    clientNotes,
+  })
 
   useEffect(() => {
     if (!rawRequest.trim()) {
@@ -182,110 +141,108 @@ export function RevisionWizard() {
         <h1 className="font-display text-3xl font-normal sm:text-4xl">What should we change?</h1>
         {selectedProject ? <p className="app-chip">{selectedProject.name}</p> : null}
         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          Add your name if you like, then describe the change in your own words.
+          Write in your own words. The engine rewrites that into a live .toon brief the build team can follow.
         </p>
         <Stepper steps={STEPS} currentStep={step} />
       </header>
 
       {step === 0 ? (
-        <Card framed className="space-y-5">
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Input
-              label="Your name"
-              value={contactName}
-              onChange={(e) => setContactName(e.target.value)}
-              placeholder="Optional"
-            />
-            <Select
-              label="How urgent is this?"
-              value={urgency}
-              onChange={(e) => setUrgency(e.target.value)}
-              options={[
-                { value: 'low', label: 'Low' },
-                { value: 'medium', label: 'Medium' },
-                { value: 'high', label: 'High' },
-                { value: 'critical', label: 'Critical' },
-              ]}
-            />
-          </div>
-          {templates.length > 0 ? (
-            <div>
-              <p className="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">Start from</p>
-              <div className="flex flex-wrap gap-2">
-                {templates.map((tpl) => (
-                  <button
-                    key={tpl.id}
-                    type="button"
-                    onClick={() => applyTemplate(tpl)}
-                    className="rounded-[var(--radius-sm)] border border-border bg-surface-muted px-3 py-1.5 text-xs font-medium tracking-wide text-foreground transition-colors hover:border-bamboo/40 hover:bg-blush/30"
-                  >
-                    {tpl.name}
-                  </button>
-                ))}
-              </div>
+        <div className="grid items-start gap-4 xl:grid-cols-2">
+          <Card framed className="space-y-5">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Input
+                label="Your name"
+                value={contactName}
+                onChange={(e) => setContactName(e.target.value)}
+                placeholder="Optional"
+              />
+              <Select
+                label="How urgent is this?"
+                value={urgency}
+                onChange={(e) => setUrgency(e.target.value)}
+                options={[
+                  { value: 'low', label: 'Low' },
+                  { value: 'medium', label: 'Medium' },
+                  { value: 'high', label: 'High' },
+                  { value: 'critical', label: 'Critical' },
+                ]}
+              />
             </div>
-          ) : null}
-          <Textarea
-            label="The change"
-            hint={`${wordCount} words`}
-            value={rawRequest}
-            onChange={(e) => setRawRequest(e.target.value)}
-            placeholder={'Example:\n- Move the primary button higher on the page\n- Match the color in the screenshot\n- Leave login as it is'}
-            rows={12}
+            {templates.length > 0 ? (
+              <div>
+                <p className="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">Start from</p>
+                <div className="flex flex-wrap gap-2">
+                  {templates.map((tpl) => (
+                    <button
+                      key={tpl.id}
+                      type="button"
+                      onClick={() => applyTemplate(tpl)}
+                      className="rounded-[var(--radius-sm)] border border-border bg-surface-muted px-3 py-1.5 text-xs font-medium tracking-wide text-foreground transition-colors hover:border-bamboo/40 hover:bg-blush/30"
+                    >
+                      {tpl.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+            <Textarea
+              label="The change"
+              hint={`${wordCount} words · rewriting live`}
+              value={rawRequest}
+              onChange={(e) => setRawRequest(e.target.value)}
+              placeholder={'Example:\n- Move the primary button higher on the page\n- Match the color in the screenshot\n- Leave login as it is'}
+              rows={12}
+            />
+            {similarWarning ? (
+              <p className="text-sm text-terracotta" role="status">
+                {similarWarning}
+              </p>
+            ) : null}
+            <Textarea
+              label="Anything else? (optional)"
+              value={clientNotes}
+              onChange={(e) => setClientNotes(e.target.value)}
+              rows={3}
+            />
+          </Card>
+          <LiveToonPanel
+            formatted={preview?.formatted ?? ''}
+            toon={preview?.toon ?? ''}
+            engine={preview?.engine ?? 'local-rewrite'}
+            isRewriting={isRewriting}
+            empty={!preview}
           />
-          {similarWarning ? (
-            <p className="text-sm text-terracotta" role="status">
-              {similarWarning}
-            </p>
-          ) : null}
-          <Textarea
-            label="Anything else? (optional)"
-            value={clientNotes}
-            onChange={(e) => setClientNotes(e.target.value)}
-            rows={3}
-          />
-        </Card>
+        </div>
       ) : null}
 
       {step === 1 ? (
-        <Card framed>
-          <CardHeader>
-            <CardTitle className="text-2xl font-normal">Pictures help, but they are optional</CardTitle>
-            <CardDescription>Drop screenshots if they show the issue. Otherwise continue to review.</CardDescription>
-          </CardHeader>
-          <ImageUpload images={images} onChange={setImages} onAnnotate={setAnnotatingId} />
-        </Card>
+        <div className="grid items-start gap-4 xl:grid-cols-2">
+          <Card framed>
+            <CardHeader>
+              <CardTitle className="text-2xl font-normal">Pictures help, but they are optional</CardTitle>
+              <CardDescription>
+                Screenshots feed the rewrite. The .toon brief will mention them as visual ground truth.
+              </CardDescription>
+            </CardHeader>
+            <ImageUpload images={images} onChange={setImages} onAnnotate={setAnnotatingId} />
+          </Card>
+          <LiveToonPanel
+            formatted={preview?.formatted ?? ''}
+            toon={preview?.toon ?? ''}
+            engine={preview?.engine ?? 'local-rewrite'}
+            isRewriting={isRewriting}
+            empty={!preview}
+          />
+        </div>
       ) : null}
 
       {step === 2 && preview ? (
-        <Card framed className="space-y-4">
-          <CardHeader>
-            <CardTitle className="text-2xl font-normal">Does this look right?</CardTitle>
-            <CardDescription>
-              This is the brief the team will see. You can go back and edit, or send it now.
-            </CardDescription>
-          </CardHeader>
-          <p className="text-sm text-moss">{reviewHint()}</p>
-          <pre className="code-block-light max-h-72 overflow-auto rounded-[var(--radius-sm)] p-4 text-xs whitespace-pre-wrap font-mono">
-            {preview.formatted}
-          </pre>
-          {preview.toon ? (
-            <>
-              <button
-                type="button"
-                className="text-sm text-[#606c5a] underline-offset-4 hover:underline"
-                onClick={() => setShowToon((open) => !open)}
-              >
-                {showToon ? 'Hide technical export' : 'Show technical export'}
-              </button>
-              {showToon ? (
-                <pre className="code-block-dark max-h-48 overflow-auto rounded-[var(--radius-sm)] p-4 text-xs whitespace-pre-wrap font-mono">
-                  {preview.toon}
-                </pre>
-              ) : null}
-            </>
-          ) : null}
-        </Card>
+        <LiveToonPanel
+          formatted={preview.formatted}
+          toon={preview.toon}
+          engine={preview.engine}
+          isRewriting={isRewriting}
+        />
       ) : null}
 
       <div className="flex flex-wrap items-center gap-3">
