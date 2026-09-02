@@ -1,0 +1,50 @@
+---
+description: "Require clear request, response, validation, and error contracts for backend endpoints."
+globs: "src/**/*.{ts,js,py},app/api/**/*,api/**/*,server/**/*,routes/**/*,controllers/**/*,services/**/*"
+alwaysApply: false
+---
+
+# API Contract Standard
+
+## Purpose
+
+Require clear request, response, validation, and error contracts for backend endpoints.
+
+## When This Applies
+
+- This rule applies when files matched by the glob are changed or generated.
+- Use it when the task affects the behavior described by the purpose statement.
+
+## Required Workflow
+
+1. Define inputs, outputs, status codes, and error shapes.
+2. Validate all request data.
+3. Keep response structures stable.
+4. Update shared types and docs when contracts change.
+
+## Standards
+
+- Follow the existing project pattern before introducing a new one.
+- Keep the implementation small, explicit, and easy to review.
+- Prefer reusable project primitives, shared utilities, and documented conventions.
+- Verify the change using the checks available in the project.
+
+## Do Not
+
+- Do not return inconsistent shapes.
+- Do not expose internal stack traces.
+- Do not skip validation.
+- Do not break existing consumers without migration notes.
+
+## Verification Checklist
+
+- The existing project pattern was inspected before changes were made.
+- The implementation is scoped to the user request.
+- Unsafe files, secrets, and unrelated changes are excluded.
+- Applicable lint, typecheck, test, build, or validation commands were run when available.
+- Any skipped or failed verification is reported clearly.
+
+## Related Skills
+
+- Use the matching `.cursor/skills/` workflow when one exists for this rule.
+- When no matching skill exists, follow this rule directly and keep changes minimal, safe, and verifiable.

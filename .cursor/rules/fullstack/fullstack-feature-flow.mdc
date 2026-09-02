@@ -1,0 +1,50 @@
+---
+description: "Implement full stack features end to end across UI, API, data, auth, tests, docs, and deployment expectations."
+globs: "src/**/*,app/**/*,components/**/*,api/**/*,server/**/*,prisma/**/*,database/**/*,package.json,pyproject.toml"
+alwaysApply: false
+---
+
+# Fullstack Feature Flow
+
+## Purpose
+
+Implement full stack features end to end across UI, API, data, auth, tests, docs, and deployment expectations.
+
+## When This Applies
+
+- This rule applies when files matched by the glob are changed or generated.
+- Use it when the task affects the behavior described by the purpose statement.
+
+## Required Workflow
+
+1. Map the feature across frontend, backend, database, and tests.
+2. Update contracts and shared types.
+3. Handle loading, empty, error, and success states.
+4. Run full verification before completion.
+
+## Standards
+
+- Follow the existing project pattern before introducing a new one.
+- Keep the implementation small, explicit, and easy to review.
+- Prefer reusable project primitives, shared utilities, and documented conventions.
+- Verify the change using the checks available in the project.
+
+## Do Not
+
+- Do not implement only the UI when the backend is required.
+- Do not create backend endpoints without UI integration when requested.
+- Do not ignore auth or permissions.
+- Do not leave contracts inconsistent.
+
+## Verification Checklist
+
+- The existing project pattern was inspected before changes were made.
+- The implementation is scoped to the user request.
+- Unsafe files, secrets, and unrelated changes are excluded.
+- Applicable lint, typecheck, test, build, or validation commands were run when available.
+- Any skipped or failed verification is reported clearly.
+
+## Related Skills
+
+- Use the matching `.cursor/skills/` workflow when one exists for this rule.
+- When no matching skill exists, follow this rule directly and keep changes minimal, safe, and verifiable.

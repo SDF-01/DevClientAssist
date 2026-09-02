@@ -1,0 +1,50 @@
+---
+description: "Prevent the agent from inventing operational, safety critical, military, medical, legal, or production details."
+globs: "**/*"
+alwaysApply: false
+---
+
+# No Operational Guessing
+
+## Purpose
+
+Prevent the agent from inventing operational, safety critical, military, medical, legal, or production details.
+
+## When This Applies
+
+- This rule applies when files matched by the glob are changed or generated.
+- Use it when the task affects the behavior described by the purpose statement.
+
+## Required Workflow
+
+1. Flag unknown operational facts.
+2. Ask for source material or cite known project files when needed.
+3. Use conservative defaults.
+4. Mark assumptions clearly.
+
+## Standards
+
+- Follow the existing project pattern before introducing a new one.
+- Keep the implementation small, explicit, and easy to review.
+- Prefer reusable project primitives, shared utilities, and documented conventions.
+- Verify the change using the checks available in the project.
+
+## Do Not
+
+- Do not fabricate procedures, authorities, classifications, approvals, or status.
+- Do not guess production URLs or deployment targets.
+- Do not invent medical or tactical details.
+- Do not imply official approval without evidence.
+
+## Verification Checklist
+
+- The existing project pattern was inspected before changes were made.
+- The implementation is scoped to the user request.
+- Unsafe files, secrets, and unrelated changes are excluded.
+- Applicable lint, typecheck, test, build, or validation commands were run when available.
+- Any skipped or failed verification is reported clearly.
+
+## Related Skills
+
+- Use the matching `.cursor/skills/` workflow when one exists for this rule.
+- When no matching skill exists, follow this rule directly and keep changes minimal, safe, and verifiable.

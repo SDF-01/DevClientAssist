@@ -1,0 +1,50 @@
+---
+description: "Create useful release notes for user visible or deployment level changes."
+globs: ".github/**,Dockerfile,docker-compose*,vercel.json,netlify.toml,render.yaml,package.json,pyproject.toml,**/*.yml,**/*.yaml"
+alwaysApply: false
+---
+
+# Release Notes
+
+## Purpose
+
+Create useful release notes for user visible or deployment level changes.
+
+## When This Applies
+
+- This rule applies when files matched by the glob are changed or generated.
+- Use it when the task affects the behavior described by the purpose statement.
+
+## Required Workflow
+
+1. Summarize new features, fixes, breaking changes, and migration notes.
+2. Reference commits or PRs when available.
+3. Include verification status.
+4. Call out known risks or follow ups.
+
+## Standards
+
+- Follow the existing project pattern before introducing a new one.
+- Keep the implementation small, explicit, and easy to review.
+- Prefer reusable project primitives, shared utilities, and documented conventions.
+- Verify the change using the checks available in the project.
+
+## Do Not
+
+- Do not invent release contents.
+- Do not hide breaking changes.
+- Do not include internal secrets or sensitive details.
+- Do not write vague notes like miscellaneous updates.
+
+## Verification Checklist
+
+- The existing project pattern was inspected before changes were made.
+- The implementation is scoped to the user request.
+- Unsafe files, secrets, and unrelated changes are excluded.
+- Applicable lint, typecheck, test, build, or validation commands were run when available.
+- Any skipped or failed verification is reported clearly.
+
+## Related Skills
+
+- Use the matching `.cursor/skills/` workflow when one exists for this rule.
+- When no matching skill exists, follow this rule directly and keep changes minimal, safe, and verifiable.

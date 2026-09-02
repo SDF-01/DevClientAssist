@@ -1,0 +1,50 @@
+---
+description: "Manage Python dependencies consistently and reproducibly."
+globs: "**/*.py,pyproject.toml,requirements*.txt,setup.py,setup.cfg,tox.ini,pytest.ini"
+alwaysApply: false
+---
+
+# Python Dependencies
+
+## Purpose
+
+Manage Python dependencies consistently and reproducibly.
+
+## When This Applies
+
+- This rule applies when files matched by the glob are changed or generated.
+- Use it when the task affects the behavior described by the purpose statement.
+
+## Required Workflow
+
+1. Use the project dependency manager.
+2. Pin or constrain versions according to project style.
+3. Update lockfiles when present.
+4. Avoid adding heavyweight packages for simple tasks.
+
+## Standards
+
+- Follow the existing project pattern before introducing a new one.
+- Keep the implementation small, explicit, and easy to review.
+- Prefer reusable project primitives, shared utilities, and documented conventions.
+- Verify the change using the checks available in the project.
+
+## Do Not
+
+- Do not mix pip, poetry, pipenv, uv, and conda casually.
+- Do not install globally as part of project setup.
+- Do not add packages without import usage.
+- Do not remove dependencies without checking usage.
+
+## Verification Checklist
+
+- The existing project pattern was inspected before changes were made.
+- The implementation is scoped to the user request.
+- Unsafe files, secrets, and unrelated changes are excluded.
+- Applicable lint, typecheck, test, build, or validation commands were run when available.
+- Any skipped or failed verification is reported clearly.
+
+## Related Skills
+
+- Use the matching `.cursor/skills/` workflow when one exists for this rule.
+- When no matching skill exists, follow this rule directly and keep changes minimal, safe, and verifiable.

@@ -1,0 +1,50 @@
+---
+description: "Protect public and sensitive endpoints from abuse, brute force, spam, and excessive load."
+globs: "src/**/*.{ts,js,py},app/api/**/*,api/**/*,server/**/*,routes/**/*,controllers/**/*,services/**/*"
+alwaysApply: false
+---
+
+# Rate Limit Abuse Protection
+
+## Purpose
+
+Protect public and sensitive endpoints from abuse, brute force, spam, and excessive load.
+
+## When This Applies
+
+- This rule applies when files matched by the glob are changed or generated.
+- Use it when the task affects the behavior described by the purpose statement.
+
+## Required Workflow
+
+1. Identify public, auth, search, upload, and AI endpoints.
+2. Apply rate limits or abuse checks where supported.
+3. Return safe retry guidance.
+4. Log abuse signals without exposing internals.
+
+## Standards
+
+- Follow the existing project pattern before introducing a new one.
+- Keep the implementation small, explicit, and easy to review.
+- Prefer reusable project primitives, shared utilities, and documented conventions.
+- Verify the change using the checks available in the project.
+
+## Do Not
+
+- Do not leave login, signup, password reset, upload, or AI endpoints unprotected.
+- Do not leak whether a specific account exists.
+- Do not rely only on frontend throttling.
+- Do not block legitimate internal service traffic accidentally.
+
+## Verification Checklist
+
+- The existing project pattern was inspected before changes were made.
+- The implementation is scoped to the user request.
+- Unsafe files, secrets, and unrelated changes are excluded.
+- Applicable lint, typecheck, test, build, or validation commands were run when available.
+- Any skipped or failed verification is reported clearly.
+
+## Related Skills
+
+- Use the matching `.cursor/skills/` workflow when one exists for this rule.
+- When no matching skill exists, follow this rule directly and keep changes minimal, safe, and verifiable.

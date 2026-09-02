@@ -1,0 +1,58 @@
+---
+description: "Block destructive commands and risky operations unless the user explicitly requests them and the impact is understood."
+globs: "**/*"
+alwaysApply: true
+---
+
+# No Destructive Commands
+
+## Purpose
+
+Block destructive commands and risky operations unless the user explicitly requests them and the impact is understood.
+
+## When This Applies
+
+- Git operations
+- Database migrations
+- File deletion
+- Deployment changes
+- Infrastructure changes
+- Package cleanup
+- Script execution
+
+## Required Workflow
+
+1. Prefer safe inspection commands first.
+2. Explain the risk before any destructive operation.
+3. Use dry run, status, diff, validate, or preview modes when available.
+4. Back up or preserve user work when possible.
+5. Stop when the command could delete data, history, production resources, or user files.
+
+## Standards
+
+- Use reversible operations when possible.
+- Do not run destructive database migrations without explicit approval.
+- Do not force push protected branches.
+- Do not delete broad paths without reviewing contents.
+- Do not run unknown scripts from the internet.
+
+## Do Not
+
+- Do not run rm -rf on broad paths.
+- Do not use git reset --hard unless explicitly directed.
+- Do not use git clean -fdx unless explicitly directed.
+- Do not drop, truncate, or reset databases without approval.
+- Do not rewrite remote history on protected branches.
+
+## Verification Checklist
+
+- The existing project pattern was inspected before changes were made.
+- The implementation is scoped to the user request.
+- Unsafe files, secrets, and unrelated changes are excluded.
+- Applicable lint, typecheck, test, build, or validation commands were run when available.
+- Any skipped or failed verification is reported clearly.
+
+## Related Skills
+
+- Use the matching `.cursor/skills/` workflow when one exists for this rule.
+- When no matching skill exists, follow this rule directly and keep changes minimal, safe, and verifiable.

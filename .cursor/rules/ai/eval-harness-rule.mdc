@@ -1,0 +1,50 @@
+---
+description: "Create evaluation cases for AI features that affect product quality or user trust."
+globs: "prompts/**,src/**/*ai*,src/**/*llm*,src/**/*rag*,src/**/*agent*,**/*prompt*,**/*agent*,**/*eval*"
+alwaysApply: false
+---
+
+# Eval Harness Rule
+
+## Purpose
+
+Create evaluation cases for AI features that affect product quality or user trust.
+
+## When This Applies
+
+- This rule applies when files matched by the glob are changed or generated.
+- Use it when the task affects the behavior described by the purpose statement.
+
+## Required Workflow
+
+1. Define representative prompts and expected behaviors.
+2. Include failure, refusal, and edge cases.
+3. Track regressions over time.
+4. Automate evals when practical.
+
+## Standards
+
+- Follow the existing project pattern before introducing a new one.
+- Keep the implementation small, explicit, and easy to review.
+- Prefer reusable project primitives, shared utilities, and documented conventions.
+- Verify the change using the checks available in the project.
+
+## Do Not
+
+- Do not ship high impact AI features with no evaluation path.
+- Do not evaluate only happy paths.
+- Do not use production secrets or private user data in evals.
+- Do not treat one manual test as broad validation.
+
+## Verification Checklist
+
+- The existing project pattern was inspected before changes were made.
+- The implementation is scoped to the user request.
+- Unsafe files, secrets, and unrelated changes are excluded.
+- Applicable lint, typecheck, test, build, or validation commands were run when available.
+- Any skipped or failed verification is reported clearly.
+
+## Related Skills
+
+- Use the matching `.cursor/skills/` workflow when one exists for this rule.
+- When no matching skill exists, follow this rule directly and keep changes minimal, safe, and verifiable.

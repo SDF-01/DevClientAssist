@@ -1,0 +1,82 @@
+import { useEffect, useState } from 'react'
+import { Card, CardHeader, CardTitle } from '@/components/ui/Card'
+import { Button } from '@/components/ui/Button'
+import { Input } from '@/components/ui/Input'
+import { listProjects } from '@/lib/data/projects'
+import { getAnalyticsSummary } from '@/lib/analytics'
+import { getRetentionPolicy, runRetentionPolicy, setRetentionPolicy } from '@/lib/retention'
+import type { Project } from '@/types/database'
+
+export function OrgAdminPage() {
+  const [projects, setProjects] = useState<Project[]>([])
+  const [retentionDays, setRetentionDays] = useState(getRetentionPolicy().retentionDays)
+  const analytics = getAnalyticsSummary()
+
+  useEffect(() => {
+    void listProjects().then(setProjects)
+  }, [])
+
+  function handleRetentionSave() {
+    setRetentionPolicy({ retentionDays, purgeDoneOnly: true })
+    const purged = runRetentionPolicy({ retentionDays, purgeDoneOnly: true })
+    alert(`Retention policy saved. Purged ${purged} old revision(s).`)
+  }
+
+  return (
+    <div className="space-y-6">
+      <CardHeader className="px-0">
+        <p className="japandi-kicker">Settings</p>
+        <CardTitle className="text-3xl font-normal">Organization admin</CardTitle>
+      </CardHeader>
+
+      <Card>
+        <p className="japandi-kicker mb-2">Projects</p>
+        <h3 className="mb-3 font-display text-lg font-medium">Active projects</h3>
+        <ul className="space-y-2 text-sm">
+          {projects.map((project) => (
+            <li key={project.id} className="flex justify-between border-b border-border/50 py-2">
+              <span className="font-medium">{project.name}</span>
+              <span className="font-mono text-xs text-muted-foreground">{project.slug}</span>
+            </li>
+          ))}
+        </ul>
+      </Card>
+
+      <Card>
+        <p className="japandi-kicker mb-2">Metrics</p>
+        <h3 className="mb-3 font-display text-lg font-medium">Analytics summary</h3>
+        <p className="text-sm text-muted-foreground">Total events: {analytics.totalEvents}</p>
+        <ul className="mt-2 space-y-1 text-sm">
+          {Object.entries(analytics.counts).map(([name, count]) => (
+            <li key={name} className="flex justify-between border-b border-border/30 py-1">
+              <span className="text-muted-foreground">{name}</span>
+              <span className="font-medium">{count}</span>
+            </li>
+          ))}
+        </ul>
+      </Card>
+
+      <Card>
+        <p className="japandi-kicker mb-2">Data</p>
+        <h3 className="mb-3 font-display text-lg font-medium">Retention policy</h3>
+        <Input
+          label="Retention days (done revisions)"
+          type="number"
+          value={retentionDays}
+          onChange={(e) => setRetentionDays(Number(e.target.value))}
+        />
+        <Button className="mt-3" onClick={handleRetentionSave}>
+          Save & Run Retention
+        </Button>
+      </Card>
+
+      <Card>
+        <p className="japandi-kicker mb-2">Connect</p>
+        <h3 className="mb-3 font-display text-lg font-medium">Integration config</h3>
+        <p className="text-sm leading-relaxed text-muted-foreground">
+          Set VITE_GITHUB_WEBHOOK_URL, VITE_SUPABASE_URL, and VITE_SUPABASE_ANON_KEY in your environment.
+        </p>
+      </Card>
+    </div>
+  )
+}

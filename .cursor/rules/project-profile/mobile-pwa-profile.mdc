@@ -1,0 +1,50 @@
+---
+description: "Project profile for mobile first progressive web applications."
+globs: "**/*"
+alwaysApply: false
+---
+
+# Mobile Pwa Profile
+
+## Purpose
+
+Project profile for mobile first progressive web applications.
+
+## When This Applies
+
+- This rule applies when files matched by the glob are changed or generated.
+- Use it when the task affects the behavior described by the purpose statement.
+
+## Required Workflow
+
+1. Design mobile first.
+2. Use responsive, touch friendly UI.
+3. Consider offline, caching, installability, and small screen constraints.
+4. Optimize performance and asset size.
+
+## Standards
+
+- Follow the existing project pattern before introducing a new one.
+- Keep the implementation small, explicit, and easy to review.
+- Prefer reusable project primitives, shared utilities, and documented conventions.
+- Verify the change using the checks available in the project.
+
+## Do Not
+
+- Do not assume desktop hover behavior.
+- Do not use tiny touch targets.
+- Do not ship heavy animations or assets without need.
+- Do not ignore safe areas and mobile browser chrome.
+
+## Verification Checklist
+
+- The existing project pattern was inspected before changes were made.
+- The implementation is scoped to the user request.
+- Unsafe files, secrets, and unrelated changes are excluded.
+- Applicable lint, typecheck, test, build, or validation commands were run when available.
+- Any skipped or failed verification is reported clearly.
+
+## Related Skills
+
+- Use the matching `.cursor/skills/` workflow when one exists for this rule.
+- When no matching skill exists, follow this rule directly and keep changes minimal, safe, and verifiable.

@@ -1,0 +1,58 @@
+@theme {
+  /* Surfaces — warm paper & stone */
+  --color-surface-base: #f7f4ef;
+  --color-surface-elevated: #fcfaf6;
+  --color-surface-muted: #ede8df;
+  --color-surface-accent: #e4ebe0;
+  --color-surface-internal: #f3f0ea;
+
+  /* Japandi accent palette */
+  --color-japa-stone: #e8e4dc;
+  --color-japa-sand: #f0ebe3;
+  --color-japa-sage: #8b9a7d;
+  --color-japa-sage-light: #c5d1bc;
+  --color-japa-clay: #b8846a;
+  --color-japa-clay-light: #dcc4b0;
+  --color-japa-ink: #2a2826;
+  --color-japa-warm-white: #faf8f4;
+  --color-japa-charcoal: #3d3a36;
+
+  /* Legacy token aliases mapped to Japandi */
+  --color-pastel-lilac: #e4ebe0;
+  --color-pastel-peach: #dcc4b0;
+  --color-pastel-sky: #d4ddd0;
+  --color-pastel-mint: #c5d1bc;
+  --color-pastel-rose: #e8ddd4;
+
+  /* Actions */
+  --color-accent-primary: #2a2826;
+  --color-accent-secondary: #8b9a7d;
+  --color-foreground: #2a2826;
+  --color-muted-foreground: #6b6560;
+  --color-border: rgba(42, 40, 38, 0.1);
+
+  /* Status — muted earth tones */
+  --color-status-draft: #9a948c;
+  --color-status-submitted: #6b7b6e;
+  --color-status-in-review: #b8846a;
+  --color-status-approved: #5c7a5e;
+  --color-status-changes-requested: #c4845c;
+  --color-status-done: #4a6b4c;
+  --color-status-rejected: #a65d57;
+  --color-status-needs-clarification: #8b7d6b;
+
+  /* Typography */
+  --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Shape — restrained, architectural */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+
+  /* Elevation — soft natural light */
+  --shadow-bubble: 0 1px 2px rgba(42, 40, 38, 0.04), 0 4px 16px rgba(42, 40, 38, 0.06);
+  --shadow-lift: 0 8px 24px rgba(42, 40, 38, 0.08);
+}

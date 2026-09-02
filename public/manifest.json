@@ -1,0 +1,16 @@
+{
+  "name": "Revision Portal",
+  "short_name": "Revisions",
+  "description": "Japandi revision intake and TOON export portal",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F7F4EF",
+  "theme_color": "#2A2826",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

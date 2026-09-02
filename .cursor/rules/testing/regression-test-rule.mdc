@@ -1,0 +1,50 @@
+---
+description: "Add or update regression coverage when fixing bugs."
+globs: "test/**,tests/**,__tests__/**,**/*.test.*,**/*.spec.*,playwright.config.*,cypress/**,pytest.ini"
+alwaysApply: false
+---
+
+# Regression Test Rule
+
+## Purpose
+
+Add or update regression coverage when fixing bugs.
+
+## When This Applies
+
+- This rule applies when files matched by the glob are changed or generated.
+- Use it when the task affects the behavior described by the purpose statement.
+
+## Required Workflow
+
+1. Reproduce the bug in a test when practical.
+2. Verify the fix prevents recurrence.
+3. Name the regression behavior clearly.
+4. Keep the test focused on the failure mode.
+
+## Standards
+
+- Follow the existing project pattern before introducing a new one.
+- Keep the implementation small, explicit, and easy to review.
+- Prefer reusable project primitives, shared utilities, and documented conventions.
+- Verify the change using the checks available in the project.
+
+## Do Not
+
+- Do not fix bugs with no verification when tests are practical.
+- Do not write a test that would have passed before the fix.
+- Do not over broaden the test.
+- Do not skip edge cases that caused the bug.
+
+## Verification Checklist
+
+- The existing project pattern was inspected before changes were made.
+- The implementation is scoped to the user request.
+- Unsafe files, secrets, and unrelated changes are excluded.
+- Applicable lint, typecheck, test, build, or validation commands were run when available.
+- Any skipped or failed verification is reported clearly.
+
+## Related Skills
+
+- Use the matching `.cursor/skills/` workflow when one exists for this rule.
+- When no matching skill exists, follow this rule directly and keep changes minimal, safe, and verifiable.

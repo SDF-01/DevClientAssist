@@ -1,0 +1,50 @@
+---
+description: "Use safe Vercel deployment behavior for projects connected through GitHub."
+globs: ".github/**,Dockerfile,docker-compose*,vercel.json,netlify.toml,render.yaml,package.json,pyproject.toml,**/*.yml,**/*.yaml"
+alwaysApply: false
+---
+
+# Vercel Deployment
+
+## Purpose
+
+Use safe Vercel deployment behavior for projects connected through GitHub.
+
+## When This Applies
+
+- This rule applies when files matched by the glob are changed or generated.
+- Use it when the task affects the behavior described by the purpose statement.
+
+## Required Workflow
+
+1. Check project connections for Vercel project name and production branch.
+2. Prefer GitHub push triggered deployment.
+3. Use Vercel CLI only when explicitly requested or allowed.
+4. Report expected production or preview behavior.
+
+## Standards
+
+- Follow the existing project pattern before introducing a new one.
+- Keep the implementation small, explicit, and easy to review.
+- Prefer reusable project primitives, shared utilities, and documented conventions.
+- Verify the change using the checks available in the project.
+
+## Do Not
+
+- Do not run npx vercel deploy during normal push workflows.
+- Do not alias domains without explicit request.
+- Do not deploy to another Vercel project.
+- Do not treat random preview URLs as production.
+
+## Verification Checklist
+
+- The existing project pattern was inspected before changes were made.
+- The implementation is scoped to the user request.
+- Unsafe files, secrets, and unrelated changes are excluded.
+- Applicable lint, typecheck, test, build, or validation commands were run when available.
+- Any skipped or failed verification is reported clearly.
+
+## Related Skills
+
+- Use the matching `.cursor/skills/` workflow when one exists for this rule.
+- When no matching skill exists, follow this rule directly and keep changes minimal, safe, and verifiable.

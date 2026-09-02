@@ -1,0 +1,74 @@
+---
+description: Never use the U+2014 em dash character in user-facing copy. Use grammatically correct commas, colons, periods, parentheses, or conjunctions instead.
+globs: src/**/*,app/**/*,components/**/*,pages/**/*,content/**/*,data/**/*,public/**/*,messages/**/*,locales/**/*
+alwaysApply: true
+---
+
+# No Em Dashes In User-Facing Copy
+
+Do not use the U+2014 em dash character anywhere in user-facing website, application, documentation, translation, onboarding, error, notification, or marketing copy.
+
+This rule exists to keep product copy clean, readable, consistent, and aligned with the required writing style.
+
+## Applies To
+
+This rule applies to strings and content shown to users, including:
+
+- UI copy
+- Page copy
+- Button labels
+- Form labels
+- Error messages
+- Empty states
+- Loading states
+- Toast messages
+- Modal content
+- Tooltips
+- Onboarding content
+- Dashboard text
+- Help text
+- Policy text
+- Legal references
+- Report text
+- Markdown content rendered in the app
+- Translation files
+- Localization files
+- Seed data displayed in the UI
+- Static content files
+- Generated user-facing documents
+
+Common file locations include:
+
+- `src/i18n/**`
+- `src/messages/**`
+- `src/locales/**`
+- `src/content/**`
+- `src/data/**`
+- `src/components/**`
+- `src/pages/**`
+- `app/**`
+- `components/**`
+- `content/**`
+- `data/**`
+- `public/**`
+
+## Preferred Replacements
+
+| Writing Intent | Use Instead |
+|---|---|
+| Title plus subtitle | Colon |
+| Parenthetical clarification | Parentheses |
+| Contrast or correction | Period, comma, or conjunction |
+| Label plus detail | Colon |
+| Citation plus title | Colon |
+| Interruption or emphasis | Rewrite as two clean sentences |
+| Long explanatory sentence | Split into shorter sentences |
+
+## Replacement Examples
+
+```text
+Incorrect:
+Connect With Support [U+2014] No Details Required
+
+Correct:
+Connect With Support: No Details Required

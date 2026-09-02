@@ -1,0 +1,50 @@
+---
+description: "Keep frontend and backend types, schemas, and validation contracts synchronized."
+globs: "src/**/*,app/**/*,components/**/*,api/**/*,server/**/*,prisma/**/*,database/**/*,package.json,pyproject.toml"
+alwaysApply: false
+---
+
+# Shared Types Contract
+
+## Purpose
+
+Keep frontend and backend types, schemas, and validation contracts synchronized.
+
+## When This Applies
+
+- This rule applies when files matched by the glob are changed or generated.
+- Use it when the task affects the behavior described by the purpose statement.
+
+## Required Workflow
+
+1. Find existing shared schema or type systems.
+2. Update shared types when API shapes change.
+3. Generate clients when required.
+4. Test both producer and consumer paths.
+
+## Standards
+
+- Follow the existing project pattern before introducing a new one.
+- Keep the implementation small, explicit, and easy to review.
+- Prefer reusable project primitives, shared utilities, and documented conventions.
+- Verify the change using the checks available in the project.
+
+## Do Not
+
+- Do not duplicate incompatible schemas.
+- Do not use any to bypass mismatches.
+- Do not change backend responses without updating frontend expectations.
+- Do not let generated clients become stale.
+
+## Verification Checklist
+
+- The existing project pattern was inspected before changes were made.
+- The implementation is scoped to the user request.
+- Unsafe files, secrets, and unrelated changes are excluded.
+- Applicable lint, typecheck, test, build, or validation commands were run when available.
+- Any skipped or failed verification is reported clearly.
+
+## Related Skills
+
+- Use the matching `.cursor/skills/` workflow when one exists for this rule.
+- When no matching skill exists, follow this rule directly and keep changes minimal, safe, and verifiable.

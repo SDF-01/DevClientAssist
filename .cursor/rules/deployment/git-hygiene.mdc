@@ -1,0 +1,56 @@
+---
+description: "Maintain clean Git history, safe staging, clear commits, and reliable push behavior."
+globs: ".github/**,Dockerfile,docker-compose*,vercel.json,netlify.toml,render.yaml,package.json,pyproject.toml,**/*.yml,**/*.yaml"
+alwaysApply: true
+---
+
+# Git Hygiene
+
+## Purpose
+
+Maintain clean Git history, safe staging, clear commits, and reliable push behavior.
+
+## When This Applies
+
+- Any code change
+- Any commit
+- Any push
+- Any branch operation
+- Any release preparation
+
+## Required Workflow
+
+1. Run git status before staging.
+2. Inspect git diff before committing.
+3. Stage only related files.
+4. Use a conventional commit message.
+5. Verify branch and remote before pushing.
+
+## Standards
+
+- Commit messages should explain the value of the change.
+- Keep commits scoped to the task.
+- Preserve user work that is already in progress.
+- Never include secrets or local machine files.
+- Report the branch and commit after pushing.
+
+## Do Not
+
+- Do not use git add . without reviewing the diff.
+- Do not amend pushed commits unless explicitly approved.
+- Do not force push protected branches.
+- Do not commit .env, logs, credentials, or generated junk.
+- Do not mix unrelated changes into one commit.
+
+## Verification Checklist
+
+- The existing project pattern was inspected before changes were made.
+- The implementation is scoped to the user request.
+- Unsafe files, secrets, and unrelated changes are excluded.
+- Applicable lint, typecheck, test, build, or validation commands were run when available.
+- Any skipped or failed verification is reported clearly.
+
+## Related Skills
+
+- Use the matching `.cursor/skills/` workflow when one exists for this rule.
+- When no matching skill exists, follow this rule directly and keep changes minimal, safe, and verifiable.

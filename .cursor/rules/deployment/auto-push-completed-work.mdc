@@ -1,0 +1,64 @@
+---
+description: "Invoke the GitHub push workflow after completed implementation work so the remote repository and connected webapp stay synchronized."
+globs: ".github/**,Dockerfile,docker-compose*,vercel.json,netlify.toml,render.yaml,package.json,pyproject.toml,**/*.yml,**/*.yaml"
+alwaysApply: true
+---
+
+# Auto Push Completed Work
+
+## Purpose
+
+Invoke the GitHub push workflow after completed implementation work so the remote repository and connected webapp stay synchronized.
+
+## When This Applies
+
+- Completed features
+- Completed fixes
+- Completed UI updates
+- Completed refactors
+- Completed configuration changes
+
+## Required Workflow
+
+1. Read .cursor/project-connections.md when present.
+2. Run applicable checks before commit.
+3. Review diff and exclude unsafe files.
+4. Commit with a clear conventional message.
+5. Push to the configured remote and report result.
+
+## Standards
+
+- Push only completed implementation work.
+- Do not push planning or review only tasks.
+- Let configured GitHub deployment integrations handle webapp deployment.
+- Do not manually deploy unless explicitly requested.
+- If push fails, diagnose and retry once when safe.
+
+## Do Not
+
+- Do not push partial or broken work.
+- Do not push secrets or local config.
+- Do not deploy to an unapproved provider.
+- Do not treat preview URLs as production.
+- Do not invent push success.
+
+## Related Skill
+
+When available, follow:
+
+```text
+.cursor/skills/auto-push-github/SKILL.md
+```
+
+## Verification Checklist
+
+- The existing project pattern was inspected before changes were made.
+- The implementation is scoped to the user request.
+- Unsafe files, secrets, and unrelated changes are excluded.
+- Applicable lint, typecheck, test, build, or validation commands were run when available.
+- Any skipped or failed verification is reported clearly.
+
+## Related Skills
+
+- Use the matching `.cursor/skills/` workflow when one exists for this rule.
+- When no matching skill exists, follow this rule directly and keep changes minimal, safe, and verifiable.

@@ -1,0 +1,98 @@
+---
+description: Automatically run the GitHub push workflow after completed code changes, fixes, features, or app updates.
+globs: "**/*"
+alwaysApply: true
+---
+
+# Auto Push Completed Work
+
+When the agent completes a requested implementation, fix, feature, refactor, or application update, run the auto push workflow.
+
+Use this rule to keep the GitHub repository and connected deployment target synchronized after completed development work.
+
+## Required Skill
+
+Before committing or pushing, read and follow:
+
+`.cursor/skills/auto-push-github/SKILL.md`
+
+## Required Project Connection File
+
+Before pushing, inspect:
+
+`.cursor/project-connections.md`
+
+This file defines:
+
+- GitHub remote
+- Default branch
+- Deployment provider
+- Production URL
+- Preview URL rules
+- Linked services
+- Protected files
+- Project specific deploy behavior
+
+## When To Run
+
+Run this workflow when all of the following are true:
+
+- The user requested a code change, feature, fix, UI update, refactor, migration, configuration update, or app implementation.
+- The implementation is complete.
+- The changed files are relevant to the requested work.
+- Project checks pass, or failures are understood and reported.
+- Git has staged or unstaged changes.
+
+## Do Not Run
+
+Do not commit or push when the task was only:
+
+- A question
+- A plan
+- A review
+- A code explanation
+- A design discussion
+- A research request
+- A file inspection with no edits
+- A partial implementation that is not ready
+- A failed implementation
+- A task where the user explicitly said not to push
+
+## Required Behavior
+
+After implementation:
+
+1. Inspect the Git status.
+2. Review the diff.
+3. Exclude secrets, credentials, local config, generated junk, and unrelated changes.
+4. Run project checks when available.
+5. Stage only relevant files.
+6. Commit with a conventional commit message.
+7. Push to the configured remote and branch.
+8. Confirm the push succeeded.
+9. Report the branch, commit hash, commit message, and deployment expectation.
+
+## Safety Rules
+
+- Never commit `.env` files.
+- Never commit secrets, tokens, private keys, credentials, certificates, or local machine paths.
+- Never force push to `main`, `master`, `prod`, `production`, `release`, or protected branches.
+- Never skip hooks unless the user explicitly requests it.
+- Never amend a commit that has already been pushed.
+- Never create an empty commit.
+- Never deploy to an unlisted provider.
+- Never treat a preview URL as production unless the project connection file explicitly says so.
+- Never push unrelated file changes.
+- Never delete files unless the deletion is clearly required by the task.
+
+## Final Response Requirements
+
+After pushing, report:
+
+- Branch name
+- Commit message
+- Commit hash when available
+- Push result
+- Deployment provider
+- Expected production or preview behavior
+- Any checks that failed or were skipped

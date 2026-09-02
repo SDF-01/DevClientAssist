@@ -1,0 +1,50 @@
+---
+description: "Keep API documentation current whenever endpoints or contracts change."
+globs: "src/**/*.{ts,js,py},app/api/**/*,api/**/*,server/**/*,routes/**/*,controllers/**/*,services/**/*"
+alwaysApply: false
+---
+
+# API Docs Update
+
+## Purpose
+
+Keep API documentation current whenever endpoints or contracts change.
+
+## When This Applies
+
+- This rule applies when files matched by the glob are changed or generated.
+- Use it when the task affects the behavior described by the purpose statement.
+
+## Required Workflow
+
+1. Update endpoint docs when request or response contracts change.
+2. Document auth, rate limits, errors, and examples.
+3. Update OpenAPI or typed route definitions when present.
+4. Mention breaking changes clearly.
+
+## Standards
+
+- Follow the existing project pattern before introducing a new one.
+- Keep the implementation small, explicit, and easy to review.
+- Prefer reusable project primitives, shared utilities, and documented conventions.
+- Verify the change using the checks available in the project.
+
+## Do Not
+
+- Do not leave docs stale after API changes.
+- Do not document behavior that is not implemented.
+- Do not omit error responses.
+- Do not hide auth requirements.
+
+## Verification Checklist
+
+- The existing project pattern was inspected before changes were made.
+- The implementation is scoped to the user request.
+- Unsafe files, secrets, and unrelated changes are excluded.
+- Applicable lint, typecheck, test, build, or validation commands were run when available.
+- Any skipped or failed verification is reported clearly.
+
+## Related Skills
+
+- Use the matching `.cursor/skills/` workflow when one exists for this rule.
+- When no matching skill exists, follow this rule directly and keep changes minimal, safe, and verifiable.

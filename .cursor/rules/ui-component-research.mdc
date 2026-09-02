@@ -1,0 +1,128 @@
+---
+description: Search approved UI libraries for components, layouts, and interaction patterns before building or redesigning interfaces.
+globs: src/**/*.tsx,src/**/*.jsx,src/**/*.css,src/**/*.scss,src/components/**,src/pages/**,app/**,components/**
+alwaysApply: false
+---
+
+# UI Component Research Rule
+
+Before creating, redesigning, or refactoring any user interface, search approved UI libraries for existing components, layouts, animations, and interaction patterns.
+
+Do not invent a new UI pattern from scratch when a suitable reference already exists.
+
+## Required Workflow
+
+1. Read the UI design skill file:
+
+   `.cursor/skills/ui-component-design/SKILL.md`
+
+2. Search approved UI libraries for the specific pattern being built.
+
+   Examples:
+
+   - Dashboard layout
+   - Card
+   - Modal
+   - Navigation
+   - Sidebar
+   - Hero section
+   - Bento grid
+   - Data table
+   - Form
+   - Command palette
+   - Background
+   - Loading state
+   - Empty state
+   - Animation pattern
+
+3. Use project design tokens before adding new visual styles.
+
+   Check the project for:
+
+   - Global CSS variables
+   - Tailwind theme tokens
+   - Existing color system
+   - Existing typography scale
+   - Existing spacing rules
+   - Existing border radius rules
+   - Existing shadow and elevation rules
+   - Existing motion patterns
+
+4. Reuse project primitives first.
+
+   Before creating a new component, inspect:
+
+   - `src/components/ui/`
+   - `src/components/`
+   - `components/ui/`
+   - `app/components/`
+   - Existing shared layout components
+   - Existing button, card, panel, input, modal, and navigation components
+
+5. Adapt references to match the current project.
+
+   Any copied or inspired implementation must be adapted for:
+
+   - Project naming conventions
+   - Accessibility
+   - Responsive behavior
+   - Mobile layouts
+   - Dark mode if supported
+   - Internationalization if used
+   - State management conventions
+   - Existing routing patterns
+   - Existing component architecture
+
+6. Record the design source.
+
+   When implementing, mention the inspiration source in the commit message, PR description, or implementation notes.
+
+   Example:
+
+   `Inspired by Magic UI animated card pattern, adapted to project tokens and accessibility requirements.`
+
+## Approved UI Libraries
+
+| Library | URL |
+|---|---|
+| UI Layouts | https://www.ui-layouts.com/components/ |
+| shadcn/ui | https://ui.shadcn.com/docs/components |
+| 21st.dev | https://21st.dev/community/components |
+| Magic UI | https://magicui.design/docs/components |
+| Aceternity UI | https://ui.aceternity.com/components/ |
+| React Bits | https://www.reactbits.dev/ |
+| React Bits Backgrounds | https://www.reactbits.dev/backgrounds/ |
+| COSS UI | https://coss.com/ui/docs/components |
+| Kokonut UI | https://kokonutui.com/ |
+| shadcnblocks | https://www.shadcnblocks.com/components |
+| shadcnstudio | https://shadcnstudio.com/components |
+| Tailwind Plus | https://tailwindcss.com/plus/ui-blocks |
+| Motion | https://motion.dev/ |
+
+## Implementation Standards
+
+When using a referenced UI pattern:
+
+- Prefer composition over duplication.
+- Keep components small and readable.
+- Use existing project primitives whenever possible.
+- Use semantic HTML.
+- Preserve keyboard navigation.
+- Preserve focus states.
+- Preserve accessible labels.
+- Ensure mobile responsiveness.
+- Avoid unreadable contrast.
+- Avoid animation that harms usability.
+- Avoid unnecessary dependency additions.
+- Avoid introducing a new design system unless explicitly requested.
+
+## Do Not
+
+- Do not paste paid component code unless the license is confirmed.
+- Do not introduce a new UI framework without explicit approval.
+- Do not introduce a new CSS architecture unless it aligns with the current project.
+- Do not ship decorative motion that reduces readability.
+- Do not create duplicate components when an existing primitive can be extended.
+- Do not hardcode colors if project tokens exist.
+- Do not ignore accessibility requirements.
+- Do not use a design pattern that conflicts with the product’s tone, purpose, or user context.

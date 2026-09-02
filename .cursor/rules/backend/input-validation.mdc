@@ -1,0 +1,50 @@
+---
+description: "Validate every external input before use."
+globs: "src/**/*.{ts,js,py},app/api/**/*,api/**/*,server/**/*,routes/**/*,controllers/**/*,services/**/*"
+alwaysApply: false
+---
+
+# Input Validation
+
+## Purpose
+
+Validate every external input before use.
+
+## When This Applies
+
+- This rule applies when files matched by the glob are changed or generated.
+- Use it when the task affects the behavior described by the purpose statement.
+
+## Required Workflow
+
+1. Validate body, params, query, headers, files, and webhooks.
+2. Normalize input when appropriate.
+3. Reject malformed data early.
+4. Use shared schemas where present.
+
+## Standards
+
+- Follow the existing project pattern before introducing a new one.
+- Keep the implementation small, explicit, and easy to review.
+- Prefer reusable project primitives, shared utilities, and documented conventions.
+- Verify the change using the checks available in the project.
+
+## Do Not
+
+- Do not trust client side validation.
+- Do not concatenate raw input into SQL or shell commands.
+- Do not accept unbounded payloads.
+- Do not ignore validation errors.
+
+## Verification Checklist
+
+- The existing project pattern was inspected before changes were made.
+- The implementation is scoped to the user request.
+- Unsafe files, secrets, and unrelated changes are excluded.
+- Applicable lint, typecheck, test, build, or validation commands were run when available.
+- Any skipped or failed verification is reported clearly.
+
+## Related Skills
+
+- Use the matching `.cursor/skills/` workflow when one exists for this rule.
+- When no matching skill exists, follow this rule directly and keep changes minimal, safe, and verifiable.

@@ -1,0 +1,58 @@
+.theme-client {
+  --theme-density: comfortable;
+}
+
+.theme-internal {
+  --theme-density: compact;
+}
+
+.theme-client body,
+.theme-client {
+  background-color: var(--color-surface-base);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(139, 154, 125, 0.06), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(184, 132, 106, 0.04), transparent);
+}
+
+.theme-internal {
+  background-color: var(--color-surface-internal);
+  background-image: none;
+}
+
+.theme-internal .panel-card {
+  border-radius: var(--radius-sm);
+}
+
+.panel-card {
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.panel-card:hover {
+  box-shadow: var(--shadow-lift);
+}
+
+.japandi-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(42, 40, 38, 0.12), transparent);
+}
+
+.japandi-kicker {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-japa-sage);
+}
+
+.japandi-code-block {
+  background: #f0ebe3;
+  color: #3d3a36;
+  border: 1px solid rgba(42, 40, 38, 0.08);
+}
+
+.japandi-code-dark {
+  background: #2a2826;
+  color: #e8e4dc;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
