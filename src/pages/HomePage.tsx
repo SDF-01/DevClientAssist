@@ -7,17 +7,17 @@ const steps = [
   {
     mark: '1',
     title: 'Write what should change',
-    text: 'Use your own words. The engine rewrites them into agent-ready instructions.',
+    text: 'Use your own words. You do not need to make it perfect.',
   },
   {
     mark: '2',
-    title: 'Add pictures if they help',
-    text: 'Screenshots are optional. Skip them when the words are enough.',
+    title: 'Format it in ChatGPT',
+    text: 'Copy the prompt we give you into ChatGPT, then paste the formatted reply back here.',
   },
   {
     mark: '3',
-    title: 'Check the .toon brief',
-    text: 'Watch the rewritten file update, then send it.',
+    title: 'Send it to the developer',
+    text: 'Add pictures if they help, then send the ChatGPT brief.',
   },
 ]
 
@@ -34,10 +34,10 @@ export function HomePage() {
         <div className="flex flex-col justify-center px-6 py-10 lg:px-10">
           <p className="app-chip">Airmen Voice</p>
           <h1 className="font-display mt-5 text-4xl font-normal leading-[1.15] text-[#3f3b36] sm:text-[2.75rem]">
-            Tell us what to change. The engine rewrites it into a live .toon brief.
+            Tell us what to change. ChatGPT formats it. We pass that brief to the developer.
           </h1>
           <p className="mt-5 max-w-md text-base leading-relaxed text-[#8f837a]">
-            Write like a person. Dev Generator compiles that into structured instructions the build team can follow.
+            Copy a ready-made prompt into ChatGPT with your notes, paste the answer back, and send a clear request.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link to="/submit">

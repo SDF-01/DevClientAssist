@@ -9,6 +9,7 @@ export interface RevisionDraft {
   contactName: string
   urgency: string
   clientNotes: string
+  formattedBrief: string
   images: ReferenceImage[]
   savedAt: string
 }

@@ -13,7 +13,7 @@ import type {
 import type { ReferenceImage, StructuredRevisionRequest } from '@/types/revision'
 import { logAnalyticsEvent } from '@/lib/analytics'
 import { calculateCompletenessScore } from '@/lib/completenessScore'
-import { structureRevisionWithIntelligence } from '@/lib/structureRevision'
+import { wrapChatGptBrief } from '@/lib/chatgptBrief'
 import { exportRevisionToToon, validateToonStrict } from '@/lib/toonExporter'
 import { isSupabaseConfigured, STORAGE_BUCKET, supabase } from '@/lib/supabase/client'
 import {
@@ -37,6 +37,7 @@ export interface SubmitRevisionPayload {
   urgency?: RevisionPriority
   dueDate?: string
   clientNotes?: string
+  formattedBrief?: string
   userId?: string | null
   asDraft?: boolean
 }
@@ -113,14 +114,19 @@ export async function submitRevision(payload: SubmitRevisionPayload): Promise<Re
   const project = await getProject(payload.projectId)
   if (!project) throw new Error('Project not found')
 
-  const structured = await structureRevisionWithIntelligence(
-    project.slug,
-    project.name,
-    project.description,
-    payload.rawRequest,
-    payload.images,
-    { urgency: payload.urgency, clientNotes: payload.clientNotes },
-  )
+  if (!payload.formattedBrief?.trim()) {
+    throw new Error('Paste the ChatGPT brief before sending.')
+  }
+
+  const structured = wrapChatGptBrief({
+    appId: project.slug,
+    appName: project.name,
+    appDescription: project.description,
+    rawRequest: payload.rawRequest,
+    formattedBrief: payload.formattedBrief,
+    images: payload.images,
+    urgency: payload.urgency,
+  })
   const completeness = calculateCompletenessScore(payload.rawRequest, payload.images, structured)
   const revisionId = crypto.randomUUID()
   const now = new Date().toISOString()

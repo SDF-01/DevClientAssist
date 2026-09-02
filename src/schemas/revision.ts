@@ -38,7 +38,7 @@ export const structuredRevisionSchema = z.object({
     createdAt: z.string(),
     source: z.literal('client-revision-portal'),
     version: z.string(),
-    engine: z.enum(['local-rewrite', 'llm-rewrite']).optional(),
+    engine: z.enum(['local-rewrite', 'llm-rewrite', 'chatgpt-paste']).optional(),
   }),
   target: z.object({
     appId: z.string(),

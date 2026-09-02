@@ -32,6 +32,6 @@ export function compileLocalToon(input: CompileToonInput): ToonEngineResult {
     formatted: formatStructuredPreview(structured),
     toon: exported.toon,
     completeness: calculateCompletenessScore(input.rawRequest, input.images, structured),
-    engine: structured.meta.engine ?? 'local-rewrite',
+    engine: structured.meta.engine === 'llm-rewrite' ? 'llm-rewrite' : 'local-rewrite',
   }
 }

@@ -6,19 +6,19 @@ import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/Ca
 import { Input, Select, Textarea } from '@/components/ui/Input'
 import { ImageUpload } from '@/components/client/ImageUpload'
 import { ImageAnnotator } from '@/components/client/ImageAnnotator'
-import { LiveToonPanel } from '@/components/client/LiveToonPanel'
+import { ChatGptFormatStep } from '@/components/client/ChatGptFormatStep'
 import { useToast } from '@/components/ui/Toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useRevisionDraft } from '@/hooks/useRevisionDraft'
-import { useLiveToonEngine } from '@/hooks/useLiveToonEngine'
 import { listProjects } from '@/lib/data/projects'
 import { listRevisions, submitRevision } from '@/lib/data/revisions'
 import { detectSimilarRequests } from '@/lib/versioning'
 import { listTemplates } from '@/lib/templates'
+import { buildChatGptRevisionPrompt } from '@/lib/chatgptBrief'
 import type { Project, RevisionTemplate } from '@/types/database'
 import type { ReferenceImage } from '@/types/revision'
 
-const STEPS = ['Write', 'Pictures', 'Review']
+const STEPS = ['Write', 'Ask ChatGPT', 'Pictures', 'Review']
 
 export function RevisionWizard() {
   const navigate = useNavigate()
@@ -31,6 +31,7 @@ export function RevisionWizard() {
   const [templates, setTemplates] = useState<RevisionTemplate[]>([])
   const [projectId, setProjectId] = useState('')
   const [rawRequest, setRawRequest] = useState('')
+  const [formattedBrief, setFormattedBrief] = useState('')
   const [images, setImages] = useState<ReferenceImage[]>([])
   const [contactName, setContactName] = useState('')
   const [urgency, setUrgency] = useState('medium')
@@ -54,19 +55,25 @@ export function RevisionWizard() {
       setContactName(draft.contactName)
       setUrgency(draft.urgency)
       setClientNotes(draft.clientNotes)
+      setFormattedBrief(draft.formattedBrief ?? '')
       setImages(draft.images)
     }
   }, [draft])
 
   const selectedProject = projects.find((p) => p.id === projectId)
   const wordCount = useMemo(() => rawRequest.trim().split(/\s+/).filter(Boolean).length, [rawRequest])
-  const { preview, isRewriting } = useLiveToonEngine({
-    project: selectedProject,
-    rawRequest,
-    images,
-    urgency,
-    clientNotes,
-  })
+  const chatgptPrompt = useMemo(
+    () =>
+      buildChatGptRevisionPrompt({
+        appName: selectedProject?.name ?? 'Airmen Voice',
+        appDescription: selectedProject?.description ?? 'Voice and communication platform for airmen',
+        rawRequest,
+        urgency,
+        clientNotes,
+        screenshotNames: images.map((image) => image.caption.trim() || image.name),
+      }),
+    [selectedProject, rawRequest, urgency, clientNotes, images],
+  )
 
   useEffect(() => {
     if (!rawRequest.trim()) {
@@ -84,13 +91,26 @@ export function RevisionWizard() {
   }, [rawRequest])
 
   function handleSaveDraft() {
-    saveDraft({ projectId, rawRequest, contactName, urgency, clientNotes, images })
+    saveDraft({
+      projectId,
+      rawRequest,
+      contactName,
+      urgency,
+      clientNotes,
+      formattedBrief,
+      images,
+    })
     showToast('Draft saved on this device.', 'success')
   }
 
   async function handleSubmit(asDraft = false) {
     if (!projectId || !rawRequest.trim()) {
       showToast('Write what should change before sending.', 'error')
+      return
+    }
+    if (!formattedBrief.trim()) {
+      showToast('Paste the ChatGPT brief before sending.', 'error')
+      setStep(1)
       return
     }
 
@@ -104,6 +124,7 @@ export function RevisionWizard() {
         contactEmail: user?.email,
         urgency: urgency as 'low' | 'medium' | 'high' | 'critical',
         clientNotes,
+        formattedBrief,
         userId: user?.id ?? null,
         asDraft,
       })
@@ -133,6 +154,7 @@ export function RevisionWizard() {
   }
 
   const canContinueWrite = Boolean(projectId && rawRequest.trim())
+  const canContinueFormat = formattedBrief.trim().length > 20
 
   return (
     <div className="space-y-6">
@@ -141,108 +163,108 @@ export function RevisionWizard() {
         <h1 className="font-display text-3xl font-normal sm:text-4xl">What should we change?</h1>
         {selectedProject ? <p className="app-chip">{selectedProject.name}</p> : null}
         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          Write in your own words. The engine rewrites that into a live .toon brief the build team can follow.
+          Write your notes, copy them into ChatGPT with the prompt we give you, then paste the formatted answer for the
+          developer.
         </p>
         <Stepper steps={STEPS} currentStep={step} />
       </header>
 
       {step === 0 ? (
-        <div className="grid items-start gap-4 xl:grid-cols-2">
-          <Card framed className="space-y-5">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Input
-                label="Your name"
-                value={contactName}
-                onChange={(e) => setContactName(e.target.value)}
-                placeholder="Optional"
-              />
-              <Select
-                label="How urgent is this?"
-                value={urgency}
-                onChange={(e) => setUrgency(e.target.value)}
-                options={[
-                  { value: 'low', label: 'Low' },
-                  { value: 'medium', label: 'Medium' },
-                  { value: 'high', label: 'High' },
-                  { value: 'critical', label: 'Critical' },
-                ]}
-              />
-            </div>
-            {templates.length > 0 ? (
-              <div>
-                <p className="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">Start from</p>
-                <div className="flex flex-wrap gap-2">
-                  {templates.map((tpl) => (
-                    <button
-                      key={tpl.id}
-                      type="button"
-                      onClick={() => applyTemplate(tpl)}
-                      className="rounded-[var(--radius-sm)] border border-border bg-surface-muted px-3 py-1.5 text-xs font-medium tracking-wide text-foreground transition-colors hover:border-bamboo/40 hover:bg-blush/30"
-                    >
-                      {tpl.name}
-                    </button>
-                  ))}
-                </div>
+        <Card framed className="space-y-5">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Input
+              label="Your name"
+              value={contactName}
+              onChange={(e) => setContactName(e.target.value)}
+              placeholder="Optional"
+            />
+            <Select
+              label="How urgent is this?"
+              value={urgency}
+              onChange={(e) => setUrgency(e.target.value)}
+              options={[
+                { value: 'low', label: 'Low' },
+                { value: 'medium', label: 'Medium' },
+                { value: 'high', label: 'High' },
+                { value: 'critical', label: 'Critical' },
+              ]}
+            />
+          </div>
+          {templates.length > 0 ? (
+            <div>
+              <p className="mb-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">Start from</p>
+              <div className="flex flex-wrap gap-2">
+                {templates.map((tpl) => (
+                  <button
+                    key={tpl.id}
+                    type="button"
+                    onClick={() => applyTemplate(tpl)}
+                    className="rounded-[var(--radius-sm)] border border-border bg-surface-muted px-3 py-1.5 text-xs font-medium tracking-wide text-foreground transition-colors hover:border-bamboo/40 hover:bg-blush/30"
+                  >
+                    {tpl.name}
+                  </button>
+                ))}
               </div>
-            ) : null}
-            <Textarea
-              label="The change"
-              hint={`${wordCount} words · rewriting live`}
-              value={rawRequest}
-              onChange={(e) => setRawRequest(e.target.value)}
-              placeholder={'Example:\n- Move the primary button higher on the page\n- Match the color in the screenshot\n- Leave login as it is'}
-              rows={12}
-            />
-            {similarWarning ? (
-              <p className="text-sm text-terracotta" role="status">
-                {similarWarning}
-              </p>
-            ) : null}
-            <Textarea
-              label="Anything else? (optional)"
-              value={clientNotes}
-              onChange={(e) => setClientNotes(e.target.value)}
-              rows={3}
-            />
-          </Card>
-          <LiveToonPanel
-            formatted={preview?.formatted ?? ''}
-            toon={preview?.toon ?? ''}
-            engine={preview?.engine ?? 'local-rewrite'}
-            isRewriting={isRewriting}
-            empty={!preview}
+            </div>
+          ) : null}
+          <Textarea
+            label="The change"
+            hint={`${wordCount} words`}
+            value={rawRequest}
+            onChange={(e) => setRawRequest(e.target.value)}
+            placeholder={'Example:\n- Move the primary button higher on the page\n- Match the color in the screenshot\n- Leave login as it is'}
+            rows={12}
           />
-        </div>
+          {similarWarning ? (
+            <p className="text-sm text-terracotta" role="status">
+              {similarWarning}
+            </p>
+          ) : null}
+          <Textarea
+            label="Anything else? (optional)"
+            value={clientNotes}
+            onChange={(e) => setClientNotes(e.target.value)}
+            rows={3}
+          />
+        </Card>
       ) : null}
 
       {step === 1 ? (
-        <div className="grid items-start gap-4 xl:grid-cols-2">
-          <Card framed>
-            <CardHeader>
-              <CardTitle className="text-2xl font-normal">Pictures help, but they are optional</CardTitle>
-              <CardDescription>
-                Screenshots feed the rewrite. The .toon brief will mention them as visual ground truth.
-              </CardDescription>
-            </CardHeader>
-            <ImageUpload images={images} onChange={setImages} onAnnotate={setAnnotatingId} />
-          </Card>
-          <LiveToonPanel
-            formatted={preview?.formatted ?? ''}
-            toon={preview?.toon ?? ''}
-            engine={preview?.engine ?? 'local-rewrite'}
-            isRewriting={isRewriting}
-            empty={!preview}
-          />
-        </div>
+        <ChatGptFormatStep
+          prompt={chatgptPrompt}
+          formattedBrief={formattedBrief}
+          onFormattedBriefChange={setFormattedBrief}
+        />
       ) : null}
 
-      {step === 2 && preview ? (
-        <LiveToonPanel
-          formatted={preview.formatted}
-          toon={preview.toon}
-          engine={preview.engine}
-          isRewriting={isRewriting}
-        />
+      {step === 2 ? (
+        <Card framed>
+          <CardHeader>
+            <CardTitle className="text-2xl font-normal">Pictures help, but they are optional</CardTitle>
+            <CardDescription>
+              Add screenshots if they show the issue. The developer will see them with the ChatGPT brief.
+            </CardDescription>
+          </CardHeader>
+          <ImageUpload images={images} onChange={setImages} onAnnotate={setAnnotatingId} />
+        </Card>
+      ) : null}
+
+      {step === 3 ? (
+        <div className="space-y-4">
+          <Card framed className="space-y-4">
+            <CardHeader>
+              <CardTitle className="text-2xl font-normal">This is what the developer will receive</CardTitle>
+              <CardDescription>The formatted ChatGPT brief below is the request. You can go back and edit it.</CardDescription>
+            </CardHeader>
+            <pre className="code-block-light max-h-80 overflow-auto rounded-[var(--radius-sm)] p-4 text-sm whitespace-pre-wrap font-mono">
+              {formattedBrief}
+            </pre>
+          </Card>
+          <Card className="space-y-2">
+            <p className="section-label">Your original notes</p>
+            <p className="whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground">{rawRequest}</p>
+          </Card>
+        </div>
       ) : null}
 
       <div className="flex flex-wrap items-center gap-3">
@@ -253,23 +275,26 @@ export function RevisionWizard() {
         ) : null}
         {step === 0 ? (
           <Button onClick={() => setStep(1)} disabled={!canContinueWrite}>
-            Continue
+            Continue to ChatGPT
           </Button>
         ) : null}
         {step === 1 ? (
+          <Button onClick={() => setStep(2)} disabled={!canContinueFormat}>
+            Continue
+          </Button>
+        ) : null}
+        {step === 2 ? (
           <>
-            <Button onClick={() => setStep(2)} disabled={!preview}>
-              Continue to review
-            </Button>
+            <Button onClick={() => setStep(3)}>Continue to review</Button>
             {images.length === 0 ? (
-              <Button variant="ghost" onClick={() => setStep(2)} disabled={!preview}>
+              <Button variant="ghost" onClick={() => setStep(3)}>
                 Continue without pictures
               </Button>
             ) : null}
           </>
         ) : null}
-        {step === 2 ? (
-          <Button onClick={() => void handleSubmit(false)} disabled={submitting || !preview}>
+        {step === 3 ? (
+          <Button onClick={() => void handleSubmit(false)} disabled={submitting || !canContinueFormat}>
             Send request
           </Button>
         ) : null}

@@ -10,7 +10,6 @@ import { downloadPdfReceipt } from '@/lib/pdfReceipt'
 import { useAuth } from '@/hooks/useAuth'
 import type { RevisionRequestWithRelations } from '@/types/database'
 import { formatDate } from '@/lib/utils'
-import { formatStructuredPreview } from '@/lib/revisionParser'
 import type { StructuredRevisionRequest } from '@/types/revision'
 
 export function RequestDetailPage() {
@@ -59,17 +58,17 @@ export function RequestDetailPage() {
       <StatusTimeline currentStatus={revision.status} />
 
       <Card>
-        <p className="section-label mb-2">What you sent</p>
-        <h2 className="mb-3 font-display text-lg font-medium">Your request</h2>
+        <p className="section-label mb-2">Your notes</p>
+        <h2 className="mb-3 font-display text-lg font-medium">What you wrote first</h2>
         <p className="whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground">{revision.raw_request}</p>
       </Card>
 
       {structured ? (
         <Card>
-          <p className="section-label mb-2">Team brief</p>
-          <h2 className="mb-3 font-display text-lg font-medium">How this will be read</h2>
-          <pre className="code-block-light max-h-96 overflow-auto whitespace-pre-wrap rounded-[var(--radius-sm)] p-4 text-xs font-mono">
-            {formatStructuredPreview(structured)}
+          <p className="section-label mb-2">Developer brief</p>
+          <h2 className="mb-3 font-display text-lg font-medium">Formatted ChatGPT answer</h2>
+          <pre className="code-block-light max-h-96 overflow-auto whitespace-pre-wrap rounded-[var(--radius-sm)] p-4 text-sm font-mono">
+            {structured.instructions.overview}
           </pre>
         </Card>
       ) : null}

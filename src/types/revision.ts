@@ -43,7 +43,7 @@ export interface StructuredRevisionRequest {
     createdAt: string
     source: 'client-revision-portal'
     version: string
-    engine?: 'local-rewrite' | 'llm-rewrite'
+    engine?: 'local-rewrite' | 'llm-rewrite' | 'chatgpt-paste'
   }
   target: {
     appId: string
