@@ -22,7 +22,7 @@ export function MyRequestsPage() {
   return (
     <div className="space-y-6">
       <CardHeader className="px-0">
-        <p className="japandi-kicker">Archive</p>
+        <p className="section-label">Archive</p>
         <CardTitle className="text-3xl font-normal">My revision requests</CardTitle>
       </CardHeader>
 
@@ -30,7 +30,7 @@ export function MyRequestsPage() {
         <Card>
           <p className="text-muted-foreground">
             No requests yet.{' '}
-            <Link to="/submit" className="text-japa-sage underline-offset-2 hover:underline">
+            <Link to="/submit" className="text-moss underline-offset-2 hover:underline">
               Submit your first revision
             </Link>
             .

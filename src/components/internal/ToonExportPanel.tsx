@@ -73,7 +73,7 @@ export function ToonExportPanel({ revision, actorId, onExported }: ToonExportPan
   return (
     <Card>
       <CardHeader>
-        <p className="japandi-kicker">Output</p>
+        <p className="section-label">Output</p>
         <CardTitle className="font-normal">Export & integrations</CardTitle>
       </CardHeader>
       <div className="flex flex-wrap gap-2">

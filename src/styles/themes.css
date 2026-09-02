@@ -1,56 +1,149 @@
-.theme-client {
+.theme-client,
+.theme-internal {
   --theme-density: comfortable;
 }
 
-.theme-internal {
-  --theme-density: compact;
-}
-
-.theme-client body,
-.theme-client {
-  background-color: var(--color-surface-base);
+.studio-root {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  background-color: #f3f0e8;
   background-image:
-    url('/patterns/bamboo-grain.svg'),
-    radial-gradient(ellipse 90% 60% at 0% 0%, rgba(220, 180, 130, 0.12), transparent 55%),
-    radial-gradient(ellipse 70% 50% at 100% 100%, rgba(176, 185, 168, 0.1), transparent 50%);
-  background-size: 280px 280px, auto, auto;
+    url('/art/seigaiha.svg'),
+    url('/art/asanoha.svg'),
+    linear-gradient(180deg, #f7f4ee 0%, #f3f0e8 42%, #ece6db 100%);
+  background-size: 160px 80px, 120px 104px, auto;
+  background-blend-mode: multiply, multiply, normal;
 }
 
-.theme-internal {
-  background-color: var(--color-surface-internal);
-  background-image: none;
+.studio-root::before {
+  content: '';
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(ellipse 70% 50% at 80% 0%, rgba(220, 180, 130, 0.18), transparent 55%);
 }
 
-.theme-internal .panel-card {
-  border-radius: var(--radius-sm);
+.bamboo-column {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  height: 100vh;
+  width: 120px;
+  background: url('/art/bamboo-grove.svg') center top / cover no-repeat;
+  opacity: 0.55;
+}
+
+.bamboo-column.left {
+  left: 0;
+  mask-image: linear-gradient(to right, black 40%, transparent 100%);
+}
+
+.bamboo-column.right {
+  right: 0;
+  transform: scaleX(-1);
+  mask-image: linear-gradient(to left, black 40%, transparent 100%);
+}
+
+.wood-lintel {
+  position: relative;
+  z-index: 20;
+  border-bottom: 1px solid rgba(96, 108, 90, 0.18);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(243, 240, 232, 0.2)),
+    repeating-linear-gradient(
+      90deg,
+      #dcb482 0px,
+      #e6c48a 8px,
+      #c09e85 16px,
+      #d5caba 24px,
+      #dcb482 32px
+    );
+  box-shadow: 0 10px 28px rgba(94, 94, 94, 0.08);
+}
+
+.wood-lintel::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #606c5a, #dcb482 40%, #c09e85 70%, #606c5a);
+}
+
+.studio-stage {
+  position: relative;
+  z-index: 2;
+  margin: 0 auto;
+  max-width: 1180px;
+  padding: 1.75rem 1.25rem 4rem;
+}
+
+@media (min-width: 768px) {
+  .studio-stage {
+    padding: 2.5rem 2rem 5rem;
+  }
+}
+
+.shoji-stage {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 253, 248, 0.9)),
+    url('/art/shoji.svg') center / 280px;
+  border: 1px solid rgba(143, 131, 122, 0.22);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.8) inset,
+    0 24px 50px rgba(94, 94, 94, 0.08);
+}
+
+.ornament-card {
+  position: relative;
+  background: rgba(255, 253, 248, 0.92);
+  border: 1px solid rgba(143, 131, 122, 0.2);
+  box-shadow: 0 18px 40px rgba(94, 94, 94, 0.07);
+}
+
+.ornament-card .corner {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  background: url('/art/corner.svg') center / contain no-repeat;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.ornament-card .corner.tl { top: 8px; left: 8px; }
+.ornament-card .corner.tr { top: 8px; right: 8px; transform: scaleX(-1); }
+.ornament-card .corner.bl { bottom: 8px; left: 8px; transform: scaleY(-1); }
+.ornament-card .corner.br { bottom: 8px; right: 8px; transform: scale(-1); }
+
+.wood-panel {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.28), transparent 42%),
+    repeating-linear-gradient(90deg, #d5caba 0 10px, #dcb482 10px 18px, #c09e85 18px 26px);
+  box-shadow: var(--shadow-wood);
 }
 
 .panel-card {
-  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
 }
 
 .panel-card:hover {
   box-shadow: var(--shadow-lift);
 }
 
-.wood-panel {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.35), transparent 40%),
-    url('/patterns/bamboo-grain.svg'),
-    linear-gradient(135deg, #d5caba 0%, #dcb482 45%, #c09e85 100%);
-  background-size: auto, 240px 240px, auto;
-  box-shadow: var(--shadow-wood);
-}
-
-/* Legacy class aliases */
-.japandi-divider,
-.divider-soft {
+.divider-soft,
+.japandi-divider {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(143, 131, 122, 0.25), transparent);
+  background: linear-gradient(90deg, transparent, rgba(143, 131, 122, 0.28), transparent);
 }
 
-.japandi-kicker,
-.section-label {
+.section-label,
+.japandi-kicker {
   font-family: var(--font-body);
   font-size: 0.68rem;
   font-weight: 500;
@@ -59,9 +152,9 @@
   color: var(--color-taupe);
 }
 
-.japandi-kicker::before,
-.section-label::before {
-  content: '—';
+.section-label::before,
+.japandi-kicker::before {
+  content: '·';
   margin-right: 0.5rem;
   color: var(--color-bamboo);
   letter-spacing: 0;
@@ -81,8 +174,74 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.hero-enso {
+.vertical-seal {
+  writing-mode: vertical-rl;
+  font-family: var(--font-accent);
+  letter-spacing: 0.35em;
+  color: #606c5a;
+  opacity: 0.55;
+}
+
+.wood-tab {
+  border: 1px solid rgba(143, 131, 122, 0.22);
+  background: linear-gradient(180deg, #f7f1e6, #e8dcc8);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  color: #3f3b36;
+}
+
+.wood-tab[data-active='true'] {
+  background: linear-gradient(180deg, #606c5a, #4f5b4b);
+  color: #f3f0e8;
+  border-color: #4f5b4b;
+}
+
+.studio-footer {
+  position: relative;
+  z-index: 2;
+  margin-top: 1rem;
+  border-top: 1px solid rgba(143, 131, 122, 0.18);
+  background:
+    repeating-linear-gradient(90deg, #d5caba 0 14px, #dcb482 14px 22px, #c09e85 22px 30px);
+}
+
+.studio-footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0.9rem 1.5rem;
+  background: rgba(243, 240, 232, 0.72);
+}
+
+.hero-art {
+  position: relative;
+  min-height: 420px;
+  overflow: hidden;
+  background: #f3f0e8;
+}
+
+.hero-art img.landscape {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero-art .lantern {
   position: absolute;
-  pointer-events: none;
-  opacity: 0.14;
+  right: 8%;
+  top: 12%;
+  width: 48px;
+  animation: lantern-sway 5.5s ease-in-out infinite;
+}
+
+@keyframes lantern-sway {
+  0%, 100% { transform: rotate(-4deg); }
+  50% { transform: rotate(5deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-art .lantern { animation: none; }
 }

@@ -35,7 +35,7 @@ export function RequestDetailPage() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <CardHeader className="px-0">
-          <p className="japandi-kicker">Request detail</p>
+          <p className="section-label">Request detail</p>
           <CardTitle className="text-3xl font-normal">{revision.title}</CardTitle>
           <p className="text-sm text-muted-foreground">
             {revision.project?.name} · {formatDate(revision.created_at)}
@@ -59,14 +59,14 @@ export function RequestDetailPage() {
       <StatusTimeline currentStatus={revision.status} />
 
       <Card>
-        <p className="japandi-kicker mb-2">Original</p>
+        <p className="section-label mb-2">Original</p>
         <h3 className="mb-3 font-display text-lg font-medium">Client request</h3>
         <p className="whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground">{revision.raw_request}</p>
       </Card>
 
       {structured ? (
         <Card>
-          <p className="japandi-kicker mb-2">Structured</p>
+          <p className="section-label mb-2">Structured</p>
           <h3 className="mb-3 font-display text-lg font-medium">Parsed preview</h3>
           <pre className="japandi-code-block max-h-96 overflow-auto whitespace-pre-wrap rounded-[var(--radius-sm)] p-4 text-xs font-mono">
             {formatStructuredPreview(structured)}

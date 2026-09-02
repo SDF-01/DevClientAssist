@@ -40,7 +40,7 @@ export function DashboardPage() {
     <div className="space-y-6">
       <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-4 px-0">
         <div>
-          <p className="japandi-kicker">Internal</p>
+          <p className="section-label">Internal</p>
           <CardTitle className="text-3xl font-normal">Triage dashboard</CardTitle>
         </div>
         <div className="flex flex-wrap gap-3">

@@ -11,8 +11,9 @@
 - Provider: Vercel
 - Project: `dev-client-assist`
 - Team: `weasel-werx`
-- Production URL: https://dev-client-assist.vercel.app
-- Legacy alias: https://revision-portal-eight.vercel.app
+- Production URL: https://revision-portal-eight.vercel.app
+- Note: `dev-client-assist.vercel.app` is owned by another Vercel project and does not serve this app.
+- Team URL: https://dev-client-assist-weasel-werx.vercel.app (may require Vercel login if deployment protection is on)
 - Dashboard: https://vercel.com/weasel-werx/dev-client-assist
 - Deploy mode: GitHub integration (auto-deploy on push to `main`)
 

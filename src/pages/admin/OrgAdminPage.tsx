@@ -25,12 +25,12 @@ export function OrgAdminPage() {
   return (
     <div className="space-y-6">
       <CardHeader className="px-0">
-        <p className="japandi-kicker">Settings</p>
+        <p className="section-label">Settings</p>
         <CardTitle className="text-3xl font-normal">Organization admin</CardTitle>
       </CardHeader>
 
       <Card>
-        <p className="japandi-kicker mb-2">Projects</p>
+        <p className="section-label mb-2">Projects</p>
         <h3 className="mb-3 font-display text-lg font-medium">Active projects</h3>
         <ul className="space-y-2 text-sm">
           {projects.map((project) => (
@@ -43,7 +43,7 @@ export function OrgAdminPage() {
       </Card>
 
       <Card>
-        <p className="japandi-kicker mb-2">Metrics</p>
+        <p className="section-label mb-2">Metrics</p>
         <h3 className="mb-3 font-display text-lg font-medium">Analytics summary</h3>
         <p className="text-sm text-muted-foreground">Total events: {analytics.totalEvents}</p>
         <ul className="mt-2 space-y-1 text-sm">
@@ -57,7 +57,7 @@ export function OrgAdminPage() {
       </Card>
 
       <Card>
-        <p className="japandi-kicker mb-2">Data</p>
+        <p className="section-label mb-2">Data</p>
         <h3 className="mb-3 font-display text-lg font-medium">Retention policy</h3>
         <Input
           label="Retention days (done revisions)"
@@ -71,7 +71,7 @@ export function OrgAdminPage() {
       </Card>
 
       <Card>
-        <p className="japandi-kicker mb-2">Connect</p>
+        <p className="section-label mb-2">Connect</p>
         <h3 className="mb-3 font-display text-lg font-medium">Integration config</h3>
         <p className="text-sm leading-relaxed text-muted-foreground">
           Set VITE_GITHUB_WEBHOOK_URL, VITE_SUPABASE_URL, and VITE_SUPABASE_ANON_KEY in your environment.

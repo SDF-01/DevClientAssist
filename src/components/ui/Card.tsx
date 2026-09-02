@@ -3,16 +3,26 @@ import { cn } from '@/lib/utils'
 interface CardProps {
   className?: string
   children: React.ReactNode
+  framed?: boolean
 }
 
-export function Card({ className, children }: CardProps) {
+export function Card({ className, children, framed = true }: CardProps) {
   return (
     <div
       className={cn(
-        'panel-card rounded-[var(--radius-md)] border border-border bg-surface-elevated p-6 shadow-bubble',
+        'panel-card ornament-card rounded-[2px] p-6 sm:p-8',
+        framed && 'pt-10',
         className,
       )}
     >
+      {framed ? (
+        <>
+          <span className="corner tl" aria-hidden />
+          <span className="corner tr" aria-hidden />
+          <span className="corner bl" aria-hidden />
+          <span className="corner br" aria-hidden />
+        </>
+      ) : null}
       {children}
     </div>
   )

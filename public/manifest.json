@@ -1,14 +1,14 @@
 {
-  "name": "Airmen Voice",
-  "short_name": "Airmen Voice",
-  "description": "Revision intake and tracking for Airmen Voice",
+  "name": "Dev Generator",
+  "short_name": "Dev Generator",
+  "description": "Structured revision intake for Airmen Voice",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#F3F0E8",
   "theme_color": "#606C5A",
   "icons": [
     {
-      "src": "/logo-airmen-voice.svg",
+      "src": "/logo-dev-generator.svg",
       "sizes": "any",
       "type": "image/svg+xml"
     }

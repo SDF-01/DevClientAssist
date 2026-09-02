@@ -150,16 +150,16 @@ export function RevisionWizard() {
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
       <div className="space-y-6">
-        <Card className="relative overflow-hidden border-border/80">
-          <div className="absolute inset-y-0 left-0 w-1.5 wood-panel" aria-hidden />
-          <CardHeader className="relative pl-6">
-            <p className="section-label">Revision request</p>
+        <Card className="relative overflow-hidden">
+          <div className="absolute inset-x-0 top-0 h-2 wood-panel" aria-hidden />
+          <CardHeader className="relative mt-2">
+            <p className="section-label">The desk</p>
             <CardTitle className="text-3xl font-normal">Submit your changes</CardTitle>
             <CardDescription>
               Describe what should change, attach references, and preview the structured output before sending.
             </CardDescription>
           </CardHeader>
-          <div className="relative pl-6 pb-2">
+          <div className="relative pb-2">
             <Stepper steps={STEPS} currentStep={step} />
           </div>
         </Card>
@@ -284,7 +284,8 @@ export function RevisionWizard() {
       </div>
 
       <aside className="hidden lg:block">
-        <Card className="sticky top-24 space-y-3 border-border/80 bg-surface-muted/50">
+        <Card className="sticky top-28 space-y-3">
+          <img src="/art/lantern.svg" alt="" aria-hidden className="h-12 w-8" />
           <p className="section-label">Summary</p>
           <h3 className="font-display text-lg font-medium">Your request</h3>
           <div className="divider-soft" />

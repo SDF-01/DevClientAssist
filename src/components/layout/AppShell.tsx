@@ -4,7 +4,8 @@ import { useState } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
-import { AirmenVoiceMark } from '@/components/brand/AirmenVoiceMark'
+import { BrandMark } from '@/components/brand/BrandMark'
+import { StudioAtmosphere } from '@/components/brand/StudioAtmosphere'
 import { SignInPanel } from '@/components/auth/SignInPanel'
 import { cn } from '@/lib/utils'
 
@@ -16,55 +17,61 @@ export function AppShell({ theme = 'client' }: AppShellProps) {
   const { user, signOut, isInternal } = useAuth()
   const [signInOpen, setSignInOpen] = useState(false)
 
-  const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-    cn(
-      'rounded-[var(--radius-sm)] px-4 py-2 text-sm font-medium tracking-wide transition-colors duration-200',
-      isActive
-        ? 'bg-accent-primary text-japa-warm-white shadow-wood'
-        : 'text-muted-foreground hover:bg-surface-muted hover:text-foreground',
-    )
+  const navClass =
+    'wood-tab inline-flex items-center gap-2 rounded-[2px] px-4 py-2 text-sm font-medium tracking-wide'
 
   return (
-    <div
-      className={cn(
-        'min-h-screen',
-        theme === 'client' ? 'theme-client bg-surface-base' : 'theme-internal bg-surface-internal',
-      )}
-    >
-      <header className="border-b border-border bg-surface-elevated/95 backdrop-blur-sm">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-4 py-4 sm:px-8">
+    <div className={cn('studio-root', theme === 'client' ? 'theme-client' : 'theme-internal')}>
+      <StudioAtmosphere />
+
+      <header className="wood-lintel">
+        <div className="relative z-10 mx-auto flex max-w-[1180px] items-center justify-between gap-6 px-4 py-4 sm:px-8">
           <Link to="/" className="group flex items-center gap-3">
-            <AirmenVoiceMark size="md" className="transition-transform group-hover:scale-[1.02]" />
+            <BrandMark size="md" className="transition-transform duration-300 group-hover:-rotate-2" />
             <div>
-              <span className="font-display text-2xl font-medium tracking-tight text-foreground">Airmen Voice</span>
-              <span className="mt-0.5 block font-accent text-[11px] tracking-[0.28em] text-taupe uppercase">
-                Revisions
+              <span className="font-display text-[1.7rem] leading-none tracking-tight text-[#3f3b36]">
+                Dev Generator
+              </span>
+              <span className="mt-1 block text-[10px] font-medium uppercase tracking-[0.34em] text-[#8f837a]">
+                Studio desk
               </span>
             </div>
           </Link>
 
-          <nav className="hidden items-center gap-1 md:flex" aria-label="Main">
-            <NavLink to="/submit" className={navLinkClass}>
-              <span className="inline-flex items-center gap-2">
-                <FilePlus2 className="h-4 w-4" strokeWidth={1.5} /> Submit
-              </span>
+          <nav className="hidden items-center gap-2 md:flex" aria-label="Main">
+            <NavLink to="/submit">
+              {({ isActive }) => (
+                <span className={navClass} data-active={isActive ? 'true' : 'false'}>
+                  <FilePlus2 className="h-4 w-4" strokeWidth={1.5} />
+                  Submit
+                </span>
+              )}
             </NavLink>
-            <NavLink to="/requests" className={navLinkClass}>
-              <span className="inline-flex items-center gap-2">
-                <List className="h-4 w-4" strokeWidth={1.5} /> Requests
-              </span>
+            <NavLink to="/requests">
+              {({ isActive }) => (
+                <span className={navClass} data-active={isActive ? 'true' : 'false'}>
+                  <List className="h-4 w-4" strokeWidth={1.5} />
+                  Requests
+                </span>
+              )}
             </NavLink>
             {isInternal ? (
               <>
-                <NavLink to="/admin" className={navLinkClass}>
-                  <span className="inline-flex items-center gap-2">
-                    <LayoutDashboard className="h-4 w-4" strokeWidth={1.5} /> Triage
-                  </span>
+                <NavLink to="/admin">
+                  {({ isActive }) => (
+                    <span className={navClass} data-active={isActive ? 'true' : 'false'}>
+                      <LayoutDashboard className="h-4 w-4" strokeWidth={1.5} />
+                      Triage
+                    </span>
+                  )}
                 </NavLink>
-                <NavLink to="/admin/org" className={navLinkClass}>
-                  <span className="inline-flex items-center gap-2">
-                    <Settings className="h-4 w-4" strokeWidth={1.5} /> Admin
-                  </span>
+                <NavLink to="/admin/org">
+                  {({ isActive }) => (
+                    <span className={navClass} data-active={isActive ? 'true' : 'false'}>
+                      <Settings className="h-4 w-4" strokeWidth={1.5} />
+                      Admin
+                    </span>
+                  )}
                 </NavLink>
               </>
             ) : null}
@@ -73,7 +80,7 @@ export function AppShell({ theme = 'client' }: AppShellProps) {
           <div className="flex items-center gap-2">
             {user ? (
               <>
-                <span className="hidden text-sm text-muted-foreground sm:inline">{user.full_name || user.email}</span>
+                <span className="hidden text-sm text-[#5e5e5e] sm:inline">{user.full_name || user.email}</span>
                 <Button variant="ghost" size="sm" onClick={() => void signOut()} aria-label="Sign out">
                   <LogOut className="h-4 w-4" strokeWidth={1.5} />
                 </Button>
@@ -88,18 +95,28 @@ export function AppShell({ theme = 'client' }: AppShellProps) {
         </div>
       </header>
 
-      <main className="mx-auto max-w-6xl px-4 py-10 sm:px-8">
-        <Outlet />
+      <main className="studio-stage">
+        <div className="shoji-stage rounded-[2px] px-4 py-8 sm:px-8 sm:py-10">
+          <Outlet />
+        </div>
       </main>
+
+      <footer className="studio-footer">
+        <div className="studio-footer-inner">
+          <p className="font-display text-lg text-[#3f3b36]">Dev Generator</p>
+          <img src="/art/lantern.svg" alt="" aria-hidden className="h-10 w-7" />
+          <p className="font-accent text-xs tracking-[0.28em] text-[#606c5a]">開発</p>
+        </div>
+      </footer>
 
       {signInOpen ? (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-charcoal/25 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#5e5e5e]/35 p-4 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
           aria-label="Sign in"
         >
-          <Card className="w-full max-w-md border-border/80 bg-surface-elevated shadow-lift">
+          <Card className="w-full max-w-md">
             <SignInPanel onClose={() => setSignInOpen(false)} />
           </Card>
         </div>

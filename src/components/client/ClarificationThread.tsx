@@ -41,7 +41,7 @@ export function ClarificationThread({
 
   return (
     <section className="space-y-4">
-      <p className="japandi-kicker">Discussion</p>
+      <p className="section-label">Discussion</p>
       <h3 className="font-display text-lg font-medium">Clarification thread</h3>
       <ul className="max-h-64 space-y-3 overflow-auto">
         {visibleMessages.length === 0 ? (

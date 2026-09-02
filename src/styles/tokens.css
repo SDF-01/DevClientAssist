@@ -1,5 +1,5 @@
 @theme {
-  /* Japandi palette — reference swatches */
+  /* Palette from the reference swatches */
   --color-cream: #f3f0e8;
   --color-greige: #e6e4e0;
   --color-sage: #b9b99d;
@@ -60,10 +60,10 @@
   --color-status-needs-clarification: #8f837a;
 
   /* Typography */
-  --font-display: 'Cormorant Garamond', 'Noto Serif JP', Georgia, serif;
+  --font-display: 'Shippori Mincho', 'Cormorant Garamond', Georgia, serif;
   --font-body: 'DM Sans', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
-  --font-accent: 'Noto Serif JP', Georgia, serif;
+  --font-accent: 'Noto Serif JP', 'Shippori Mincho', serif;
 
   /* Shape */
   --radius-sm: 4px;

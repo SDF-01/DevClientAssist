@@ -67,7 +67,7 @@ export function RevisionDetailPage() {
     <div className="space-y-6">
       <CardHeader className="flex flex-row flex-wrap items-start justify-between gap-4 px-0">
         <div>
-          <p className="japandi-kicker">Triage</p>
+          <p className="section-label">Triage</p>
           <CardTitle className="text-3xl font-normal">{revision.title}</CardTitle>
           <p className="text-sm text-muted-foreground">
             {revision.project?.name} · {formatDate(revision.created_at)}
@@ -98,7 +98,7 @@ export function RevisionDetailPage() {
       </Card>
 
       <Card>
-        <p className="japandi-kicker mb-2">Items</p>
+        <p className="section-label mb-2">Items</p>
         <h3 className="mb-4 font-display text-lg font-medium">Editable revision items</h3>
         <ul className="space-y-4">
           {items.map((item, index) => (
@@ -122,7 +122,7 @@ export function RevisionDetailPage() {
 
       {revision.events && revision.events.length > 0 ? (
         <Card>
-          <p className="japandi-kicker mb-2">History</p>
+          <p className="section-label mb-2">History</p>
           <h3 className="mb-3 font-display text-lg font-medium">Audit log</h3>
           <ul className="space-y-2 text-sm">
             {revision.events.map((event) => (
