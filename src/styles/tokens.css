@@ -1,62 +1,78 @@
 @theme {
-  /* Surfaces — clean white with warm bamboo wash */
-  --color-surface-base: #ffffff;
+  /* Japandi palette — reference swatches */
+  --color-cream: #f3f0e8;
+  --color-greige: #e6e4e0;
+  --color-sage: #b9b99d;
+  --color-blush: #e0cfc3;
+  --color-sand: #d5caba;
+  --color-bamboo: #dcb482;
+  --color-terracotta: #c09e85;
+  --color-taupe: #8f837a;
+  --color-stone: #858480;
+  --color-mist: #b0b9a8;
+  --color-moss: #606c5a;
+  --color-charcoal: #5e5e5e;
+
+  /* Surfaces */
+  --color-surface-base: #f3f0e8;
   --color-surface-elevated: #ffffff;
-  --color-surface-muted: #f9f7f4;
-  --color-surface-accent: #f3ede4;
-  --color-surface-internal: #fafafa;
+  --color-surface-muted: #e6e4e0;
+  --color-surface-accent: #e0cfc3;
+  --color-surface-internal: #eceae6;
+  --color-surface-wood: #d5caba;
 
-  /* Bamboo Japandi palette */
-  --color-japa-stone: #f5f0e8;
-  --color-japa-sand: #faf8f5;
-  --color-japa-sage: #a8895c;
-  --color-japa-sage-light: #e5d5bc;
-  --color-japa-clay: #8b7355;
-  --color-japa-clay-light: #f0e6d8;
-  --color-japa-bamboo: #a8895c;
-  --color-japa-bamboo-light: #e8dcc8;
-  --color-japa-bamboo-pale: #f5ede3;
-  --color-japa-bamboo-dark: #7a6348;
-  --color-japa-ink: #2e2a26;
+  /* Semantic aliases */
+  --color-japa-stone: #e6e4e0;
+  --color-japa-sand: #f3f0e8;
+  --color-japa-sage: #b9b99d;
+  --color-japa-sage-light: #b0b9a8;
+  --color-japa-clay: #c09e85;
+  --color-japa-clay-light: #e0cfc3;
+  --color-japa-bamboo: #dcb482;
+  --color-japa-bamboo-light: #d5caba;
+  --color-japa-bamboo-pale: #f3f0e8;
+  --color-japa-bamboo-dark: #8f837a;
+  --color-japa-ink: #5e5e5e;
   --color-japa-warm-white: #ffffff;
-  --color-japa-charcoal: #4a433c;
+  --color-japa-charcoal: #5e5e5e;
 
-  /* Legacy token aliases mapped to bamboo */
-  --color-pastel-lilac: #f3ede4;
-  --color-pastel-peach: #f0e6d8;
-  --color-pastel-sky: #f5ede3;
-  --color-pastel-mint: #e8dcc8;
-  --color-pastel-rose: #f5f0e8;
+  --color-pastel-lilac: #e0cfc3;
+  --color-pastel-peach: #d5caba;
+  --color-pastel-sky: #e6e4e0;
+  --color-pastel-mint: #b0b9a8;
+  --color-pastel-rose: #e0cfc3;
 
   /* Actions */
-  --color-accent-primary: #7a6348;
-  --color-accent-secondary: #a8895c;
-  --color-foreground: #2e2a26;
-  --color-muted-foreground: #7a7268;
-  --color-border: rgba(122, 99, 72, 0.14);
+  --color-accent-primary: #606c5a;
+  --color-accent-secondary: #dcb482;
+  --color-foreground: #5e5e5e;
+  --color-muted-foreground: #8f837a;
+  --color-border: rgba(143, 131, 122, 0.22);
 
-  /* Status — warm bamboo wood tones */
-  --color-status-draft: #a39a90;
-  --color-status-submitted: #9a8260;
-  --color-status-in-review: #b8956a;
-  --color-status-approved: #8b7355;
-  --color-status-changes-requested: #c4a574;
-  --color-status-done: #6b5344;
+  /* Status */
+  --color-status-draft: #858480;
+  --color-status-submitted: #b9b99d;
+  --color-status-in-review: #dcb482;
+  --color-status-approved: #606c5a;
+  --color-status-changes-requested: #c09e85;
+  --color-status-done: #606c5a;
   --color-status-rejected: #a65d57;
-  --color-status-needs-clarification: #9a8870;
+  --color-status-needs-clarification: #8f837a;
 
   /* Typography */
-  --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-display: 'Cormorant Garamond', 'Noto Serif JP', Georgia, serif;
   --font-body: 'DM Sans', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-accent: 'Noto Serif JP', Georgia, serif;
 
-  /* Shape — restrained, architectural */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
+  /* Shape */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
   --radius-pill: 999px;
 
-  /* Elevation — soft natural light on white */
-  --shadow-bubble: 0 1px 2px rgba(46, 42, 38, 0.04), 0 4px 16px rgba(122, 99, 72, 0.06);
-  --shadow-lift: 0 8px 24px rgba(122, 99, 72, 0.08);
+  /* Elevation */
+  --shadow-bubble: 0 1px 3px rgba(94, 94, 94, 0.06), 0 6px 20px rgba(143, 131, 122, 0.08);
+  --shadow-lift: 0 12px 32px rgba(143, 131, 122, 0.12);
+  --shadow-wood: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 2px 8px rgba(96, 108, 90, 0.12);
 }

@@ -1,14 +1,14 @@
 {
-  "name": "Airmen Voice Revisions",
+  "name": "Airmen Voice",
   "short_name": "Airmen Voice",
-  "description": "Bamboo Japandi revision intake portal for Airmen Voice",
+  "description": "Revision intake and tracking for Airmen Voice",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FFFFFF",
-  "theme_color": "#7A6348",
+  "background_color": "#F3F0E8",
+  "theme_color": "#606C5A",
   "icons": [
     {
-      "src": "/vite.svg",
+      "src": "/logo-airmen-voice.svg",
       "sizes": "any",
       "type": "image/svg+xml"
     }

@@ -24,7 +24,7 @@ export function StatusTimeline({ currentStatus, className }: StatusTimelineProps
 
   return (
     <div className={cn('space-y-3', className)}>
-      <p className="japandi-kicker">Status</p>
+      <p className="section-label">Status</p>
       <ol className="flex flex-wrap gap-2" aria-label="Revision status timeline">
         {timelineSteps.map((step, index) => {
           const isComplete = currentIndex >= index && currentIndex !== -1
@@ -35,13 +35,13 @@ export function StatusTimeline({ currentStatus, className }: StatusTimelineProps
               className={cn(
                 'flex items-center gap-2 rounded-[var(--radius-sm)] border px-3 py-1.5 text-xs font-medium tracking-wide transition-colors',
                 isComplete
-                  ? 'border-japa-sage/25 bg-japa-sage-light/30 text-japa-charcoal'
+                  ? 'border-sage/30 bg-mist/35 text-charcoal'
                   : 'border-border bg-surface-muted/50 text-muted-foreground',
-                isCurrent && 'ring-1 ring-japa-sage/40',
+                isCurrent && 'ring-1 ring-moss/35',
               )}
             >
               {isComplete ? (
-                <Check className="h-3 w-3 text-japa-sage" strokeWidth={2} />
+                <Check className="h-3 w-3 text-moss" strokeWidth={2} />
               ) : (
                 <span className="h-1.5 w-1.5 rounded-full bg-border" />
               )}

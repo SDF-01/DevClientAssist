@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { isSupabaseConfigured, supabase } from '@/lib/supabase/client'
-import { getLocalUser, setLocalUser, type LocalUser } from '@/lib/data/localStore'
+import { getLocalUser, setLocalUser } from '@/lib/data/localStore'
 import type { UserRole } from '@/types/database'
 
 export interface AuthUser {
@@ -50,26 +50,16 @@ export function useAuth() {
     void init()
   }, [])
 
-  const signInDemo = useCallback((role: UserRole = 'client_editor') => {
-    const demoUser: LocalUser = {
-      id: crypto.randomUUID(),
-      email: role === 'admin' || role === 'developer' ? 'dev@example.com' : 'client@example.com',
-      full_name: role === 'admin' ? 'Admin User' : role === 'developer' ? 'Developer User' : 'Client User',
-      role,
-      organization_id: '00000000-0000-0000-0000-000000000001',
-    }
-    setLocalUser(demoUser)
-    setUser(demoUser)
-  }, [])
-
   const signInWithEmail = useCallback(async (email: string) => {
-    if (isSupabaseConfigured && supabase) {
-      const { error } = await supabase.auth.signInWithOtp({ email })
-      if (error) throw error
-      return
+    if (!isSupabaseConfigured || !supabase) {
+      throw new Error('Sign in is not configured. Contact your administrator.')
     }
-    signInDemo('client_editor')
-  }, [signInDemo])
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: { emailRedirectTo: window.location.origin },
+    })
+    if (error) throw error
+  }, [])
 
   const signOut = useCallback(async () => {
     if (isSupabaseConfigured && supabase) {
@@ -81,5 +71,5 @@ export function useAuth() {
 
   const isInternal = user?.role === 'developer' || user?.role === 'admin'
 
-  return { user, loading, signInDemo, signInWithEmail, signOut, isInternal, isAuthenticated: Boolean(user) }
+  return { user, loading, signInWithEmail, signOut, isInternal, isAuthenticated: Boolean(user) }
 }

@@ -44,7 +44,12 @@ export function RevisionWizard() {
   const [similarWarning, setSimilarWarning] = useState<string | null>(null)
 
   useEffect(() => {
-    void listProjects().then(setProjects)
+    void listProjects().then((loaded) => {
+      setProjects(loaded)
+      if (loaded.length === 1 && !projectId) {
+        setProjectId(loaded[0].id)
+      }
+    })
     void listTemplates().then(setTemplates)
   }, [])
 
@@ -145,16 +150,18 @@ export function RevisionWizard() {
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
       <div className="space-y-6">
-        <Card className="relative overflow-hidden border-japa-sage/15">
-          <div className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full bg-japa-sage/6" aria-hidden />
-          <CardHeader className="relative">
-            <p className="japandi-kicker">Client revision intake</p>
-            <CardTitle className="text-3xl font-normal">Submit a revision request</CardTitle>
+        <Card className="relative overflow-hidden border-border/80">
+          <div className="absolute inset-y-0 left-0 w-1.5 wood-panel" aria-hidden />
+          <CardHeader className="relative pl-6">
+            <p className="section-label">Revision request</p>
+            <CardTitle className="text-3xl font-normal">Submit your changes</CardTitle>
             <CardDescription>
-              Pick your project, describe the changes, attach references, and preview the structured TOON output.
+              Describe what should change, attach references, and preview the structured output before sending.
             </CardDescription>
           </CardHeader>
-          <Stepper steps={STEPS} currentStep={step} />
+          <div className="relative pl-6 pb-2">
+            <Stepper steps={STEPS} currentStep={step} />
+          </div>
         </Card>
 
         {step === 0 ? (
@@ -196,7 +203,7 @@ export function RevisionWizard() {
                   key={tpl.id}
                   type="button"
                   onClick={() => applyTemplate(tpl)}
-                  className="rounded-[var(--radius-sm)] border border-border bg-surface-muted px-3 py-1.5 text-xs font-medium tracking-wide text-foreground transition-colors hover:border-japa-clay/30 hover:bg-japa-clay/10"
+                  className="rounded-[var(--radius-sm)] border border-border bg-surface-muted px-3 py-1.5 text-xs font-medium tracking-wide text-foreground transition-colors hover:border-bamboo/40 hover:bg-blush/30"
                 >
                   {tpl.name}
                 </button>
@@ -210,7 +217,7 @@ export function RevisionWizard() {
               placeholder={'Example:\n- Move the primary CTA above the fold\n- Match button color to attached screenshot\n- Keep existing auth flow unchanged'}
               rows={14}
             />
-            {similarWarning ? <p className="text-sm text-japa-clay" role="alert">{similarWarning}</p> : null}
+            {similarWarning ? <p className="text-sm text-terracotta" role="alert">{similarWarning}</p> : null}
             <Textarea
               label="Additional notes (optional)"
               value={clientNotes}
@@ -235,7 +242,7 @@ export function RevisionWizard() {
             <div className="flex flex-wrap items-center gap-2">
               <LabelBadge>Completeness: {preview.completeness.score}%</LabelBadge>
               {preview.completeness.warnings.map((w) => (
-                <span key={w} className="text-xs text-japa-clay">{w}</span>
+                <span key={w} className="text-xs text-terracotta">{w}</span>
               ))}
             </div>
             <pre className="japandi-code-block max-h-72 overflow-auto rounded-[var(--radius-sm)] p-4 text-xs whitespace-pre-wrap font-mono">
@@ -277,15 +284,15 @@ export function RevisionWizard() {
       </div>
 
       <aside className="hidden lg:block">
-        <Card className="sticky top-24 space-y-3 border-japa-sage/15 bg-surface-accent/40">
-          <p className="japandi-kicker">Summary</p>
+        <Card className="sticky top-24 space-y-3 border-border/80 bg-surface-muted/50">
+          <p className="section-label">Summary</p>
           <h3 className="font-display text-lg font-medium">Your request</h3>
-          <div className="japandi-divider" />
+          <div className="divider-soft" />
           <p className="text-sm text-muted-foreground">Project: {selectedProject?.name ?? 'Not selected'}</p>
           <p className="text-sm text-muted-foreground">Words: {wordCount}</p>
           <p className="text-sm text-muted-foreground">Images: {images.length}</p>
           {preview ? (
-            <p className="text-sm font-medium text-japa-sage">Ready to submit ({preview.completeness.score}% complete)</p>
+            <p className="text-sm font-medium text-moss">Ready to submit ({preview.completeness.score}% complete)</p>
           ) : (
             <p className="text-sm text-muted-foreground">Complete steps to preview.</p>
           )}

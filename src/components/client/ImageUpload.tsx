@@ -71,7 +71,7 @@ export function ImageUpload({ images, onChange, onAnnotate }: ImageUploadProps) 
       </div>
 
       <div
-        className="cursor-pointer rounded-[var(--radius-md)] border border-dashed border-border bg-surface-muted/50 p-8 text-center transition-all duration-200 hover:border-japa-sage/35 hover:bg-surface-accent/30"
+        className="cursor-pointer rounded-[var(--radius-md)] border border-dashed border-border bg-surface-elevated/80 p-8 text-center transition-all duration-200 hover:border-bamboo/45 hover:bg-blush/20"
         onClick={() => inputRef.current?.click()}
         onDragOver={(e) => e.preventDefault()}
         onDrop={(e) => {
@@ -129,7 +129,7 @@ export function ImageUpload({ images, onChange, onAnnotate }: ImageUploadProps) 
                   value={image.caption}
                   placeholder="Describe what this screenshot shows"
                   aria-label={`Caption for ${image.name}`}
-                  className="w-full rounded-[var(--radius-sm)] border border-border bg-surface-base px-3 py-2 text-sm focus:border-japa-sage/40 focus:outline-none focus:ring-2 focus:ring-japa-sage/15"
+                  className="w-full rounded-[var(--radius-sm)] border border-border bg-surface-base px-3 py-2 text-sm focus:border-moss/35 focus:outline-none focus:ring-2 focus:ring-moss/15"
                   onChange={(e) => updateCaption(image.id, e.target.value)}
                 />
                 <div className="flex flex-wrap gap-2">

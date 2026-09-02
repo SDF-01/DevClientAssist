@@ -31,7 +31,7 @@
   }
 
   ::selection {
-    background: rgba(168, 137, 92, 0.22);
+    background: rgba(185, 185, 157, 0.35);
     color: var(--color-japa-ink);
   }
 
@@ -55,7 +55,11 @@
     font-family: var(--font-body);
   }
 
-  .font-mono {
-    font-family: var(--font-mono);
+  .font-accent {
+    font-family: var(--font-accent);
+  }
+
+  .shadow-wood {
+    box-shadow: var(--shadow-wood);
   }
 }

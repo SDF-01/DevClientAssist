@@ -2,14 +2,14 @@ import { cn } from '@/lib/utils'
 import type { RevisionStatus } from '@/types/database'
 
 const statusStyles: Record<RevisionStatus, string> = {
-  draft: 'bg-japa-stone/80 text-japa-charcoal',
-  submitted: 'bg-japa-sage-light/50 text-japa-charcoal border border-japa-sage/20',
-  in_review: 'bg-japa-clay-light/40 text-japa-charcoal border border-japa-clay/20',
-  needs_clarification: 'bg-japa-sand text-japa-charcoal border border-border',
-  approved: 'bg-japa-sage-light/60 text-japa-charcoal border border-japa-sage/25',
-  exported: 'bg-surface-accent text-japa-charcoal',
-  in_progress: 'bg-japa-sage/15 text-japa-charcoal border border-japa-sage/20',
-  done: 'bg-japa-sage/25 text-japa-ink border border-japa-sage/30',
+  draft: 'bg-greige text-charcoal',
+  submitted: 'bg-mist/50 text-moss border border-sage/25',
+  in_review: 'bg-bamboo/20 text-charcoal border border-bamboo/30',
+  needs_clarification: 'bg-sand text-charcoal border border-border',
+  approved: 'bg-sage/25 text-moss border border-moss/25',
+  exported: 'bg-blush/40 text-charcoal',
+  in_progress: 'bg-mist/30 text-moss border border-sage/20',
+  done: 'bg-moss/15 text-moss border border-moss/30',
   rejected: 'bg-status-rejected/10 text-status-rejected border border-status-rejected/20',
 }
 

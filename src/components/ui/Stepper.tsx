@@ -20,8 +20,8 @@ export function Stepper({ steps, currentStep, className }: StepperProps) {
             <div
               className={cn(
                 'flex items-center gap-2.5 rounded-[var(--radius-sm)] px-3 py-2 text-sm transition-colors duration-200',
-                isCurrent && 'bg-accent-primary text-japa-warm-white',
-                isComplete && !isCurrent && 'text-japa-sage',
+                isCurrent && 'bg-accent-primary text-japa-warm-white shadow-wood',
+                isComplete && !isCurrent && 'text-moss',
                 !isCurrent && !isComplete && 'text-muted-foreground',
               )}
               aria-current={isCurrent ? 'step' : undefined}
@@ -30,7 +30,7 @@ export function Stepper({ steps, currentStep, className }: StepperProps) {
                 className={cn(
                   'flex h-6 w-6 items-center justify-center rounded-[var(--radius-sm)] text-xs font-medium',
                   isCurrent && 'bg-japa-warm-white/15 text-japa-warm-white',
-                  isComplete && !isCurrent && 'bg-japa-sage-light/50 text-japa-charcoal',
+                  isComplete && !isCurrent && 'bg-mist/40 text-moss',
                   !isCurrent && !isComplete && 'bg-surface-muted text-muted-foreground',
                 )}
               >
@@ -40,10 +40,7 @@ export function Stepper({ steps, currentStep, className }: StepperProps) {
             </div>
             {!isLast ? (
               <span
-                className={cn(
-                  'mx-1 hidden h-px w-6 sm:block',
-                  isComplete ? 'bg-japa-sage/40' : 'bg-border',
-                )}
+                className={cn('mx-1 hidden h-px w-6 sm:block', isComplete ? 'bg-bamboo/50' : 'bg-border')}
                 aria-hidden
               />
             ) : null}

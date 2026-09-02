@@ -10,8 +10,10 @@
 .theme-client {
   background-color: var(--color-surface-base);
   background-image:
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(168, 137, 92, 0.07), transparent),
-    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(232, 220, 200, 0.35), transparent);
+    url('/patterns/bamboo-grain.svg'),
+    radial-gradient(ellipse 90% 60% at 0% 0%, rgba(220, 180, 130, 0.12), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 100% 100%, rgba(176, 185, 168, 0.1), transparent 50%);
+  background-size: 280px 280px, auto, auto;
 }
 
 .theme-internal {
@@ -24,35 +26,63 @@
 }
 
 .panel-card {
-  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .panel-card:hover {
   box-shadow: var(--shadow-lift);
 }
 
-.japandi-divider {
+.wood-panel {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.35), transparent 40%),
+    url('/patterns/bamboo-grain.svg'),
+    linear-gradient(135deg, #d5caba 0%, #dcb482 45%, #c09e85 100%);
+  background-size: auto, 240px 240px, auto;
+  box-shadow: var(--shadow-wood);
+}
+
+/* Legacy class aliases */
+.japandi-divider,
+.divider-soft {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(122, 99, 72, 0.14), transparent);
+  background: linear-gradient(90deg, transparent, rgba(143, 131, 122, 0.25), transparent);
 }
 
-.japandi-kicker {
+.japandi-kicker,
+.section-label {
   font-family: var(--font-body);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 500;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--color-japa-bamboo);
+  color: var(--color-taupe);
 }
 
-.japandi-code-block {
-  background: #faf8f5;
-  color: #4a433c;
-  border: 1px solid rgba(122, 99, 72, 0.12);
+.japandi-kicker::before,
+.section-label::before {
+  content: '—';
+  margin-right: 0.5rem;
+  color: var(--color-bamboo);
+  letter-spacing: 0;
 }
 
-.japandi-code-dark {
-  background: #4a433c;
-  color: #f5f0e8;
+.japandi-code-block,
+.code-block-light {
+  background: #f3f0e8;
+  color: #5e5e5e;
+  border: 1px solid rgba(143, 131, 122, 0.18);
+}
+
+.japandi-code-dark,
+.code-block-dark {
+  background: #606c5a;
+  color: #f3f0e8;
   border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.hero-enso {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.14;
 }

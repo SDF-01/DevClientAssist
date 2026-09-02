@@ -55,7 +55,7 @@ export function ImageAnnotator({ imageUrl, imageName, initialAnnotation, onSave,
     const x = (e.clientX - rect.left) * scaleX
     const y = (e.clientY - rect.top) * scaleY
 
-    ctx.strokeStyle = '#A8895C'
+    ctx.strokeStyle = '#DCB482'
     ctx.lineWidth = 3
     ctx.lineCap = 'round'
     ctx.lineTo(x, y)
@@ -74,7 +74,7 @@ export function ImageAnnotator({ imageUrl, imageName, initialAnnotation, onSave,
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-japa-ink/40 p-4 backdrop-blur-sm">
       <Card className="max-h-[90vh] w-full max-w-4xl overflow-auto bg-surface-elevated shadow-lift">
         <CardHeader>
-          <p className="japandi-kicker">Annotate</p>
+          <p className="section-label">Annotate</p>
           <CardTitle className="font-normal">{imageName}</CardTitle>
         </CardHeader>
       <div className="overflow-auto rounded-[var(--radius-md)] border border-border">
