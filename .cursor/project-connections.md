@@ -9,20 +9,33 @@
 ## Vercel
 
 - Provider: Vercel
-- Project: `revision-portal`
+- Project: `dev-client-assist`
 - Team: `weasel-werx`
-- Production URL: https://revision-portal-eight.vercel.app
-- Dashboard: https://vercel.com/weasel-werx/revision-portal
+- Production URL: https://dev-client-assist.vercel.app
+- Legacy alias: https://revision-portal-eight.vercel.app
+- Dashboard: https://vercel.com/weasel-werx/dev-client-assist
 - Deploy mode: GitHub integration (auto-deploy on push to `main`)
+
+## Supabase
+
+- Project: `DevClientAssist`
+- Project ref: `vfarnwwsmygmldjjdpqz`
+- Region: `ap-southeast-1`
+- API URL: https://vfarnwwsmygmldjjdpqz.supabase.co
+- Dashboard: https://supabase.com/dashboard/project/vfarnwwsmygmldjjdpqz
+- Anon key: stored in Vercel env (`VITE_SUPABASE_ANON_KEY`), not committed
 
 ## Environment Variables (Vercel)
 
-Optional runtime variables:
+Configured in all environments (production, preview, development):
 
 - `VITE_SUPABASE_URL`
 - `VITE_SUPABASE_ANON_KEY`
+- `VITE_ANALYTICS_ENABLED=true`
+
+Optional (not set):
+
 - `VITE_GITHUB_WEBHOOK_URL`
-- `VITE_ANALYTICS_ENABLED`
 - `VITE_OPENAI_API_KEY`
 
 ## Protected Files
@@ -30,7 +43,7 @@ Optional runtime variables:
 Do not commit:
 
 - `.env`
-- `.env.*` (except `.env.example`)
+- `.env.local`
 - `.vercel/`
 - `node_modules/`
 - `dist/`
