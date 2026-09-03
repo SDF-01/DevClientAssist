@@ -33,7 +33,8 @@ interface LocalStore {
 function loadStore(): LocalStore {
   const raw = localStorage.getItem(STORAGE_KEY)
   if (raw) {
-    return JSON.parse(raw) as LocalStore
+    const store = JSON.parse(raw) as LocalStore
+    return mergeDefaultTemplates(store)
   }
 
   const projects: Project[] = CLIENT_APPS.map((app, index) => ({
@@ -48,33 +49,64 @@ function loadStore(): LocalStore {
     created_at: new Date().toISOString(),
   }))
 
-  const templates: RevisionTemplate[] = [
-    {
-      id: 'tpl-1',
-      name: 'Homepage Hero Update',
-      description: 'Update hero section layout, copy, or imagery',
-      template_text:
-        '- Update the homepage hero section\n- Match attached reference screenshot\n- Keep existing navigation unchanged',
-      category: 'ui',
-    },
-    {
-      id: 'tpl-2',
-      name: 'Bug Fix Report',
-      description: 'Report a broken feature or error',
-      template_text:
-        '- Describe the bug and steps to reproduce\n- Expected vs actual behavior\n- Priority: high',
-      category: 'functionality',
-    },
-    {
-      id: 'tpl-3',
-      name: 'Copy Change',
-      description: 'Update text, labels, or messaging',
-      template_text: '- Update the following copy:\n- Keep tone consistent with brand guidelines',
-      category: 'content',
-    },
-  ]
+  return {
+    projects,
+    revisions: [],
+    items: [],
+    attachments: [],
+    events: [],
+    exports: [],
+    messages: [],
+    templates: defaultTemplates(),
+  }
+}
 
-  return { projects, revisions: [], items: [], attachments: [], events: [], exports: [], messages: [], templates }
+export const DEFAULT_REVISION_TEMPLATES: RevisionTemplate[] = [
+  {
+    id: 'tpl-2',
+    name: 'Bug Fix Report',
+    description: 'Report a broken feature or error',
+    template_text:
+      '- Describe the bug and steps to reproduce\n- Expected vs actual behavior\n- Priority: high',
+    category: 'functionality',
+  },
+  {
+    id: 'tpl-4',
+    name: 'Features',
+    description: 'Ask for a new feature or capability',
+    template_text:
+      '- Name the feature\n- What the user should be able to do\n- Where it should appear in the app\n- What the finished result should look like\n- Leave the rest of the app as it is',
+    category: 'functionality',
+  },
+  {
+    id: 'tpl-3',
+    name: 'Copy Change',
+    description: 'Update text, labels, or messaging',
+    template_text: '- Update the following copy:\n- Keep tone consistent with brand guidelines',
+    category: 'content',
+  },
+  {
+    id: 'tpl-1',
+    name: 'Homepage Hero Update',
+    description: 'Update hero section layout, copy, or imagery',
+    template_text:
+      '- Update the homepage hero section\n- Match attached reference screenshot\n- Keep existing navigation unchanged',
+    category: 'ui',
+  },
+]
+
+function defaultTemplates(): RevisionTemplate[] {
+  return DEFAULT_REVISION_TEMPLATES.map((template) => ({ ...template }))
+}
+
+function mergeDefaultTemplates(store: LocalStore): LocalStore {
+  const existingNames = new Set((store.templates ?? []).map((template) => template.name))
+  const missing = defaultTemplates().filter((template) => !existingNames.has(template.name))
+  if (missing.length === 0) return store
+
+  store.templates = [...(store.templates ?? []), ...missing]
+  saveStore(store)
+  return store
 }
 
 function saveStore(store: LocalStore) {
