@@ -20,4 +20,8 @@ describe('access', () => {
     expect(resolveUserRole('someone@example.com')).toBe('client_editor')
     expect(resolveUserRole(null, 'not-a-role')).toBe('client_editor')
   })
+
+  it('does not treat other emails as automatically approved accounts', () => {
+    expect(isOwnerEmail('new.user@example.com')).toBe(false)
+  })
 })

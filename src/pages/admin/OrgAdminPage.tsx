@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react'
+import { AccountRequestsCard } from '@/components/admin/AccountRequestsCard'
 import { Card, CardHeader } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
+import { useAuth } from '@/hooks/useAuth'
 import { listProjects } from '@/lib/data/projects'
 import { getAnalyticsSummary } from '@/lib/analytics'
 import { getRetentionPolicy, runRetentionPolicy, setRetentionPolicy } from '@/lib/retention'
 import type { Project } from '@/types/database'
 
 export function OrgAdminPage() {
+  const { isOwner } = useAuth()
   const [projects, setProjects] = useState<Project[]>([])
   const [retentionDays, setRetentionDays] = useState(getRetentionPolicy().retentionDays)
   const analytics = getAnalyticsSummary()
@@ -24,10 +27,12 @@ export function OrgAdminPage() {
 
   return (
     <div className="space-y-6">
-      <CardHeader className="px-0">
+      <CardHeader className="page-head px-0">
         <p className="section-label">Workspace</p>
         <h1 className="font-display text-3xl font-normal">Organization</h1>
       </CardHeader>
+
+      {isOwner ? <AccountRequestsCard /> : null}
 
       <Card>
         <p className="section-label mb-2">Projects</p>

@@ -137,6 +137,18 @@ export interface RevisionTemplate {
   category: RevisionCategory
 }
 
+export type AccountRequestStatus = 'pending' | 'approved' | 'denied'
+
+export interface AccountRequest {
+  id: string
+  email: string
+  full_name: string
+  status: AccountRequestStatus
+  created_at: string
+  reviewed_at: string | null
+  reviewer_email: string | null
+}
+
 export interface RevisionRequestWithRelations extends RevisionRequest {
   project?: Project
   items?: RevisionItemRecord[]

@@ -27,7 +27,9 @@ Developers and admins use `/admin` to triage requests on a kanban or table, add 
 
 ## Access
 
-Sign-in uses Supabase magic links. `mandrewschaeffer@gmail.com` is the site owner and is always treated as an admin. Inbox (`/admin`) and organization admin (`/admin/org`) require an internal role (`developer` or `admin`).
+Sign-in uses Supabase magic links. Only `mandrewschaeffer@gmail.com` can create an account automatically. Anyone else who tries to register is added to a pending queue. The owner approves or denies those requests from `/admin/org`. Approved emails can then request a sign-in link.
+
+`mandrewschaeffer@gmail.com` is the site owner and is always treated as an admin. Inbox (`/admin`) and organization admin (`/admin/org`) require an internal role (`developer` or `admin`).
 
 After a user clicks **Confirm your email address**, Supabase must send them back to this app, not `http://localhost:3000`. Set these values in [Authentication → URL Configuration](https://supabase.com/dashboard/project/vfarnwwsmygmldjjdpqz/auth/url-configuration):
 
