@@ -41,7 +41,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
           <div
             key={toast.id}
             className={cn(
-              'min-w-[280px] rounded-[var(--radius-sm)] border px-4 py-3 text-sm font-medium shadow-lift backdrop-blur-sm',
+              'min-w-[280px] rounded-[var(--radius-lg)] border px-4 py-3 text-sm font-medium shadow-lift backdrop-blur-sm',
               toast.variant === 'success' && 'border-japa-sage/30 bg-surface-elevated text-japa-charcoal',
               toast.variant === 'error' && 'border-status-rejected/30 bg-surface-elevated text-status-rejected',
               toast.variant === 'info' && 'border-border bg-accent-primary text-japa-warm-white',

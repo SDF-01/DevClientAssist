@@ -199,7 +199,7 @@ export function RevisionWizard() {
                     key={tpl.id}
                     type="button"
                     onClick={() => applyTemplate(tpl)}
-                    className="rounded-[var(--radius-sm)] border border-border bg-surface-muted px-3 py-1.5 text-xs font-medium tracking-wide text-foreground transition-colors hover:border-bamboo/40 hover:bg-blush/30"
+                    className="rounded-[var(--radius-pill)] border border-border bg-surface-muted px-3 py-1.5 text-xs font-medium tracking-wide text-foreground transition-colors hover:border-pastel-rose/50 hover:bg-blush/30"
                   >
                     {tpl.name}
                   </button>

@@ -33,11 +33,11 @@ export function StatusTimeline({ currentStatus, className }: StatusTimelineProps
             <li
               key={step.status}
               className={cn(
-                'flex items-center gap-2 rounded-[var(--radius-sm)] border px-3 py-1.5 text-xs font-medium tracking-wide transition-colors',
+                'flex items-center gap-2 rounded-[var(--radius-pill)] border px-3 py-1.5 text-xs font-medium tracking-wide transition-colors',
                 isComplete
                   ? 'border-sage/30 bg-mist/35 text-charcoal'
                   : 'border-border bg-surface-muted/50 text-muted-foreground',
-                isCurrent && 'ring-1 ring-moss/35',
+                isCurrent && 'ring-1 ring-accent-primary/30',
               )}
             >
               {isComplete ? (

@@ -1,78 +1,78 @@
 @theme {
-  /* Palette from the reference swatches */
-  --color-cream: #f3f0e8;
-  --color-greige: #e6e4e0;
-  --color-sage: #b9b99d;
-  --color-blush: #e0cfc3;
-  --color-sand: #d5caba;
-  --color-bamboo: #dcb482;
-  --color-terracotta: #c09e85;
-  --color-taupe: #8f837a;
-  --color-stone: #858480;
-  --color-mist: #b0b9a8;
-  --color-moss: #606c5a;
-  --color-charcoal: #5e5e5e;
+  /* Hilton Kyoto Premiere, pastel: paper light, blossom, matcha, wisteria */
+  --color-cream: #fff6f1;
+  --color-greige: #f4e8e4;
+  --color-sage: #b7d4c4;
+  --color-blush: #f7c9ce;
+  --color-sand: #f6d3c2;
+  --color-bamboo: #efc089;
+  --color-terracotta: #e8a090;
+  --color-taupe: #7a6a66;
+  --color-stone: #8a7d78;
+  --color-mist: #cfe4d8;
+  --color-moss: #4f7d6c;
+  --color-charcoal: #3d332f;
 
   /* Surfaces */
-  --color-surface-base: #f3f0e8;
-  --color-surface-elevated: #ffffff;
-  --color-surface-muted: #e6e4e0;
-  --color-surface-accent: #e0cfc3;
-  --color-surface-internal: #eceae6;
-  --color-surface-wood: #d5caba;
+  --color-surface-base: #fff6f1;
+  --color-surface-elevated: #fffdfb;
+  --color-surface-muted: #f8ebe6;
+  --color-surface-accent: #fde4e6;
+  --color-surface-internal: #f6eee9;
+  --color-surface-wood: #f6d3c2;
 
   /* Semantic aliases */
-  --color-japa-stone: #e6e4e0;
-  --color-japa-sand: #f3f0e8;
-  --color-japa-sage: #b9b99d;
-  --color-japa-sage-light: #b0b9a8;
-  --color-japa-clay: #c09e85;
-  --color-japa-clay-light: #e0cfc3;
-  --color-japa-bamboo: #dcb482;
-  --color-japa-bamboo-light: #d5caba;
-  --color-japa-bamboo-pale: #f3f0e8;
-  --color-japa-bamboo-dark: #8f837a;
-  --color-japa-ink: #5e5e5e;
-  --color-japa-warm-white: #ffffff;
-  --color-japa-charcoal: #5e5e5e;
+  --color-japa-stone: #f4e8e4;
+  --color-japa-sand: #fff6f1;
+  --color-japa-sage: #b7d4c4;
+  --color-japa-sage-light: #cfe4d8;
+  --color-japa-clay: #e8a090;
+  --color-japa-clay-light: #f7c9ce;
+  --color-japa-bamboo: #efc089;
+  --color-japa-bamboo-light: #f6d3c2;
+  --color-japa-bamboo-pale: #fff6f1;
+  --color-japa-bamboo-dark: #7a6a66;
+  --color-japa-ink: #3d332f;
+  --color-japa-warm-white: #fffdfb;
+  --color-japa-charcoal: #3d332f;
 
-  --color-pastel-lilac: #e0cfc3;
-  --color-pastel-peach: #d5caba;
-  --color-pastel-sky: #e6e4e0;
-  --color-pastel-mint: #b0b9a8;
-  --color-pastel-rose: #e0cfc3;
+  --color-pastel-lilac: #e4d4ee;
+  --color-pastel-peach: #f6d3c2;
+  --color-pastel-sky: #d5e8f4;
+  --color-pastel-mint: #cfe4d8;
+  --color-pastel-rose: #f7c9ce;
 
   /* Actions */
-  --color-accent-primary: #606c5a;
-  --color-accent-secondary: #dcb482;
-  --color-foreground: #5e5e5e;
-  --color-muted-foreground: #8f837a;
-  --color-border: rgba(143, 131, 122, 0.22);
+  --color-accent-primary: #9a3f4e;
+  --color-accent-secondary: #efc089;
+  --color-foreground: #3d332f;
+  --color-muted-foreground: #7a6a66;
+  --color-border: rgba(154, 63, 78, 0.14);
 
   /* Status */
-  --color-status-draft: #858480;
-  --color-status-submitted: #b9b99d;
-  --color-status-in-review: #dcb482;
-  --color-status-approved: #606c5a;
-  --color-status-changes-requested: #c09e85;
-  --color-status-done: #606c5a;
+  --color-status-draft: #8a7d78;
+  --color-status-submitted: #b7d4c4;
+  --color-status-in-review: #efc089;
+  --color-status-approved: #4f7d6c;
+  --color-status-changes-requested: #e8a090;
+  --color-status-done: #4f7d6c;
   --color-status-rejected: #a65d57;
-  --color-status-needs-clarification: #8f837a;
+  --color-status-needs-clarification: #7a6a66;
 
   /* Typography */
-  --font-display: 'Shippori Mincho', 'Cormorant Garamond', Georgia, serif;
-  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-display: 'Shippori Mincho', 'Noto Serif JP', Georgia, serif;
+  --font-body: 'Zen Maru Gothic', 'DM Sans', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
   --font-accent: 'Noto Serif JP', 'Shippori Mincho', serif;
 
-  /* Shape */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
+  /* Shape: hotel-soft and bubbly */
+  --radius-sm: 14px;
+  --radius-md: 22px;
+  --radius-lg: 32px;
   --radius-pill: 999px;
 
   /* Elevation */
-  --shadow-bubble: 0 1px 3px rgba(94, 94, 94, 0.06), 0 6px 20px rgba(143, 131, 122, 0.08);
-  --shadow-lift: 0 12px 32px rgba(143, 131, 122, 0.12);
-  --shadow-wood: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 2px 8px rgba(96, 108, 90, 0.12);
+  --shadow-bubble: 0 8px 28px rgba(154, 63, 78, 0.08), 0 2px 8px rgba(61, 51, 47, 0.04);
+  --shadow-lift: 0 18px 40px rgba(154, 63, 78, 0.12);
+  --shadow-wood: 0 10px 28px rgba(154, 63, 78, 0.1);
 }

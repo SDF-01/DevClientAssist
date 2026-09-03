@@ -17,7 +17,7 @@ export function BrandMark({ className, size = 'md' }: BrandMarkProps) {
       src="/logo-dev-generator.svg"
       alt=""
       aria-hidden
-      className={cn('rounded-[4px] object-cover shadow-wood', sizes[size], className)}
+      className={cn('rounded-[1.35rem] object-cover shadow-bubble', sizes[size], className)}
     />
   )
 }

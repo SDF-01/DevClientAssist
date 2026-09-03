@@ -34,7 +34,7 @@ export function StatusBadge({ status, className }: BadgeProps) {
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-[var(--radius-sm)] px-2.5 py-1 text-xs font-medium tracking-wide',
+        'inline-flex items-center rounded-[var(--radius-pill)] px-2.5 py-1 text-xs font-medium tracking-wide',
         statusStyles[status],
         className,
       )}
@@ -53,7 +53,7 @@ export function LabelBadge({ children, className }: LabelBadgeProps) {
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-[var(--radius-sm)] border border-border bg-surface-muted px-2.5 py-1 text-[11px] font-medium tracking-wide text-muted-foreground',
+        'inline-flex items-center rounded-[var(--radius-pill)] border border-border bg-surface-muted px-2.5 py-1 text-[11px] font-medium tracking-wide text-muted-foreground',
         className,
       )}
     >

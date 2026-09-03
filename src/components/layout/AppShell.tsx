@@ -21,7 +21,7 @@ export function AppShell({ theme = 'client' }: AppShellProps) {
   const [menuOpen, setMenuOpen] = useState(false)
 
   const navClass =
-    'wood-tab inline-flex items-center gap-2 rounded-[2px] px-4 py-2 text-sm font-medium tracking-wide'
+    'wood-tab inline-flex items-center gap-2 rounded-[var(--radius-pill)] px-4 py-2 text-sm font-medium tracking-wide'
 
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
@@ -86,10 +86,10 @@ export function AppShell({ theme = 'client' }: AppShellProps) {
           <Link to="/" className="group flex items-center gap-3">
             <BrandMark size="md" className="transition-transform duration-300 group-hover:-rotate-2" />
             <div>
-              <span className="font-display text-[1.65rem] leading-none tracking-tight text-[#3f3b36]">
+              <span className="font-display text-[1.65rem] leading-none tracking-tight text-foreground">
                 Dev Generator
               </span>
-              <span className="mt-1 block text-[10px] font-medium uppercase tracking-[0.3em] text-[#8f837a]">
+              <span className="mt-1 block text-[10px] font-medium uppercase tracking-[0.3em] text-muted-foreground">
                 For Airmen Voice
               </span>
             </div>
@@ -102,7 +102,7 @@ export function AppShell({ theme = 'client' }: AppShellProps) {
           <div className="flex items-center gap-2">
             {user ? (
               <>
-                <span className="hidden max-w-[160px] truncate text-sm text-[#5e5e5e] sm:inline">
+                <span className="hidden max-w-[160px] truncate text-sm text-foreground sm:inline">
                   {user.full_name || user.email}
                 </span>
                 <Button variant="ghost" size="sm" onClick={() => void signOut()} aria-label="Sign out">
@@ -139,7 +139,7 @@ export function AppShell({ theme = 'client' }: AppShellProps) {
         {isLanding ? (
           <Outlet />
         ) : (
-          <div className="linen-tray rounded-[2px] px-4 py-7 pl-7 sm:px-8 sm:py-9 sm:pl-11">
+          <div className="linen-tray px-5 py-8 sm:px-8 sm:py-10">
             <Outlet />
           </div>
         )}
@@ -147,15 +147,19 @@ export function AppShell({ theme = 'client' }: AppShellProps) {
 
       <footer className="studio-footer">
         <div className="studio-footer-inner">
-          <p className="font-display text-lg text-[#3f3b36]">Dev Generator</p>
-          <img src="/art/table-still-life.png" alt="" aria-hidden />
-          <p className="text-xs tracking-wide text-[#8f837a]">Revision intake for Airmen Voice</p>
+          <p className="font-display text-lg text-foreground">Dev Generator</p>
+          <span className="studio-footer-orbs" aria-hidden>
+            <span />
+            <span />
+            <span />
+          </span>
+          <p className="text-xs tracking-wide text-muted-foreground">Revision intake for Airmen Voice</p>
         </div>
       </footer>
 
       {signInOpen ? (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#5e5e5e]/35 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-japa-ink/30 p-4 backdrop-blur-sm"
           role="dialog"
           aria-modal="true"
           aria-labelledby="sign-in-title"

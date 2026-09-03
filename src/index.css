@@ -31,7 +31,7 @@
   }
 
   ::selection {
-    background: rgba(185, 185, 157, 0.35);
+    background: rgba(247, 201, 206, 0.55);
     color: var(--color-japa-ink);
   }
 
@@ -65,6 +65,10 @@
 
   .shadow-wood {
     box-shadow: var(--shadow-wood);
+  }
+
+  .shadow-bubble {
+    box-shadow: var(--shadow-bubble);
   }
 
   .shadow-lift {
