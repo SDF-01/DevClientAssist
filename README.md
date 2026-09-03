@@ -11,7 +11,7 @@ The product UI is branded **Dev Generator**.
 Clients submit revision requests in four steps:
 
 1. **Write** informal notes about what should change.
-2. **Ask ChatGPT** using a generated prompt, then paste the formatted brief back.
+2. **Ask ChatGPT** using a generated prompt that asks for a `.toon` file, then paste that file back.
 3. **Pictures** (optional) with captions and annotations.
 4. **Review** and send the request to the developer inbox.
 
@@ -24,6 +24,19 @@ Developers and admins use `/admin` to triage requests on a kanban or table, add 
 - Tailwind CSS 4
 - Supabase (Postgres, Auth, Storage, Edge Functions)
 - Vercel for hosting
+
+## Access
+
+Sign-in uses Supabase magic links. `mandrewschaeffer@gmail.com` is the site owner and is always treated as an admin. Inbox (`/admin`) and organization admin (`/admin/org`) require an internal role (`developer` or `admin`).
+
+After a user clicks **Confirm your email address**, Supabase must send them back to this app, not `http://localhost:3000`. Set these values in [Authentication → URL Configuration](https://supabase.com/dashboard/project/vfarnwwsmygmldjjdpqz/auth/url-configuration):
+
+- **Site URL:** `https://revision-portal-eight.vercel.app`
+- **Redirect URLs:**
+  - `https://revision-portal-eight.vercel.app/**`
+  - `http://localhost:5173/**`
+
+If an email template uses `{{ .SiteURL }}` in the confirm link, change it to `{{ .RedirectTo }}` so the app-supplied callback is used. Then request a new sign-in link. Old confirm emails that already point at localhost will keep failing.
 
 ## Local setup
 
@@ -49,6 +62,7 @@ Copy `.env.example` and fill in values. Never commit a real `.env`.
 | `VITE_SUPABASE_ANON_KEY` | For cloud data | Supabase anon/public key |
 | `VITE_GITHUB_WEBHOOK_URL` | Optional | Webhook for GitHub / Cursor agent handoff |
 | `VITE_ANALYTICS_ENABLED` | Optional | Set `true` to enable client analytics |
+| `VITE_SITE_URL` | Optional | Public origin used in auth emails. Use the live Vercel URL in production. |
 
 Optional model rewrite lives in the `structure-revision` Edge Function. Set `OPENAI_API_KEY` as a **Supabase function secret**, not a `VITE_` variable. A model key in `VITE_` would ship to the browser.
 

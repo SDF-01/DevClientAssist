@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
-import { isSupabaseConfigured, supabase } from '@/lib/supabase/client'
+import type { User } from '@supabase/supabase-js'
+import { DEFAULT_ORGANIZATION_ID, isInternalRole, isOwnerEmail, resolveUserRole } from '@/lib/access'
+import { getAuthRedirectUrl } from '@/lib/authRedirect'
 import { getLocalUser, setLocalUser } from '@/lib/data/localStore'
+import { isSupabaseConfigured, supabase } from '@/lib/supabase/client'
 import type { UserRole } from '@/types/database'
 
 export interface AuthUser {
@@ -9,6 +12,18 @@ export interface AuthUser {
   full_name: string
   role: UserRole
   organization_id: string
+}
+
+function toAuthUser(sessionUser: User): AuthUser {
+  const email = sessionUser.email ?? ''
+  return {
+    id: sessionUser.id,
+    email,
+    full_name: (sessionUser.user_metadata?.full_name as string) ?? '',
+    role: resolveUserRole(email, sessionUser.app_metadata?.role as string | undefined),
+    organization_id:
+      (sessionUser.app_metadata?.organization_id as string | undefined) || DEFAULT_ORGANIZATION_ID,
+  }
 }
 
 export function useAuth() {
@@ -21,23 +36,11 @@ export function useAuth() {
         const { data } = await supabase.auth.getSession()
         const sessionUser = data.session?.user
         if (sessionUser) {
-          setUser({
-            id: sessionUser.id,
-            email: sessionUser.email ?? '',
-            full_name: (sessionUser.user_metadata?.full_name as string) ?? '',
-            role: ((sessionUser.app_metadata?.role as UserRole) ?? 'client_editor'),
-            organization_id: (sessionUser.app_metadata?.organization_id as string) ?? '',
-          })
+          setUser(toAuthUser(sessionUser))
         }
         supabase.auth.onAuthStateChange((_event, session) => {
           if (session?.user) {
-            setUser({
-              id: session.user.id,
-              email: session.user.email ?? '',
-              full_name: (session.user.user_metadata?.full_name as string) ?? '',
-              role: ((session.user.app_metadata?.role as UserRole) ?? 'client_editor'),
-              organization_id: (session.user.app_metadata?.organization_id as string) ?? '',
-            })
+            setUser(toAuthUser(session.user))
           } else {
             setUser(null)
           }
@@ -56,7 +59,10 @@ export function useAuth() {
     }
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: window.location.origin },
+      options: {
+        shouldCreateUser: true,
+        emailRedirectTo: getAuthRedirectUrl(),
+      },
     })
     if (error) throw error
   }, [])
@@ -69,7 +75,8 @@ export function useAuth() {
     setUser(null)
   }, [])
 
-  const isInternal = user?.role === 'developer' || user?.role === 'admin'
+  const isOwner = isOwnerEmail(user?.email)
+  const isInternal = isOwner || isInternalRole(user?.role)
 
-  return { user, loading, signInWithEmail, signOut, isInternal, isAuthenticated: Boolean(user) }
+  return { user, loading, signInWithEmail, signOut, isOwner, isInternal, isAuthenticated: Boolean(user) }
 }

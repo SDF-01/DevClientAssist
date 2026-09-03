@@ -12,6 +12,7 @@ import type {
   UserRole,
 } from '@/types/database'
 import { CLIENT_APPS } from '@/data/apps'
+import { resolveUserRole } from '@/lib/access'
 
 const STORAGE_KEY = 'revision-portal-data'
 const AUTH_KEY = 'revision-portal-auth'
@@ -90,7 +91,12 @@ export interface LocalUser {
 
 export function getLocalUser(): LocalUser | null {
   const raw = localStorage.getItem(AUTH_KEY)
-  return raw ? (JSON.parse(raw) as LocalUser) : null
+  if (!raw) return null
+  const user = JSON.parse(raw) as LocalUser
+  return {
+    ...user,
+    role: resolveUserRole(user.email, user.role),
+  }
 }
 
 export function setLocalUser(user: LocalUser | null) {
