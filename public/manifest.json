@@ -4,8 +4,8 @@
   "description": "Structured revision intake for Airmen Voice",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FFF6F1",
-  "theme_color": "#9A3F4E",
+  "background_color": "#F4EFE6",
+  "theme_color": "#5C4638",
   "icons": [
     {
       "src": "/logo-dev-generator.svg",

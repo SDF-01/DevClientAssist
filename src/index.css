@@ -31,7 +31,7 @@
   }
 
   ::selection {
-    background: rgba(247, 201, 206, 0.55);
+    background: rgba(203, 184, 146, 0.4);
     color: var(--color-japa-ink);
   }
 

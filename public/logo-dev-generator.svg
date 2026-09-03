@@ -1,11 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" fill="none">
-  <rect width="72" height="72" rx="22" fill="#FFF6F1"/>
-  <g opacity="0.28" stroke="#E8A8AE" stroke-width="0.8">
-    <path d="M20 10v52M36 10v52M52 10v52"/>
+  <rect width="72" height="72" rx="8" fill="#F4EFE6"/>
+  <g stroke="#CBB892" stroke-width="0.8" opacity="0.55">
+    <path d="M18 10v52M36 10v52M54 10v52"/>
     <path d="M10 22h52M10 36h52M10 50h52"/>
   </g>
-  <circle cx="29" cy="33" r="16" fill="#F7C9CE"/>
-  <circle cx="45" cy="31" r="14" fill="#CFE4D8" opacity="0.92"/>
-  <circle cx="38" cy="45" r="12" fill="#E4D4EE" opacity="0.88"/>
-  <circle cx="37" cy="33" r="5.5" fill="#FFFDFB" opacity="0.72"/>
+  <rect x="22" y="22" width="28" height="28" stroke="#5C4638" stroke-width="1.4"/>
+  <rect x="28" y="28" width="16" height="16" fill="#9AA890" opacity="0.35"/>
 </svg>

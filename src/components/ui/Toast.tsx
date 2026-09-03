@@ -36,12 +36,12 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   return (
     <ToastContext.Provider value={value}>
       {children}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-2" aria-live="polite">
+      <div className="fixed bottom-6 left-1/2 z-50 flex w-[min(24rem,calc(100%-2rem))] -translate-x-1/2 flex-col gap-2" aria-live="polite">
         {toasts.map((toast) => (
           <div
             key={toast.id}
             className={cn(
-              'min-w-[280px] rounded-[var(--radius-lg)] border px-4 py-3 text-sm font-medium shadow-lift backdrop-blur-sm',
+              'rounded-[var(--radius-sm)] border px-4 py-3 text-center text-sm font-medium shadow-lift backdrop-blur-sm',
               toast.variant === 'success' && 'border-japa-sage/30 bg-surface-elevated text-japa-charcoal',
               toast.variant === 'error' && 'border-status-rejected/30 bg-surface-elevated text-status-rejected',
               toast.variant === 'info' && 'border-border bg-accent-primary text-japa-warm-white',

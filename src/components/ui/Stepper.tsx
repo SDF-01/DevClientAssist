@@ -9,7 +9,7 @@ interface StepperProps {
 
 export function Stepper({ steps, currentStep, className }: StepperProps) {
   return (
-    <ol className={cn('flex flex-wrap items-center gap-1 sm:gap-0', className)} aria-label="Progress">
+    <ol className={cn('flex flex-wrap items-center justify-center gap-2', className)} aria-label="Progress">
       {steps.map((step, index) => {
         const isComplete = index < currentStep
         const isCurrent = index === currentStep
@@ -19,8 +19,8 @@ export function Stepper({ steps, currentStep, className }: StepperProps) {
           <li key={step} className="flex items-center">
             <div
               className={cn(
-                'flex items-center gap-2.5 rounded-[var(--radius-pill)] px-3 py-2 text-sm transition-colors duration-200',
-                isCurrent && 'bg-accent-primary text-japa-warm-white shadow-bubble',
+                'flex items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-sm transition-colors duration-200',
+                isCurrent && 'bg-accent-primary text-japa-warm-white',
                 isComplete && !isCurrent && 'text-moss',
                 !isCurrent && !isComplete && 'text-muted-foreground',
               )}
@@ -28,7 +28,7 @@ export function Stepper({ steps, currentStep, className }: StepperProps) {
             >
               <span
                 className={cn(
-                  'flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium',
+                  'flex h-6 w-6 items-center justify-center rounded-[var(--radius-sm)] text-xs font-medium',
                   isCurrent && 'bg-japa-warm-white/15 text-japa-warm-white',
                   isComplete && !isCurrent && 'bg-mist/40 text-moss',
                   !isCurrent && !isComplete && 'bg-surface-muted text-muted-foreground',
@@ -36,7 +36,7 @@ export function Stepper({ steps, currentStep, className }: StepperProps) {
               >
                 {isComplete && !isCurrent ? <Check className="h-3.5 w-3.5" strokeWidth={2} /> : index + 1}
               </span>
-              <span className="hidden font-medium sm:inline">{step}</span>
+              <span className="font-medium">{step}</span>
             </div>
             {!isLast ? (
               <span

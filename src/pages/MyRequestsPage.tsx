@@ -18,21 +18,21 @@ export function MyRequestsPage() {
     })
   }, [])
 
-  if (loading) return <p className="text-muted-foreground">Loading your requests...</p>
+  if (loading) return <p className="text-center text-muted-foreground">Loading your requests...</p>
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="section-label">Your work</p>
-          <h1 className="font-display text-3xl font-normal">Requests</h1>
-          <p className="mt-2 max-w-xl text-sm text-muted-foreground">
-            Follow anything you have sent. Open a request to see status and replies.
-          </p>
+      <div className="page-head">
+        <p className="section-label">Your work</p>
+        <h1 className="font-display text-3xl font-normal">Requests</h1>
+        <p className="text-sm text-muted-foreground">
+          Follow anything you have sent. Open a request to see status and replies.
+        </p>
+        <div className="page-actions">
+          <Link to="/submit">
+            <Button>New request</Button>
+          </Link>
         </div>
-        <Link to="/submit">
-          <Button>New request</Button>
-        </Link>
       </div>
 
       {requests.length === 0 ? (

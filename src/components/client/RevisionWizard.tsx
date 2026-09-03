@@ -158,11 +158,11 @@ export function RevisionWizard() {
 
   return (
     <div className="space-y-6">
-      <header className="space-y-4">
+      <header className="page-head space-y-4">
         <p className="section-label">New request</p>
         <h1 className="font-display text-3xl font-normal sm:text-4xl">What should we change?</h1>
         {selectedProject ? <p className="app-chip">{selectedProject.name}</p> : null}
-        <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
+        <p className="text-sm leading-relaxed text-muted-foreground">
           Write your notes, copy them into ChatGPT with the prompt we give you, then paste the .toon file ChatGPT
           creates.
         </p>
@@ -199,7 +199,7 @@ export function RevisionWizard() {
                     key={tpl.id}
                     type="button"
                     onClick={() => applyTemplate(tpl)}
-                    className="rounded-[var(--radius-pill)] border border-border bg-surface-muted px-3 py-1.5 text-xs font-medium tracking-wide text-foreground transition-colors hover:border-pastel-rose/50 hover:bg-blush/30"
+                    className="min-h-11 rounded-[var(--radius-sm)] border border-border bg-surface-muted px-3 py-1.5 text-xs font-medium tracking-wide text-foreground transition-colors hover:border-bamboo/50 hover:bg-sand/40"
                   >
                     {tpl.name}
                   </button>
@@ -267,7 +267,7 @@ export function RevisionWizard() {
         </div>
       ) : null}
 
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="page-actions">
         {step > 0 ? (
           <Button variant="secondary" onClick={() => setStep((s) => s - 1)}>
             Back

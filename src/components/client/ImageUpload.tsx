@@ -71,7 +71,7 @@ export function ImageUpload({ images, onChange, onAnnotate }: ImageUploadProps) 
       </div>
 
       <div
-        className="cursor-pointer rounded-[var(--radius-lg)] border border-dashed border-border bg-surface-elevated/80 p-8 text-center transition-all duration-200 hover:border-pastel-rose/50 hover:bg-blush/20"
+        className="cursor-pointer rounded-[var(--radius-sm)] border border-dashed border-border bg-surface-elevated/80 p-8 text-center transition-all duration-200 hover:border-bamboo/50 hover:bg-sand/30"
         onClick={() => inputRef.current?.click()}
         onDragOver={(e) => e.preventDefault()}
         onDrop={(e) => {

@@ -23,9 +23,9 @@ export function StatusTimeline({ currentStatus, className }: StatusTimelineProps
   const currentIndex = statusOrder.indexOf(currentStatus)
 
   return (
-    <div className={cn('space-y-3', className)}>
+    <div className={cn('space-y-3 text-center', className)}>
       <p className="section-label">Status</p>
-      <ol className="flex flex-wrap gap-2" aria-label="Revision status timeline">
+      <ol className="flex flex-wrap justify-center gap-2" aria-label="Revision status timeline">
         {timelineSteps.map((step, index) => {
           const isComplete = currentIndex >= index && currentIndex !== -1
           const isCurrent = step.status === currentStatus
@@ -33,7 +33,7 @@ export function StatusTimeline({ currentStatus, className }: StatusTimelineProps
             <li
               key={step.status}
               className={cn(
-                'flex items-center gap-2 rounded-[var(--radius-pill)] border px-3 py-1.5 text-xs font-medium tracking-wide transition-colors',
+                'flex items-center gap-2 rounded-[var(--radius-sm)] border px-3 py-1.5 text-xs font-medium tracking-wide transition-colors',
                 isComplete
                   ? 'border-sage/30 bg-mist/35 text-charcoal'
                   : 'border-border bg-surface-muted/50 text-muted-foreground',

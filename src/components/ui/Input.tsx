@@ -17,7 +17,7 @@ export function Input({ label, error, className, id, ...props }: InputProps) {
       <input
         id={inputId}
         className={cn(
-          'w-full rounded-[var(--radius-md)] border border-border bg-surface-elevated px-4 py-3 text-sm text-foreground transition-colors placeholder:text-muted-foreground/60 focus:border-accent-primary/35 focus:outline-none focus:ring-2 focus:ring-accent-primary/15',
+          'w-full min-h-12 rounded-[var(--radius-sm)] border border-border bg-surface-elevated px-4 py-3 text-sm text-foreground transition-colors placeholder:text-muted-foreground/60 focus:border-accent-primary/35 focus:outline-none focus:ring-2 focus:ring-accent-primary/15',
           className,
         )}
         {...props}
@@ -52,7 +52,7 @@ export function Textarea({ label, hint, error, className, id, ...props }: Textar
       <textarea
         id={inputId}
         className={cn(
-          'min-h-[180px] w-full rounded-[var(--radius-md)] border border-border bg-surface-elevated px-4 py-3 text-sm leading-relaxed text-foreground transition-colors placeholder:text-muted-foreground/60 focus:border-accent-primary/35 focus:outline-none focus:ring-2 focus:ring-accent-primary/15',
+          'min-h-[180px] w-full rounded-[var(--radius-sm)] border border-border bg-surface-elevated px-4 py-3 text-sm leading-relaxed text-foreground transition-colors placeholder:text-muted-foreground/60 focus:border-accent-primary/35 focus:outline-none focus:ring-2 focus:ring-accent-primary/15',
           className,
         )}
         {...props}
@@ -84,7 +84,7 @@ export function Select({ label, description, options, className, id, ...props }:
       <select
         id={inputId}
         className={cn(
-          'w-full rounded-[var(--radius-md)] border border-border bg-surface-elevated px-4 py-3 text-sm text-foreground transition-colors focus:border-accent-primary/35 focus:outline-none focus:ring-2 focus:ring-accent-primary/15',
+          'w-full min-h-12 rounded-[var(--radius-sm)] border border-border bg-surface-elevated px-4 py-3 text-sm text-foreground transition-colors focus:border-accent-primary/35 focus:outline-none focus:ring-2 focus:ring-accent-primary/15',
           className,
         )}
         {...props}
