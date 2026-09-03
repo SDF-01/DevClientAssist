@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import { calculateCompletenessScore } from '@/lib/completenessScore'
-import { buildChatGptRevisionPrompt, wrapChatGptBrief } from '@/lib/chatgptBrief'
+import {
+  buildChatGptRevisionPrompt,
+  normalizePastedToon,
+  toonFilenameForApp,
+  wrapChatGptBrief,
+} from '@/lib/chatgptBrief'
 import { extractPreserveClauses, rewriteClientRequest, splitWorkItems } from '@/lib/rewriteEngine'
 import { structureRevisionRequest } from '@/lib/revisionParser'
 import { compileLocalToon } from '@/lib/toonEngine'
@@ -18,23 +23,35 @@ describe('chatgptBrief', () => {
       urgency: 'high',
     })
     expect(prompt).toContain(messy)
-    expect(prompt).toContain('What to change')
-    expect(prompt).toContain('What to leave alone')
-    expect(prompt).toContain('Done when')
+    expect(prompt).toContain('.toon')
+    expect(prompt).toContain('Create a downloadable .toon file')
+    expect(prompt).toContain('Token-Oriented Object Notation')
+    expect(prompt).toContain(toonFilenameForApp('Airmen Voice'))
     expect(prompt).toContain('Airmen Voice')
+    expect(prompt).not.toContain('Reply with a developer brief that uses this structure')
   })
 
-  it('stores the pasted ChatGPT brief for the developer', () => {
-    const formatted = 'Title\nFix header alignment\n\nWhat to change\n1. Raise the header.'
+  it('strips ChatGPT fences from a pasted .toon file', () => {
+    const toon = 'instructions:\n  title: Fix header alignment'
+    expect(normalizePastedToon('```toon\n' + toon + '\n```')).toBe(toon)
+  })
+
+  it('stores the pasted ChatGPT .toon file for the developer', () => {
+    const formatted = [
+      'instructions:',
+      '  title: Fix header alignment',
+      '  overview: Raise the header so it matches the screenshot.',
+    ].join('\n')
     const wrapped = wrapChatGptBrief({
       appId: 'airmen-voice',
       appName: 'Airmen Voice',
       appDescription: 'Voice and communication platform for airmen',
       rawRequest: messy,
-      formattedBrief: formatted,
+      formattedBrief: '```toon\n' + formatted + '\n```',
       images: [],
     })
     expect(wrapped.meta.engine).toBe('chatgpt-paste')
+    expect(wrapped.instructions.title).toBe('Fix header alignment')
     expect(wrapped.instructions.overview).toBe(formatted)
     expect(wrapped.clientInput.rawRequest).toBe(messy)
   })

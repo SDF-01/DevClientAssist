@@ -115,7 +115,7 @@ export async function submitRevision(payload: SubmitRevisionPayload): Promise<Re
   if (!project) throw new Error('Project not found')
 
   if (!payload.formattedBrief?.trim()) {
-    throw new Error('Paste the ChatGPT brief before sending.')
+    throw new Error('Paste or upload the ChatGPT .toon file before sending.')
   }
 
   const structured = wrapChatGptBrief({

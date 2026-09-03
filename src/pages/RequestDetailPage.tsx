@@ -66,7 +66,7 @@ export function RequestDetailPage() {
       {structured ? (
         <Card>
           <p className="section-label mb-2">Developer brief</p>
-          <h2 className="mb-3 font-display text-lg font-medium">Formatted ChatGPT answer</h2>
+          <h2 className="mb-3 font-display text-lg font-medium">ChatGPT .toon file</h2>
           <pre className="code-block-light max-h-96 overflow-auto whitespace-pre-wrap rounded-[var(--radius-sm)] p-4 text-sm font-mono">
             {structured.instructions.overview}
           </pre>

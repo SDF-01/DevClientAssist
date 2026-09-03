@@ -109,7 +109,7 @@ export function RevisionWizard() {
       return
     }
     if (!formattedBrief.trim()) {
-      showToast('Paste the ChatGPT brief before sending.', 'error')
+      showToast('Paste or upload the ChatGPT .toon file before sending.', 'error')
       setStep(1)
       return
     }
@@ -163,8 +163,8 @@ export function RevisionWizard() {
         <h1 className="font-display text-3xl font-normal sm:text-4xl">What should we change?</h1>
         {selectedProject ? <p className="app-chip">{selectedProject.name}</p> : null}
         <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          Write your notes, copy them into ChatGPT with the prompt we give you, then paste the formatted answer for the
-          developer.
+          Write your notes, copy them into ChatGPT with the prompt we give you, then paste the .toon file ChatGPT
+          creates.
         </p>
         <Stepper steps={STEPS} currentStep={step} />
       </header>
@@ -242,7 +242,7 @@ export function RevisionWizard() {
           <CardHeader>
             <CardTitle className="text-2xl font-normal">Pictures help, but they are optional</CardTitle>
             <CardDescription>
-              Add screenshots if they show the issue. The developer will see them with the ChatGPT brief.
+              Add screenshots if they show the issue. The developer will see them with the .toon file.
             </CardDescription>
           </CardHeader>
           <ImageUpload images={images} onChange={setImages} onAnnotate={setAnnotatingId} />
@@ -254,7 +254,7 @@ export function RevisionWizard() {
           <Card framed className="space-y-4">
             <CardHeader>
               <CardTitle className="text-2xl font-normal">This is what the developer will receive</CardTitle>
-              <CardDescription>The formatted ChatGPT brief below is the request. You can go back and edit it.</CardDescription>
+              <CardDescription>The .toon file below is the request. You can go back and edit it.</CardDescription>
             </CardHeader>
             <pre className="code-block-light max-h-80 overflow-auto rounded-[var(--radius-sm)] p-4 text-sm whitespace-pre-wrap font-mono">
               {formattedBrief}
