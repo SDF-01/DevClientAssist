@@ -216,7 +216,7 @@ export function wrapChatGptBrief(input: {
     },
     revisions: [
       {
-        id: `rev-${crypto.randomUUID()}`,
+        id: crypto.randomUUID(),
         order: 1,
         category: 'other',
         priority: input.urgency ?? 'medium',

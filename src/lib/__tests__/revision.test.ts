@@ -8,6 +8,7 @@ import {
   wrapChatGptBrief,
 } from '@/lib/chatgptBrief'
 import { submitErrorMessage } from '@/lib/data/revisions'
+import { isUuid, toDatabaseUuid } from '@/lib/ids'
 import { extractPreserveClauses, rewriteClientRequest, splitWorkItems } from '@/lib/rewriteEngine'
 import { structureRevisionRequest } from '@/lib/revisionParser'
 import { compileLocalToon } from '@/lib/toonEngine'
@@ -50,8 +51,25 @@ describe('chatgptBrief', () => {
     expect(isLikelyToonContent('hello')).toBe(false)
   })
 
+  it('turns ChatGPT revision ids into database UUIDs', () => {
+    expect(toDatabaseUuid('rev-408285f9-af8b-4f72-bb06-6f1cfbbbd722')).toBe(
+      '408285f9-af8b-4f72-bb06-6f1cfbbbd722',
+    )
+    expect(toDatabaseUuid('rev-1')).toMatch(
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
+    )
+    expect(toDatabaseUuid('408285f9-af8b-4f72-bb06-6f1cfbbbd722')).toBe(
+      '408285f9-af8b-4f72-bb06-6f1cfbbbd722',
+    )
+  })
+
   it('maps storage upload failures to a clear send error', () => {
     expect(submitErrorMessage({ message: 'Cannot upload' })).toMatch(/screenshot/i)
+    expect(
+      submitErrorMessage({
+        message: 'invalid input syntax for type uuid: "rev-408285f9-af8b-4f72-bb06-6f1cfbbbd722"',
+      }),
+    ).toMatch(/try sending/i)
     expect(submitErrorMessage(new Error('Bucket not found'))).toMatch(/screenshot/i)
     expect(submitErrorMessage(new Error('new row violates row-level security policy'))).toMatch(/sign in/i)
   })
@@ -74,6 +92,7 @@ describe('chatgptBrief', () => {
     expect(wrapped.instructions.title).toBe('Fix header alignment')
     expect(wrapped.instructions.overview).toBe(formatted)
     expect(wrapped.clientInput.rawRequest).toBe(messy)
+    expect(isUuid(wrapped.revisions[0].id)).toBe(true)
   })
 })
 

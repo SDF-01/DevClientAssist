@@ -27,6 +27,7 @@ import {
   localUpdateRevisionStatus,
 } from './localStore'
 import { getProject } from './projects'
+import { toDatabaseUuid } from '@/lib/ids'
 
 export interface SubmitRevisionPayload {
   projectId: string
@@ -44,7 +45,7 @@ export interface SubmitRevisionPayload {
 
 function mapStructuredToItems(revisionId: string, structured: StructuredRevisionRequest): RevisionItemRecord[] {
   return structured.revisions.map((item) => ({
-    id: item.id,
+    id: toDatabaseUuid(item.id),
     revision_id: revisionId,
     order_index: item.order,
     category: item.category,
@@ -160,6 +161,9 @@ export function submitErrorMessage(error: unknown): string {
   }
   if (message.includes('foreign key') || message.includes('submitted_by')) {
     return 'Your account is missing a profile, so the request could not be saved. Sign out and send it again, or ask the owner to approve the account.'
+  }
+  if (message.includes('invalid input syntax for type uuid')) {
+    return 'Could not save the request. Try sending it again.'
   }
   return raw.trim() || 'Could not send the request.'
 }
