@@ -56,6 +56,46 @@ function mapStructuredToItems(revisionId: string, structured: StructuredRevision
   }))
 }
 
+function safeFileExtension(fileName: string): string {
+  const ext = fileName.split('.').pop()?.toLowerCase() ?? 'png'
+  return /^[a-z0-9]{1,8}$/.test(ext) ? ext : 'png'
+}
+
+function blobFromDataUrl(dataUrl: string, mimeType: string): Blob {
+  if (!dataUrl.startsWith('data:')) {
+    throw new Error('Screenshot data is missing.')
+  }
+  const comma = dataUrl.indexOf(',')
+  const header = comma >= 0 ? dataUrl.slice(0, comma) : ''
+  const payload = comma >= 0 ? dataUrl.slice(comma + 1) : dataUrl
+  const binary = header.includes(';base64') ? atob(payload) : decodeURIComponent(payload)
+  const bytes = new Uint8Array(binary.length)
+  for (let index = 0; index < binary.length; index += 1) {
+    bytes[index] = binary.charCodeAt(index)
+  }
+  return new Blob([bytes], { type: mimeType || 'image/png' })
+}
+
+function localAttachment(
+  revisionId: string,
+  storagePath: string,
+  image: ReferenceImage,
+  publicUrl: string,
+): RevisionAttachment {
+  return {
+    id: crypto.randomUUID(),
+    revision_id: revisionId,
+    storage_path: storagePath,
+    file_name: image.name,
+    mime_type: image.mimeType,
+    size_bytes: image.sizeBytes,
+    caption: image.caption,
+    annotation_data: image.annotationData ?? null,
+    public_url: publicUrl,
+    created_at: new Date().toISOString(),
+  }
+}
+
 async function uploadAttachments(
   revisionId: string,
   orgId: string,
@@ -65,49 +105,63 @@ async function uploadAttachments(
   const attachments: RevisionAttachment[] = []
 
   for (const image of images) {
-    const attachmentId = crypto.randomUUID()
-    const ext = image.name.split('.').pop() ?? 'png'
-    const storagePath = `${orgId}/${projectId}/${revisionId}/${attachmentId}.${ext}`
+    const ext = safeFileExtension(image.name)
+    const storagePath = `${orgId}/${projectId}/${revisionId}/${crypto.randomUUID()}.${ext}`
 
-    if (isSupabaseConfigured && supabase) {
-      const blob = await fetch(image.dataUrl).then((r) => r.blob())
-      const { error } = await supabase.storage.from(STORAGE_BUCKET).upload(storagePath, blob, {
-        contentType: image.mimeType,
-        upsert: false,
-      })
-      if (error) throw error
+    if (isSupabaseConfigured && supabase && image.dataUrl.startsWith('data:')) {
+      try {
+        const blob = blobFromDataUrl(image.dataUrl, image.mimeType)
+        const { error } = await supabase.storage.from(STORAGE_BUCKET).upload(storagePath, blob, {
+          contentType: image.mimeType || 'image/png',
+          upsert: false,
+        })
+        if (error) throw error
 
-      const { data: urlData } = supabase.storage.from(STORAGE_BUCKET).getPublicUrl(storagePath)
-
-      attachments.push({
-        id: attachmentId,
-        revision_id: revisionId,
-        storage_path: storagePath,
-        file_name: image.name,
-        mime_type: image.mimeType,
-        size_bytes: image.sizeBytes,
-        caption: image.caption,
-        annotation_data: image.annotationData ?? null,
-        public_url: urlData.publicUrl,
-        created_at: new Date().toISOString(),
-      })
-    } else {
-      attachments.push({
-        id: attachmentId,
-        revision_id: revisionId,
-        storage_path: storagePath,
-        file_name: image.name,
-        mime_type: image.mimeType,
-        size_bytes: image.sizeBytes,
-        caption: image.caption,
-        annotation_data: image.annotationData ?? null,
-        public_url: image.dataUrl,
-        created_at: new Date().toISOString(),
-      })
+        const { data: urlData } = supabase.storage.from(STORAGE_BUCKET).getPublicUrl(storagePath)
+        attachments.push(localAttachment(revisionId, storagePath, image, urlData.publicUrl))
+        continue
+      } catch {
+        attachments.push(localAttachment(revisionId, storagePath, image, image.dataUrl))
+        continue
+      }
     }
+
+    attachments.push(localAttachment(revisionId, storagePath, image, image.dataUrl))
   }
 
   return attachments
+}
+
+export function submitErrorMessage(error: unknown): string {
+  const raw =
+    error instanceof Error
+      ? error.message
+      : error && typeof error === 'object' && 'message' in error && typeof error.message === 'string'
+        ? error.message
+        : ''
+  const message = raw.toLowerCase()
+
+  if (message.includes('toon') && (message.includes('paste') || message.includes('upload'))) {
+    return raw
+  }
+  if (message.includes('project not found')) {
+    return 'Choose a project before sending.'
+  }
+  if (
+    message.includes('row-level security') ||
+    message.includes('permission') ||
+    message.includes('not allowed') ||
+    message.includes('unauthorized')
+  ) {
+    return 'Could not save the request. Sign in and try again, or ask the site owner for access.'
+  }
+  if (message.includes('bucket') || message.includes('storage') || message.includes('mime') || message.includes('upload')) {
+    return 'Could not upload a screenshot. Send the request without pictures, or try a smaller PNG or JPG.'
+  }
+  if (message.includes('foreign key') || message.includes('submitted_by')) {
+    return 'Your account is missing a profile, so the request could not be saved. Sign out and send it again, or ask the owner to approve the account.'
+  }
+  return raw.trim() || 'Could not send the request.'
 }
 
 export async function submitRevision(payload: SubmitRevisionPayload): Promise<RevisionRequestWithRelations> {
@@ -156,8 +210,6 @@ export async function submitRevision(payload: SubmitRevisionPayload): Promise<Re
   }
 
   const items = mapStructuredToItems(revisionId, structured)
-  const attachments = await uploadAttachments(revisionId, project.organization_id, project.id, payload.images)
-
   const event: RevisionEvent = {
     id: crypto.randomUUID(),
     revision_id: revisionId,
@@ -169,19 +221,40 @@ export async function submitRevision(payload: SubmitRevisionPayload): Promise<Re
 
   if (isSupabaseConfigured && supabase) {
     const { error: revError } = await supabase.from('revision_requests').insert(revision)
-    if (revError) throw revError
+    if (revError) {
+      const canRetryWithoutSubmitter =
+        Boolean(revision.submitted_by) && /foreign key|submitted_by/i.test(revError.message)
+      if (!canRetryWithoutSubmitter) throw revError
+
+      const { error: retryError } = await supabase
+        .from('revision_requests')
+        .insert({ ...revision, submitted_by: null })
+      if (retryError) throw retryError
+    }
 
     if (items.length > 0) {
       const { error: itemsError } = await supabase.from('revision_items').insert(items)
       if (itemsError) throw itemsError
     }
 
+    await supabase.from('revision_events').insert(event)
+  }
+
+  const attachments = await uploadAttachments(revisionId, project.organization_id, project.id, payload.images)
+
+  if (isSupabaseConfigured && supabase) {
     if (attachments.length > 0) {
       const { error: attError } = await supabase.from('revision_attachments').insert(attachments)
-      if (attError) throw attError
+      if (attError) {
+        const withoutDataUrls = attachments.map((attachment) => ({
+          ...attachment,
+          public_url: attachment.public_url?.startsWith('data:') ? null : attachment.public_url,
+          annotation_data: attachment.annotation_data?.startsWith('data:') ? null : attachment.annotation_data,
+        }))
+        const { error: fallbackError } = await supabase.from('revision_attachments').insert(withoutDataUrls)
+        if (fallbackError) throw fallbackError
+      }
     }
-
-    await supabase.from('revision_events').insert(event)
   } else {
     localSaveRevision({ revision, items, attachments, event })
   }

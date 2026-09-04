@@ -35,6 +35,25 @@ export function normalizePastedToon(raw: string): string {
   return trimmed
 }
 
+export function isLikelyToonContent(raw: string): boolean {
+  const text = normalizePastedToon(raw)
+  if (text.length < 20) return false
+  return /^(meta|target|instructions|revisions|clientInput|agentGuidance):/m.test(text) || /^\s*title:\s*\S+/m.test(text)
+}
+
+export function isAcceptableToonFile(file: { name: string; type: string }): boolean {
+  const name = file.name.toLowerCase()
+  const type = file.type.toLowerCase()
+  if (name.endsWith('.toon') || name.endsWith('.txt') || name.endsWith('.md')) return true
+  return (
+    type === '' ||
+    type === 'application/octet-stream' ||
+    type === 'text/plain' ||
+    type === 'text/toon' ||
+    type.startsWith('text/')
+  )
+}
+
 export function buildChatGptRevisionPrompt(input: ChatGptPromptInput): string {
   const extra = input.clientNotes?.trim() || 'None.'
   const screenshots =

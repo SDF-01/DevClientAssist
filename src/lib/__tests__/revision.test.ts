@@ -2,10 +2,13 @@ import { describe, expect, it } from 'vitest'
 import { calculateCompletenessScore } from '@/lib/completenessScore'
 import {
   buildChatGptRevisionPrompt,
+  isAcceptableToonFile,
+  isLikelyToonContent,
   normalizePastedToon,
   toonFilenameForApp,
   wrapChatGptBrief,
 } from '@/lib/chatgptBrief'
+import { submitErrorMessage } from '@/lib/data/revisions'
 import { extractPreserveClauses, rewriteClientRequest, splitWorkItems } from '@/lib/rewriteEngine'
 import { structureRevisionRequest } from '@/lib/revisionParser'
 import { compileLocalToon } from '@/lib/toonEngine'
@@ -34,6 +37,21 @@ describe('chatgptBrief', () => {
   it('strips ChatGPT fences from a pasted .toon file', () => {
     const toon = 'instructions:\n  title: Fix header alignment'
     expect(normalizePastedToon('```toon\n' + toon + '\n```')).toBe(toon)
+  })
+
+  it('accepts ChatGPT downloads that Windows labels as plain text or unknown types', () => {
+    expect(isAcceptableToonFile({ name: 'airmen-voice-revision-2026-09-04.toon', type: '' })).toBe(true)
+    expect(isAcceptableToonFile({ name: 'brief.txt', type: 'text/plain' })).toBe(true)
+    expect(isAcceptableToonFile({ name: 'download', type: 'application/octet-stream' })).toBe(true)
+    expect(isAcceptableToonFile({ name: 'photo.png', type: 'image/png' })).toBe(false)
+    expect(isLikelyToonContent('instructions:\n  title: Fix header alignment')).toBe(true)
+    expect(isLikelyToonContent('hello')).toBe(false)
+  })
+
+  it('maps storage upload failures to a clear send error', () => {
+    expect(submitErrorMessage({ message: 'Cannot upload' })).toMatch(/screenshot/i)
+    expect(submitErrorMessage(new Error('Bucket not found'))).toMatch(/screenshot/i)
+    expect(submitErrorMessage(new Error('new row violates row-level security policy'))).toMatch(/sign in/i)
   })
 
   it('stores the pasted ChatGPT .toon file for the developer', () => {

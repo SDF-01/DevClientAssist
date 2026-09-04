@@ -30,8 +30,12 @@ export function ImageUpload({ images, onChange, onAnnotate }: ImageUploadProps) 
     const nextImages = [...images]
 
     for (const file of Array.from(fileList)) {
+      if (file.name.toLowerCase().endsWith('.toon') || file.type === 'text/toon') {
+        setError(`${file.name} is a .toon file. Go back to Ask ChatGPT and upload or paste it there.`)
+        continue
+      }
       if (!ACCEPTED_TYPES.includes(file.type)) {
-        setError(`${file.name} is not a supported image type.`)
+        setError(`${file.name} is not a supported image type. Use PNG, JPG, WebP, or GIF.`)
         continue
       }
       if (file.size > MAX_FILE_SIZE) {

@@ -11,7 +11,7 @@ import { useToast } from '@/components/ui/Toast'
 import { useAuth } from '@/hooks/useAuth'
 import { useRevisionDraft } from '@/hooks/useRevisionDraft'
 import { listProjects } from '@/lib/data/projects'
-import { listRevisions, submitRevision } from '@/lib/data/revisions'
+import { listRevisions, submitErrorMessage, submitRevision } from '@/lib/data/revisions'
 import { detectSimilarRequests } from '@/lib/versioning'
 import { listTemplates } from '@/lib/templates'
 import { buildChatGptRevisionPrompt } from '@/lib/chatgptBrief'
@@ -132,7 +132,7 @@ export function RevisionWizard() {
       showToast(asDraft ? 'Draft saved.' : 'Request sent.', 'success')
       navigate(`/requests/${revision.id}`)
     } catch (error) {
-      showToast(error instanceof Error ? error.message : 'Could not send the request.', 'error')
+      showToast(submitErrorMessage(error), 'error')
     } finally {
       setSubmitting(false)
     }

@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { Button } from '@/components/ui/Button'
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Textarea } from '@/components/ui/Input'
-import { normalizePastedToon } from '@/lib/chatgptBrief'
+import { isAcceptableToonFile, isLikelyToonContent, normalizePastedToon } from '@/lib/chatgptBrief'
 import { copyToClipboard } from '@/lib/toonExporter'
 import { useToast } from '@/components/ui/Toast'
 
@@ -25,20 +25,22 @@ export function ChatGptFormatStep({ prompt, formattedBrief, onFormattedBriefChan
     const file = fileList?.[0]
     if (!file) return
 
-    const name = file.name.toLowerCase()
-    const isToon = name.endsWith('.toon') || file.type === 'text/toon' || file.type === 'text/plain'
-    if (!isToon) {
-      showToast('Choose a .toon file from ChatGPT.', 'error')
-      return
-    }
-
     const reader = new FileReader()
     reader.onload = () => {
-      onFormattedBriefChange(normalizePastedToon(String(reader.result ?? '')))
+      const contents = normalizePastedToon(String(reader.result ?? ''))
+      if (!isLikelyToonContent(contents) && !isAcceptableToonFile(file)) {
+        showToast('That file is not a .toon brief. Paste the text ChatGPT gave you instead.', 'error')
+        return
+      }
+      if (!contents) {
+        showToast('That file was empty. Paste the .toon text below instead.', 'error')
+        return
+      }
+      onFormattedBriefChange(contents)
       showToast('Loaded the .toon file.', 'success')
     }
     reader.onerror = () => {
-      showToast('Could not read that .toon file.', 'error')
+      showToast('Could not read that file. Paste the .toon text below instead.', 'error')
     }
     reader.readAsText(file)
   }
@@ -76,7 +78,7 @@ export function ChatGptFormatStep({ prompt, formattedBrief, onFormattedBriefChan
           <p className="section-label">Step 2 of this screen</p>
           <CardTitle className="text-2xl font-normal">Paste the .toon file</CardTitle>
           <CardDescription>
-            Upload the .toon file ChatGPT created, or paste its contents. This is what the developer will receive.
+            If ChatGPT cannot attach a file, paste the .toon text here. You do not have to upload a file.
           </CardDescription>
         </CardHeader>
         <div className="flex flex-wrap gap-2">
@@ -84,7 +86,7 @@ export function ChatGptFormatStep({ prompt, formattedBrief, onFormattedBriefChan
             ref={fileInputRef}
             id="toon-file-upload"
             type="file"
-            accept=".toon,text/toon,text/plain"
+            accept=".toon,.txt,.md,text/plain,text/markdown,application/octet-stream"
             hidden
             onChange={(event) => {
               handleToonFile(event.target.files)
