@@ -18,7 +18,7 @@ export function ChatGptFormatStep({ prompt, formattedBrief, onFormattedBriefChan
 
   async function handleCopy() {
     await copyToClipboard(prompt)
-    showToast('Prompt copied. Paste it into ChatGPT so it can create a .toon file.', 'success')
+    showToast('Prompt copied. Paste it into ChatGPT, then copy the .toon block it returns.', 'success')
   }
 
   function handleToonFile(fileList: FileList | null) {
@@ -52,8 +52,8 @@ export function ChatGptFormatStep({ prompt, formattedBrief, onFormattedBriefChan
           <p className="section-label">Step 1 of this screen</p>
           <CardTitle className="text-2xl font-normal">Copy this into ChatGPT</CardTitle>
           <CardDescription>
-            Your notes are already inside this prompt. ChatGPT should create a downloadable .toon file, not a written
-            brief. Paste the whole block into ChatGPT, then come back here with the file.
+            Your notes are already inside this prompt. ChatGPT should reply with a copy-paste .toon block, not a
+            downloadable file. Paste the whole prompt into ChatGPT, then copy the .toon text it returns.
           </CardDescription>
         </CardHeader>
         <div className="flex flex-wrap gap-2">
@@ -76,9 +76,9 @@ export function ChatGptFormatStep({ prompt, formattedBrief, onFormattedBriefChan
       <Card framed className="space-y-4">
         <CardHeader>
           <p className="section-label">Step 2 of this screen</p>
-          <CardTitle className="text-2xl font-normal">Paste the .toon file</CardTitle>
+          <CardTitle className="text-2xl font-normal">Paste the .toon text</CardTitle>
           <CardDescription>
-            If ChatGPT cannot attach a file, paste the .toon text here. You do not have to upload a file.
+            Copy the fenced .toon block from ChatGPT and paste it here. Uploading a file is optional.
           </CardDescription>
         </CardHeader>
         <div className="flex flex-wrap gap-2">
@@ -98,11 +98,11 @@ export function ChatGptFormatStep({ prompt, formattedBrief, onFormattedBriefChan
           </Button>
         </div>
         <Textarea
-          label=".toon file"
+          label=".toon text"
           value={formattedBrief}
           onChange={(event) => onFormattedBriefChange(event.target.value)}
           onBlur={() => onFormattedBriefChange(normalizePastedToon(formattedBrief))}
-          placeholder="Paste the .toon file contents here."
+          placeholder="Paste the .toon text from ChatGPT here."
           rows={16}
         />
       </Card>

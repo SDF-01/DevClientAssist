@@ -5,7 +5,6 @@ import {
   isAcceptableToonFile,
   isLikelyToonContent,
   normalizePastedToon,
-  toonFilenameForApp,
   wrapChatGptBrief,
 } from '@/lib/chatgptBrief'
 import { submitErrorMessage } from '@/lib/data/revisions'
@@ -27,10 +26,13 @@ describe('chatgptBrief', () => {
     })
     expect(prompt).toContain(messy)
     expect(prompt).toContain('.toon')
-    expect(prompt).toContain('Create a downloadable .toon file')
+    expect(prompt).toContain('copy-paste .toon brief')
+    expect(prompt).toContain('Do not create or attach a file')
+    expect(prompt).toContain('fenced block labeled toon')
     expect(prompt).toContain('Token-Oriented Object Notation')
-    expect(prompt).toContain(toonFilenameForApp('Airmen Voice'))
     expect(prompt).toContain('Airmen Voice')
+    expect(prompt).not.toContain('Create a downloadable')
+    expect(prompt).not.toContain('Use ChatGPT file creation')
     expect(prompt).not.toContain('Reply with a developer brief that uses this structure')
   })
 

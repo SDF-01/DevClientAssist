@@ -163,8 +163,8 @@ export function RevisionWizard() {
         <h1 className="font-display text-2xl font-normal sm:text-3xl">What should we change?</h1>
         {selectedProject ? <p className="app-chip">{selectedProject.name}</p> : null}
         <p className="text-sm leading-relaxed text-muted-foreground">
-          Write your notes, copy them into ChatGPT with the prompt we give you, then paste the .toon file ChatGPT
-          creates.
+          Write your notes, copy them into ChatGPT with the prompt we give you, then paste the .toon text ChatGPT
+          returns.
         </p>
         <Stepper steps={STEPS} currentStep={step} />
       </header>

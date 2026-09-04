@@ -10,8 +10,8 @@ const steps = [
   },
   {
     mark: '02',
-    title: 'Ask ChatGPT for a .toon file',
-    text: 'Copy the prompt we give you into ChatGPT. ChatGPT should create a .toon file. Paste that file back here.',
+    title: 'Ask ChatGPT for a .toon brief',
+    text: 'Copy the prompt we give you into ChatGPT. ChatGPT should reply with copy-paste .toon text. Paste that text back here.',
   },
   {
     mark: '03',

@@ -63,16 +63,14 @@ export function buildChatGptRevisionPrompt(input: ChatGptPromptInput): string {
   const rawRequest = input.rawRequest.trim()
   const wordCount = rawRequest.split(/\s+/).filter(Boolean).length
   const createdAt = new Date().toISOString()
-  const filename = toonFilenameForApp(input.appName)
   const appSlug = slugifyAppName(input.appName)
   const priority = input.urgency ?? 'medium'
 
   return [
-    'Create a downloadable .toon file for a software developer. Do not reply with a written brief.',
+    'Reply with a copy-paste .toon brief for a software developer. Do not create or attach a file. Do not reply with a written brief.',
     '',
-    'The deliverable is a .toon file, not Title / What to change / Done when words, and not Markdown.',
-    `Use ChatGPT file creation, canvas, or code interpreter to make a file named ${filename} that I can download.`,
-    'If you cannot attach a file, output only the exact .toon file contents inside one fenced block labeled toon.',
+    'The deliverable is TOON text I can copy, not Title / What to change / Done when words, and not Markdown.',
+    'Output only the exact .toon contents inside one fenced block labeled toon. I will copy that block and paste it back into the revision portal.',
     '',
     `App: ${input.appName}`,
     `What the app is: ${input.appDescription}`,
@@ -86,7 +84,7 @@ export function buildChatGptRevisionPrompt(input: ChatGptPromptInput): string {
     '',
     `Extra notes from me: ${extra}`,
     '',
-    'Encode the brief as Token-Oriented Object Notation (TOON). TOON is not JSON and not Markdown. Use indentation, keys, and array lengths like goals[2]. The file extension must be .toon.',
+    'Encode the brief as Token-Oriented Object Notation (TOON). TOON is not JSON and not Markdown. Use indentation, keys, and array lengths like goals[2].',
     '',
     'Fill this TOON shape. Keep these keys. Replace the example values with the real brief:',
     '',
@@ -126,14 +124,15 @@ export function buildChatGptRevisionPrompt(input: ChatGptPromptInput): string {
     '```',
     '',
     'Rules:',
-    `- Create the file ${filename}.`,
+    '- Do not create, attach, or offer a downloadable file.',
+    '- Put the whole brief in one ```toon fenced block so I can copy it.',
     '- Add one revisions item for each real change I asked for. Update the array length to match.',
     '- Category must be one of: ui, ux, content, functionality, performance, accessibility, other.',
     '- Priority must be one of: low, medium, high, critical.',
     '- Do not invent extra features.',
     '- Do not include application code unless I asked for it.',
     '- Keep the language plain.',
-    '- Do not add commentary before or after the file.',
+    '- Do not add commentary before or after the fenced block.',
   ].join('\n')
 }
 
