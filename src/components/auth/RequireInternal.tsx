@@ -16,7 +16,7 @@ export function RequireInternal() {
 
   if (!isAuthenticated) {
     return (
-      <Card className="max-w-md">
+      <Card className="mx-auto w-full max-w-md">
         <p className="font-display text-2xl text-foreground">Team sign in</p>
         <p className="mt-2 mb-5 text-sm leading-relaxed text-muted-foreground">
           Inbox and admin tools are limited to the site owner and approved team members.

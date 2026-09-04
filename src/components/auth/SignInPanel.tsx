@@ -74,7 +74,7 @@ export function SignInPanel({ onClose }: SignInPanelProps) {
         <p className="font-display text-lg text-foreground">{copy.title}</p>
         <p className="text-muted-foreground">{copy.body}</p>
         {onClose ? (
-          <div className="page-actions">
+          <div className="flex flex-wrap gap-2">
             <Button variant="secondary" size="sm" onClick={onClose}>
               Close
             </Button>
@@ -101,7 +101,7 @@ export function SignInPanel({ onClose }: SignInPanelProps) {
         placeholder="you@example.com"
         required
       />
-      <div className="page-actions">
+      <div className="flex flex-wrap gap-2">
         <Button type="submit" disabled={submitting || !email.trim()}>
           Continue
         </Button>

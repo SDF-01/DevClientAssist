@@ -38,12 +38,12 @@ export function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <CardHeader className="page-head px-0">
+      <CardHeader className="page-head-start mb-0 flex flex-col gap-4 px-0 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p className="section-label">Inbox</p>
           <h1 className="font-display text-3xl font-normal">Requests in progress</h1>
         </div>
-        <div className="page-actions w-full max-w-md">
+        <div className="flex w-full flex-col gap-3 sm:w-auto sm:min-w-[280px] sm:flex-row">
           <Select
             value={filterProject}
             onChange={(e) => setFilterProject(e.target.value)}

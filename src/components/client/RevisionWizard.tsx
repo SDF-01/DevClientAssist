@@ -158,9 +158,9 @@ export function RevisionWizard() {
 
   return (
     <div className="space-y-6">
-      <header className="page-head space-y-4">
+      <header className="page-head-start flex flex-col items-start gap-3">
         <p className="section-label">New request</p>
-        <h1 className="font-display text-3xl font-normal sm:text-4xl">What should we change?</h1>
+        <h1 className="font-display text-2xl font-normal sm:text-3xl">What should we change?</h1>
         {selectedProject ? <p className="app-chip">{selectedProject.name}</p> : null}
         <p className="text-sm leading-relaxed text-muted-foreground">
           Write your notes, copy them into ChatGPT with the prompt we give you, then paste the .toon file ChatGPT
@@ -199,7 +199,7 @@ export function RevisionWizard() {
                     key={tpl.id}
                     type="button"
                     onClick={() => applyTemplate(tpl)}
-                    className="min-h-11 rounded-[var(--radius-sm)] border border-border bg-surface-muted px-3 py-1.5 text-xs font-medium tracking-wide text-foreground transition-colors hover:border-bamboo/50 hover:bg-sand/40"
+                    className="h-9 rounded-[var(--radius-sm)] border border-border bg-surface-muted px-3 text-xs font-medium tracking-wide text-foreground transition-colors hover:border-bamboo/50 hover:bg-sand/40"
                   >
                     {tpl.name}
                   </button>

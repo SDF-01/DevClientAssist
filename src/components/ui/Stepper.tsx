@@ -9,7 +9,7 @@ interface StepperProps {
 
 export function Stepper({ steps, currentStep, className }: StepperProps) {
   return (
-    <ol className={cn('flex flex-wrap items-center justify-center gap-2', className)} aria-label="Progress">
+    <ol className={cn('flex flex-wrap items-center gap-1.5', className)} aria-label="Progress">
       {steps.map((step, index) => {
         const isComplete = index < currentStep
         const isCurrent = index === currentStep

@@ -27,7 +27,7 @@ export function OrgAdminPage() {
 
   return (
     <div className="space-y-6">
-      <CardHeader className="page-head px-0">
+      <CardHeader className="page-head-start mb-0 px-0">
         <p className="section-label">Workspace</p>
         <h1 className="font-display text-3xl font-normal">Organization</h1>
       </CardHeader>

@@ -46,7 +46,7 @@ export function ChatGptFormatStep({ prompt, formattedBrief, onFormattedBriefChan
   return (
     <div className="grid items-start gap-4 xl:grid-cols-2">
       <Card framed className="space-y-4">
-        <CardHeader className="text-center">
+        <CardHeader>
           <p className="section-label">Step 1 of this screen</p>
           <CardTitle className="text-2xl font-normal">Copy this into ChatGPT</CardTitle>
           <CardDescription>
@@ -54,7 +54,7 @@ export function ChatGptFormatStep({ prompt, formattedBrief, onFormattedBriefChan
             brief. Paste the whole block into ChatGPT, then come back here with the file.
           </CardDescription>
         </CardHeader>
-        <div className="page-actions">
+        <div className="flex flex-wrap gap-2">
           <Button type="button" onClick={() => void handleCopy()}>
             Copy prompt
           </Button>
@@ -72,14 +72,14 @@ export function ChatGptFormatStep({ prompt, formattedBrief, onFormattedBriefChan
       </Card>
 
       <Card framed className="space-y-4">
-        <CardHeader className="text-center">
+        <CardHeader>
           <p className="section-label">Step 2 of this screen</p>
           <CardTitle className="text-2xl font-normal">Paste the .toon file</CardTitle>
           <CardDescription>
             Upload the .toon file ChatGPT created, or paste its contents. This is what the developer will receive.
           </CardDescription>
         </CardHeader>
-        <div className="page-actions">
+        <div className="flex flex-wrap gap-2">
           <input
             ref={fileInputRef}
             id="toon-file-upload"

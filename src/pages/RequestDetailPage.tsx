@@ -32,8 +32,8 @@ export function RequestDetailPage() {
 
   return (
     <div className="space-y-6">
-      <div className="page-head">
-        <CardHeader className="px-0">
+      <div className="page-head-start flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <CardHeader className="mb-0 px-0">
           <p className="section-label">Request</p>
           <h1 className="font-display text-3xl font-normal">{revision.title}</h1>
           <p className="text-sm text-muted-foreground">

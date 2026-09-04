@@ -10,7 +10,7 @@ export function Card({ className, children, framed = false }: CardProps) {
   return (
     <div
       className={cn(
-        'panel-card ornament-card rounded-[var(--radius-lg)] p-5 sm:p-7',
+        'panel-card ornament-card rounded-[var(--radius-md)] p-5 sm:p-6',
         framed && 'oak-rail',
         className,
       )}

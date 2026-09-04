@@ -22,12 +22,14 @@ export function MyRequestsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="page-head">
-        <p className="section-label">Your work</p>
-        <h1 className="font-display text-3xl font-normal">Requests</h1>
-        <p className="text-sm text-muted-foreground">
-          Follow anything you have sent. Open a request to see status and replies.
-        </p>
+      <div className="page-head-start flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="space-y-2">
+          <p className="section-label">Your work</p>
+          <h1 className="font-display text-3xl font-normal">Requests</h1>
+          <p className="max-w-xl text-sm text-muted-foreground">
+            Follow anything you have sent. Open a request to see status and replies.
+          </p>
+        </div>
         <div className="page-actions">
           <Link to="/submit">
             <Button>New request</Button>
@@ -36,7 +38,7 @@ export function MyRequestsPage() {
       </div>
 
       {requests.length === 0 ? (
-        <Card framed className="py-12 text-center">
+        <Card framed className="mx-auto max-w-xl py-12 text-center">
           <p className="font-display text-2xl">Nothing here yet</p>
           <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
             When you send a request, it will show up here so you can track it.

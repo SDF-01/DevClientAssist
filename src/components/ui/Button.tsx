@@ -13,9 +13,9 @@ const buttonVariants = cva(
         danger: 'bg-status-rejected text-japa-warm-white hover:opacity-90',
       },
       size: {
-        sm: 'min-h-11 px-4 text-xs',
-        md: 'min-h-12 px-5 text-sm',
-        lg: 'min-h-12 px-7 text-sm',
+        sm: 'h-9 px-3.5 text-xs',
+        md: 'h-10 px-4 text-sm',
+        lg: 'h-11 px-5 text-sm',
       },
     },
     defaultVariants: {
