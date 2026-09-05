@@ -124,7 +124,7 @@ export function AppShell({ theme = 'client' }: AppShellProps) {
             </span>
           </Link>
 
-          <nav className="site-nav" aria-label="Main">
+          <nav className="site-nav" aria-label="Main" aria-hidden={menuOpen ? 'true' : undefined}>
             {links}
             {accountControl}
           </nav>
@@ -133,6 +133,7 @@ export function AppShell({ theme = 'client' }: AppShellProps) {
             <Button
               variant="ghost"
               size="sm"
+              className="h-11 w-11 p-0"
               aria-expanded={menuOpen}
               aria-controls="mobile-nav"
               onClick={() => setMenuOpen((open) => !open)}
@@ -145,8 +146,8 @@ export function AppShell({ theme = 'client' }: AppShellProps) {
       </header>
 
       {menuOpen ? (
-        <div className="mobile-menu flex md:hidden" id="mobile-nav">
-          <Button variant="ghost" size="sm" className="mobile-menu-close" onClick={() => setMenuOpen(false)}>
+        <div className="mobile-menu" id="mobile-nav">
+          <Button variant="ghost" size="sm" className="mobile-menu-close h-11 w-11 p-0" onClick={() => setMenuOpen(false)}>
             <X className="h-5 w-5" />
             <span className="sr-only">Close menu</span>
           </Button>
@@ -170,12 +171,12 @@ export function AppShell({ theme = 'client' }: AppShellProps) {
 
       {signInOpen ? (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-japa-ink/35 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-japa-ink/35 p-4 backdrop-blur-sm sm:items-center"
           role="dialog"
           aria-modal="true"
           aria-labelledby="sign-in-title"
         >
-          <Card framed className="w-full max-w-md">
+          <Card framed className="my-6 w-full max-w-md sm:my-0">
             <h2 id="sign-in-title" className="sr-only">
               Sign in
             </h2>

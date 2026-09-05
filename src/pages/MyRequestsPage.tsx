@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { listRevisions } from '@/lib/data/revisions'
 import { StatusBadge } from '@/components/ui/Badge'
-import { Button } from '@/components/ui/Button'
+import { buttonVariants } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import type { RevisionRequestWithRelations } from '@/types/database'
 import { formatDate } from '@/lib/utils'
@@ -31,8 +31,8 @@ export function MyRequestsPage() {
           </p>
         </div>
         <div className="page-actions">
-          <Link to="/submit">
-            <Button>New request</Button>
+          <Link to="/submit" className={buttonVariants()}>
+            New request
           </Link>
         </div>
       </div>
@@ -43,8 +43,8 @@ export function MyRequestsPage() {
           <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
             When you send a request, it will show up here so you can track it.
           </p>
-          <Link to="/submit" className="mt-6 inline-block">
-            <Button>Start a request</Button>
+          <Link to="/submit" className={buttonVariants({ className: 'mt-6' })}>
+            Start a request
           </Link>
         </Card>
       ) : (

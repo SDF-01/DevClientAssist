@@ -8,6 +8,7 @@
   isolation: isolate;
   display: flex;
   min-height: 100vh;
+  min-height: 100dvh;
   flex-direction: column;
   overflow-x: hidden;
   background-color: #f4efe6;
@@ -58,10 +59,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 0.75rem;
   width: min(1120px, calc(100% - 2rem));
   margin: 0 auto;
   padding: 0.75rem 0;
+  padding-top: max(0.75rem, env(safe-area-inset-top));
 }
 
 .brand-inline {
@@ -329,10 +331,17 @@ a .panel-card:hover {
   position: fixed;
   inset: 0;
   z-index: 40;
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: max(1.25rem, env(safe-area-inset-top)) 1.25rem max(1.25rem, env(safe-area-inset-bottom));
   background: #f4efe6;
+}
+
+@media (min-width: 768px) {
+  .mobile-menu {
+    display: none;
+  }
 }
 
 .mobile-menu-nav {
@@ -345,8 +354,9 @@ a .panel-card:hover {
 
 .mobile-menu-nav .site-nav-link {
   width: 100%;
-  min-height: 52px;
-  font-size: 0.85rem;
+  min-height: 56px;
+  font-size: 1rem;
+  letter-spacing: 0.12em;
 }
 
 .mobile-menu-close {
@@ -387,8 +397,24 @@ a .panel-card:hover {
     width: 100%;
   }
 
+  .page-actions {
+    width: 100%;
+  }
+
+  .page-actions > a,
+  .page-actions > button {
+    min-height: 44px;
+  }
+
   .studio-footer-inner {
     flex-direction: column;
     text-align: center;
+  }
+
+  pre,
+  .code-block-light,
+  .code-block-dark {
+    max-width: 100%;
+    overflow-x: auto;
   }
 }

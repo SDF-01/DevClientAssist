@@ -19,7 +19,7 @@ export function Stepper({ steps, currentStep, className }: StepperProps) {
           <li key={step} className="flex items-center">
             <div
               className={cn(
-                'flex items-center gap-2 rounded-[var(--radius-sm)] px-3 py-2 text-sm transition-colors duration-200',
+                'flex items-center gap-1.5 rounded-[var(--radius-sm)] px-2 py-1.5 text-xs sm:gap-2 sm:px-3 sm:py-2 sm:text-sm transition-colors duration-200',
                 isCurrent && 'bg-accent-primary text-japa-warm-white',
                 isComplete && !isCurrent && 'text-moss',
                 !isCurrent && !isComplete && 'text-muted-foreground',

@@ -7,13 +7,20 @@
     @apply border-border;
   }
 
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
   body {
     @apply text-foreground antialiased;
     font-family: var(--font-body);
     margin: 0;
     min-height: 100vh;
+    min-height: 100dvh;
     letter-spacing: 0.01em;
     line-height: 1.6;
+    touch-action: manipulation;
   }
 
   h1,
@@ -28,6 +35,15 @@
 
   #root {
     min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  @media (max-width: 767px) {
+    input,
+    select,
+    textarea {
+      font-size: 16px;
+    }
   }
 
   ::selection {

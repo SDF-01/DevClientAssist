@@ -5,7 +5,7 @@ import { StatusBadge } from '@/components/ui/Badge'
 import { Card, CardHeader } from '@/components/ui/Card'
 import { StatusTimeline } from '@/components/client/StatusTimeline'
 import { ClarificationThread } from '@/components/client/ClarificationThread'
-import { Button } from '@/components/ui/Button'
+import { Button, buttonVariants } from '@/components/ui/Button'
 import { downloadPdfReceipt } from '@/lib/pdfReceipt'
 import { useAuth } from '@/hooks/useAuth'
 import type { RevisionRequestWithRelations } from '@/types/database'
@@ -43,10 +43,8 @@ export function RequestDetailPage() {
         <div className="page-actions">
           <StatusBadge status={revision.status} />
           {isInternal ? (
-            <Link to={`/admin/revisions/${revision.id}`}>
-              <Button variant="secondary" size="sm">
-                Open in inbox
-              </Button>
+            <Link to={`/admin/revisions/${revision.id}`} className={buttonVariants({ variant: 'secondary', size: 'sm' })}>
+              Open in inbox
             </Link>
           ) : null}
           <Button variant="secondary" size="sm" onClick={() => downloadPdfReceipt(revision)}>

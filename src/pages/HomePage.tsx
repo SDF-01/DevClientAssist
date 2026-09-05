@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
-import { Button } from '@/components/ui/Button'
+import { buttonVariants } from '@/components/ui/Button'
 
 const steps = [
   {
@@ -33,11 +33,9 @@ export function HomePage() {
             Copy a ready-made prompt into ChatGPT with your notes, paste the .toon file back, and send a clear request.
           </p>
           <div className="hero-actions mt-7">
-            <Link to="/submit" className="w-full sm:w-auto">
-              <Button size="lg" className="group w-full sm:w-auto">
-                Start a request
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" strokeWidth={1.5} />
-              </Button>
+            <Link to="/submit" className={buttonVariants({ size: 'lg', className: 'group w-full sm:w-auto' })}>
+              Start a request
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" strokeWidth={1.5} />
             </Link>
             <Link
               to="/requests"
