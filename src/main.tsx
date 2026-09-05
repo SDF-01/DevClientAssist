@@ -5,15 +5,21 @@ import './index.css'
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    void navigator.serviceWorker.getRegistrations().then((registrations) => {
-      for (const registration of registrations) {
-        void registration.unregister()
-      }
-    })
+    void (async () => {
+      const hadController = Boolean(navigator.serviceWorker.controller)
+      const registrations = await navigator.serviceWorker.getRegistrations()
+      await Promise.all(registrations.map((registration) => registration.unregister()))
 
-    if ('caches' in window) {
-      void caches.keys().then((keys) => Promise.all(keys.map((key) => caches.delete(key))))
-    }
+      if ('caches' in window) {
+        const keys = await caches.keys()
+        await Promise.all(keys.map((key) => caches.delete(key)))
+      }
+
+      if ((hadController || registrations.length > 0) && !sessionStorage.getItem('revision-portal-sw-cleared')) {
+        sessionStorage.setItem('revision-portal-sw-cleared', '1')
+        window.location.reload()
+      }
+    })()
   })
 }
 
